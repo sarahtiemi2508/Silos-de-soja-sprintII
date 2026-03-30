@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Calculadora Financeira - Monitoramento de Silos</title>
+</head>
+<body>
+    <div>
+        <h2>Simulador de Viabilidade Econômica</h2>
+
+        <div>
+            <label>Volume do Silo (m³):</label><br>
+            <input type="number" id="volume_id" placeholder="Ex: 500">
+        </div><br>
+        <div>
+            <label>PH (Peso Hectolítrico):</label><br>
+            <input type="number" id="ph_id" placeholder="Ex: 78">
+        </div><br>
+        <div>
+            <label>Preço Atual da Saca (R$):</label><br>
+            <input type="number" id="preco_id" placeholder="Ex: 120">
+        </div><br>
+        <div>
+            <label>Preço Futuro Estimado (R$):</label><br>
+            <input type="number" id="preco_futuro_id" placeholder="Ex: 145">
+        </div><br>
+        <div>
+            <label>Custo Mensal de Armazenagem por Saca (R$):</label><br>
+            <input type="number" id="custo_mes_id" placeholder="Ex: 1.50">
+        </div><br>
+        <div>
+            <label>Meses de Armazenamento:</label><br>
+            <input type="number" id="meses_id" placeholder="Ex: 6">
+        </div><br>
+
+        <button onclick="calcular()">Gerar Relatório de Impacto</button>
+
+        <div id="id_display" style="display: none; margin-top: 20px; padding: 15px; border: 1px solid #ccc; line-height: 1.6; font-family: sans-serif;"></div>
+    </div>
+</body>
+</html>
+
+<script>
+    function calcular() {
+        // Captura de dados
+        let volume = Number(volume_id.value);
+        let ph = Number(ph_id.value);  // O PH é o peso de 100 litros do cereal, formula utilizada pra saber a densidade do grão.
+        let preco = Number(preco_id.value);
+        let preco_futuro = Number(preco_futuro_id.value);
+        let custo_mes = Number(custo_mes_id.value);
+        let meses = Number(meses_id.value);
+
+        // Cálculos da Base
+        let volume_total_kg = (ph * 10) * volume;  // Como 1.000 l são 1m³ e 1 ph = 100l, 80 ph = 800kg/m³ por exemplo
+        let sacas = Math.round(volume_total_kg / 60); // O preço é medido em sacas e 1 saca = 60kg.
+        let toneladas = volume_total_kg / 1000;
+        let valor_atual = sacas * preco;
+        
+        let perda_financeira_manual = valor_atual * 0.02;
+        let risco_emergencial = valor_atual * 0.20; 
+
+        let valor_futuro = sacas * preco_futuro;
+        let custo_total_armazenagem = sacas * custo_mes * meses;
+        let resultado_final_manual = valor_futuro - valor_atual - custo_total_armazenagem - ((perda_financeira_manual) + (risco_emergencial));
+        let resultado_final_tecnologia = valor_futuro - valor_atual - custo_total_armazenagem - ((risco_emergencial + perda_financeira_manual)*0.02);
+        let reducao_gasto = (risco_emergencial + perda_financeira_manual)*0.98;
+        let custo_referencia_fgv = (toneladas * 700) * (meses / 12);
+
+        let color_manual = "";
+        if (resultado_final_manual > 0) {
+            color_manual = "green";
+        } else {
+            color_manual = "red";
+        }
+
+        let color_tecnologia = "";
+        if (resultado_final_tecnologia > 0) {
+            color_tecnologia = "green";
+        } else {
+            color_tecnologia = "red";
+        }
+        
+        // Seleciona a div de exibição e a torna visível
+        id_display.style.display = 'block';
+
+        // Alimenta o conteúdo da div
+        id_display.innerHTML = `
+            <div style="margin-bottom: 15px; border-bottom: 1px solid #eee;">
+                <b>Resumo do Estoque:</b><br>
+                Total: ${sacas.toLocaleString('pt-BR')} sacas (${toneladas.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} toneladas).<br>
+                Valor de Mercado Hoje: <b>R$ ${valor_atual.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</b>
+            </div>
+
+            <div style="margin-bottom: 15px; border-bottom: 1px solid #eee;">
+                <span style="color: red;">Vulnerabilidades do Modelo Manual:</span><br>
+                • Perda por imprecisão/desvios (2%): R$ ${perda_financeira_manual.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}<br>
+                • Risco de compra emergencial (20%): R$ ${risco_emergencial.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}<br>
+                <small style="color: #666;">A verificação manual expõe funcionários a riscos e falha em detectar acúmulos irregulares.</small>
+            </div>
+
+            <div style="margin-bottom: 15px;">
+                <b style="color: green;">A nossa tecnologia reduz os gastos do Modelo Manual em até 98%</b><br>
+                Assim economizando: R$${reducao_gasto.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} da perda
+            </div>
+
+            <div style="margin-bottom: 15px;">
+                <b>Análise de Lucratividade:</b><br>
+                Valor Bruto no Futuro: R$ ${valor_futuro.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}<br>
+                Custo de Armazenagem: R$ ${custo_total_armazenagem.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}<br>
+                Lucro Líquido da Operação <b>Manual</b>: <span style="color: ${color_manual}; font-weight: bold;">
+                    R$ ${resultado_final_manual.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                </span><br>
+                Lucro Líquido da Operação <b>Tecnológica</b>: <span style="color: ${color_tecnologia}; font-weight: bold;">
+                    R$ ${resultado_final_tecnologia.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                </span>
+            </div>
+
+            <div style="font-size: 0.8em; color: #666;">
+                * Nota: Custo FGV Agro para este volume: R$ ${custo_referencia_fgv.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}.
+            <div style="margin-bottom: 15px; border-bottom: 1px solid #eee;"></div>
+            </div>
+        `;
+    }
+</script>

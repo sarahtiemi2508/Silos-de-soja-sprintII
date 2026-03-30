@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Calculadora Silos</title>
+</head>
+
+<body>
+    <h2>Calculadora Financeira</h2>
+
+    <!-- entrada: quanto se gasta por ano sem o projeto -->
+    <p>Custo anual atual (R$):</p>
+    <input type="text" id="ipt_custo"><br><br>
+
+    <!-- entrada: quanto o projeto reduz desse custo(%) -->
+    <p>Redução com o projeto (%):</p>
+    <input type="text" id="ipt_reducao"><br><br>
+
+    <!-- entrada: investimento inicial para implantar o projeto -->
+    <p>Custo inicial do projeto (R$):</p>
+    <input type="text" id="ipt_custo_inicial"><br><br>
+
+    <!-- entrada: quanto custa por mês para manter o projeto -->
+    <p>Custo mensal do projeto (R$):</p>
+    <input type="text" id="ipt_custo_mensal"><br><br>
+
+    <button onclick="calcular()">Calcular</button>
+
+    <div id="div_resposta"></div>
+
+    <script>
+        function calcular() {
+            let custo = Number(ipt_custo.value);
+            let reducao = Number(ipt_reducao.value);
+            let custoInicial = Number(ipt_custo_inicial.value);
+            let custoMensal = Number(ipt_custo_mensal.value);
+            //CALCULAR ECONOMIA ANUAL
+            let economiaAnual = custo * (reducao / 100);
+            //CALCULAR CUSTO ANUAL DO PROJETO
+            let custoAnualDoProjeto = custoMensal * 12;
+            //GANHO LÍQUIDO ANUAL
+            // quanto sobra no ano: economia - custo anual do projeto
+            let ganhoLiquido = economiaAnual - custoAnualDoProjeto;
+
+            div_resposta.innerHTML = "";
+            div_resposta.innerHTML += `<br>Economia anual: R$${economiaAnual.toFixed(2)}`;
+            div_resposta.innerHTML += `<br>Custo anual do projeto: R$${custoAnualDoProjeto.toFixed(2)}`;
+            div_resposta.innerHTML += `<br>Ganho líquido anual: R$${ganhoLiquido.toFixed(2)}`;
+
+            //tempo para recuperar o investimento inicial
+            if (ganhoLiquido > 0) {
+                let tempoParaPagar = custoInicial / ganhoLiquido;
+                div_resposta.innerHTML += `<br>Tempo para pagar o investimento inicial: ${tempoParaPagar.toFixed(2)} anos`;
+            } else {
+                div_resposta.innerHTML += "<br>Tempo para pagar: não compensa (ganho líquido <= 0)";
+            }
+        }
+    </script>
+</body>
+
+</html>

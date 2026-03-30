@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora Financeira - Gestão Silo</title>
+</head>
+
+<body>
+    <h1>Calculadora Financeira para Silos</h1>
+
+    <label>Quantidade de grãos armazenado (toneladas):
+        <input type="number" id="id_qtd_armazenagem" placeholder="Digite a quantidade">
+    </label>
+
+    <br><br>
+
+    <label>
+        Preço atual (R$/t): <input type="number" id="id_preco_atual" placeholder="Digite o valor">
+    </label>
+
+    <br><br>
+
+    <label for="">
+        Preço futuro (R$/t): <input type="number" id="id_preco_futuro" placeholder="Digite o valor">
+    </label>
+
+    <br><br>
+
+    <label for="">
+        Custo armazenagem mensal (R$/t): <input type="number" id="id_custo_mes" placeholder="Digite o valor">
+    </label>
+
+    <br><br>
+
+    <label for="">
+        Quantidade de meses que será armazenado: <input type="number" id="id_qtd_mes" placeholder="Digite a quantidade">
+    </label>
+
+    <br><br>
+
+    <button onclick="Calcular()">Calcular</button>
+
+    <br><br>
+    
+    <div id="div_resultado"></div>
+</body>
+
+</html>
+
+<script>
+    function Calcular() {
+        let qtd_armazenagem = id_qtd_armazenagem.value;
+        let preco_atual = id_preco_atual.value;
+        let preco_futuro = id_preco_futuro.value;
+        let custo_mes = id_custo_mes.value;
+        let qtd_mes = id_qtd_mes.value;
+
+        let validacao = qtd_armazenagem * preco_atual * preco_futuro * custo_mes * qtd_mes;
+
+        if (validacao < 0) {
+            resultado.innerHTML = "Digite apenas valores positivos";
+        } else {
+            // Valor se vender hoje
+            let valor_atual = qtd_armazenagem * preco_atual;
+    
+            // Valor bruto no futuro
+            let valor_futuro = qtd_armazenagem * preco_futuro;
+    
+            // Custo de armazenagem
+            let custo = qtd_armazenagem * custo_mes * qtd_mes;
+    
+            // Lucro ou prejuízo ao esperar
+            let resultado = valor_futuro - valor_atual - custo;
+    
+            div_resultado.innerHTML =
+            `
+            Valor se vender hoje: R$${valor_atual}<br>
+        
+            Valor bruto no futuro: R$${valor_futuro}<br>
+        
+            Custo de armazenagem: R$${custo}
+            `
+    
+            if (resultado == 0) {
+                div_resultado.innerHTML += `<br>Não terá Lucro e nem Prejuízo: R$${resultado}`
+            } else if (resultado > 0) {
+                div_resultado.innerHTML += `<br>Lucro: R$${resultado}`
+            } else {
+                div_resultado.innerHTML += `<br>Prejuízo: R$${resultado}`
+            }
+        }
+    }
+</script>
