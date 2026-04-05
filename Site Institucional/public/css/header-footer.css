@@ -1,4 +1,7 @@
 
+/* API da fonte de títulos Inter */
+@import url('https://fonts.googleapis.com/css2?&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+
 *{
     padding: 0%;
     box-sizing: border-box;
@@ -10,8 +13,7 @@ body{
     flex-direction: column;
 }
 .font-geral{
-    
-    font-family: Arial, Helvetica, sans-serif;
+    font-family: 'Inter', sans-serif;
 }
 
 /* INICIO CSS DA NAVBAR*/
@@ -33,6 +35,24 @@ body{
     height: 80px;
 }
 
+.logo-esquerda, .links-direita, .links-centro {
+    width: 25vw;
+}
+
+.logo-esquerda {
+    display: flex;
+    justify-content: flex-start;
+}
+
+.links-centro {
+    display: flex;
+    justify-content: center;
+}
+
+.links-direita {
+    display: flex;
+    justify-content: flex-end;
+}
 
 .links-comuns{
     display: flex;
@@ -40,22 +60,30 @@ body{
     list-style: none;
     color: white; 
     gap: 60px;
-    
 }
 
-.links-comuns a{
+.links-comuns .link {
+    transition: all ease-in-out 0.3s;
+}
+
+.links-comuns .link:hover {
+    transform: scale(1.2);
+    color: #FFBA00;
+}
+
+.links-comuns li a{
     color: white;
     text-decoration: none;
-    font-size: 12px;
-   
+    font-size: 14px;
+}
+
+.links-comuns .barra {
+    user-select: none;
 }
 
 .logo-esquerda img{
     width: 50px;
-    
 }
-
-
 
 .links-cadastro{
      display: flex;
@@ -65,34 +93,67 @@ body{
     color: white; 
     gap: 40px; 
     align-items: center;
-   
-    
 }
 
     
 
 #btn-login{
-     color: #FFBA00;
-    border: 2px solid;
+    color: #FFBA00;
+    border: 2px solid #FFBA00;
     border-radius: 20px;
     padding: 10px 25px;
-    border-color: #FFBA00;
+    border-color: 2px solid #FFBA00;
     text-decoration:none;
-    font-size: 10px;
+    font-size: 12px;
+    font-weight: 700;
+    transition: all ease-in-out 0.3s;
+}
+
+#btn-login:hover {
+    border-color: none;
+    color: black;
+    background-color: #FFBA00;
+}
+
+#btn-login:active {
+    border-color: 2px solid #FFBA00;
+    color: #FFBA00;
+    background-color: transparent;
 }
 
 #btn-cadastro{
+    background-image: url(../img/cadeadoCadastro.png);
+    background-position: right 25px center;
+    background-repeat: no-repeat;
+    background-size: 18px;
     display: flex;
-    align-items: center;
-    gap: 10px;
-     color: black;
+    align-items: flex-start;
+    color: black;
     border: 2px solid;
     border-radius: 20px;
-    padding: 6px 25px;
-   background-color: #FFBA00;
+    padding: 10px 45px 10px 25px;
+    background-color: #FFBA00;
     border-color: #FFBA00;
     text-decoration:none;
-    font-size: 10px;
+    font-size: 12px;
+    font-weight: 700;
+    transition: all ease-in-out 0.3s;
+}
+
+#btn-cadastro:hover {
+    border-color: none;
+    color: #FFBA00;
+    border-color: 2px solid #FFBA00;
+    background-color: transparent;
+    background-image: url(../img/cadeadoCadastro_amarelo.png);
+}
+
+#btn-cadastro:active {
+    border-color: none;
+    color: black;
+    background-color: #FFBA00;
+    transition: all ease-in-out 0.3s;
+    background-image: url(../img/cadeadoCadastro.png);
 }
 
 /*FIM DO CSS DA NAVBAR*/
