@@ -169,12 +169,12 @@ body{
     flex-direction: column;
     background-image: linear-gradient(rgba(0, 0, 0, 0.8), rgba(
     0, 0, 0, 0.5)),
-    
-     url('../img/footerImage.png');
+    url('../img/footerImage.png');
     background-size: cover;
     background-repeat: no-repeat;
     align-items: center;
     margin-top: auto;
+    font-family: 'Inter', sans-serif; 
     
 }
 
