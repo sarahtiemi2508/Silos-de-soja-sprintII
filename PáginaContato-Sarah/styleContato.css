@@ -24,7 +24,7 @@ border-radius: 30px;
 background-color: #00352A;
 color: #FFBA00;
 width: 200px;
-height: 30px;
+height: 35px;
 padding: 0px;
 }
 
@@ -116,6 +116,6 @@ font-weight: 900;
     flex-direction: row;
     border: 0px solid ;
     height: 100vb;
-    gap: 140px;
+    gap: 120px;
 }
 
