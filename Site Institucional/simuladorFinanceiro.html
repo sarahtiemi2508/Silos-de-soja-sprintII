@@ -9,13 +9,17 @@
     <link rel="stylesheet" href="public/css/calculadora-financeira.css">
 </head>
 <body>
-    <header class="header font-geral">
-        <div class="container-header">
-            <button onclick="history.back()"><</button>
-            <h3>SIMULADOR FINANCEIRO</h3>
-            <img src="img/logoCeres.png" alt="">
-        </div>
-    </header>
+     
+<div id="header-simulador"></div>
+
+<script>
+fetch("includes/header-simulador.html")
+  .then(resposta => resposta.text())
+  .then(dados => {
+    document.getElementById("header-simulador").innerHTML = dados;
+  });
+</script>
+
 
     <div class="container-financeiro">
         <div class="circulo-fundo1"></div>

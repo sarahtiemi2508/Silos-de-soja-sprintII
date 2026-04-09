@@ -12,41 +12,20 @@
 </head>
 
 <body>
-    <header class="header">
-        <div class="container-header">
+    
+<div id="header"></div>
 
-            <div class="logo-esquerda">
-                <a href="home.html">
-                    <img src="public/img/logoCeres.png" alt="">
-                </a>
-            </div>
 
-            <div class="links-centro">
-                <ul class="links-comuns font-geral">
-                    <li class="link"><a href="home.html" class="link">Home</a></li>
-                    <li class="barra">|</li>
-                    <li class="link"><a href="sobre.html" class="link">Sobre</a></li>
-                    <li class="barra">|</li>
-                    <li class="link"><a href="contato.html" class="link">Contato</a></li>
-                </ul>
-            </div>
 
-            <div class="links-direita">
-                <ul class="links-cadastro">
-                    <li>
-                        <a id="btn-login" class="font-geral" href="auth/Login.html">LOGIN
-                        </a>
-                    </li>
+<script>
+fetch("includes/header.html")
+  .then(resposta => resposta.text())
+  .then(dados => {
+    document.getElementById("header").innerHTML = dados;
+  });
+</script>
 
-                    <li>
-                        <a id="btn-cadastro" class="font-geral" href="auth/Cadastro_etapa1.html">CADASTRO
-                        </a>
-                    </li>
-                </ul>
-            </div>
 
-        </div>
-    </header>
 
     <div class="container">
         <div class="box1">
@@ -177,45 +156,19 @@
             </div>
         </div>
     </div>
+  
 
-    <footer class="footer">
-        <div class="container-footer">
-            <ul class="footer-contato font-geral">
-                <li>
-                    <img src="public/img/logo-com-nome.png" alt="">
-                </li>
-                <li>(11) 98458-8198</li>
-                <li>empresa.ceres@hotmail.com</li>
-            </ul>
-            <hr id="linha-vertical-footer">
-            <ul class="footer-informacoes font-titulo-footer">
-                <ul class="bloco-info-footer">
-                    <h4>NAVEGAÇÕES</h4>
-                    <li>Ínicio</li>
-                    <li>Proposta</li>
-                    <li>O custo de eficiência</li>
-                    <li>Por que nos escolher</li>
-                </ul>
 
-                <ul class="bloco-info-footer ">
-                    <h4>PÁGINAS</h4>
-                    <li><a href="">Página Inicial</a></li>
-                    <li><a href="">Sobre</a></li>
-                    <li><a href="">Contate-nos</a></li>
-                    <li><a href="simuladorFinanceiro.html">Calculadora Financeira</a></li>
-                </ul>
-                <ul class="bloco-info-footer ">
-                    <h4>DASHBOARD</h4>
-                    <li>Cadastre-se</li>
-                    <li>Faça Login</li>
-                    <li><a href="dashboard-alerta.html">Acesse a dashboard</a></li>
-                </ul>
-            </ul>
-        </div>
 
-        <hr id="linha-horizontal-footer">
-
-    </footer>
+    <div id="footer"></div>
+    
+  <script>
+    fetch("includes/footer.html")
+    .then(resposta => resposta.text())
+    .then(dados =>{ 
+        document.getElementById("footer").innerHTML = dados
+    });
+  </script>
 </body>
 
 </html>

@@ -1,135 +1,156 @@
 <html>
-  <head>
-    <style>
 
-  body {
-      margin: 0;
-      height: 100vh;
+<head>
 
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login</title>
+  <style>
+
+    *{
+    padding: 0%;
+    box-sizing: border-box;
+    margin: 0%;
+}
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+   .div_tela_inteira {
+  position: relative;
+  width: 100%;
+  min-height:100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  
+
+}
+
+.div_tela_inteira::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: url('../public/img/background_login.png');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  filter: blur(5px); 
+  z-index: -1;
+   transform: scale(1.1)
+}
+
+    .card {
+      margin-top: 60px;
+      background-color: white;
+      height: auto;
+      padding: 20px;
       display: flex;
       justify-content: center;
       align-items: center;
-      background-color: #f0f0f0;
-      background-image: url('../public/img/background_login.svg');
-      background-position: center;
-      
+      flex-direction: column;
+      width: 600px;
+      border-radius: 50px;
+      box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
+    }
 
-      font-family: Arial, Helvetica, sans-serif;
+    .input-login {
+      width: 450px;
+      padding: 10px;
+      margin: 10px 0;
 
-      
-  }
+      border-radius: 20px;
+      border: 1px solid #ccc;
 
-  .card {
-    background-color: white;
-    height: 400px;
-    padding: 30px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    width: 600px;
-    border-radius: 50px;
-    box-shadow: 0px 5px 15px
-  rgba(0,0,0,0.2);
-  }
+      outline: none;
+    }
 
-.input-login{
-  width: 450px;
-  padding: 10px;
-  margin: 10px 0;
-
-  border-radius: 20px;
-  border: 1px solid #ccc;
-
-  outline: none;
-}
-
-.botao-login{
-  width: 100;
-  padding: 12px;
-  background-color: #f4b400;
-  color: black;
-  border: none;
-  border-radius: 20px;
-  font-weight: bold;
-  cursor: pointer;
-  margin-top: 20px;
-  margin-bottom: -25;
-}
-
-.titulo{
-  color: #f4b400;
-  text-align: center;
-  align-self: center;
-  justify-self: center;
-  font-size: 200%;
-  padding-bottom: 60px;
-  margin-top: -40px;
-  font-weight: 700;
-}
-
-.campo{
-  display: flex;
-  flex-direction: column;
-  align-items: start;
-  justify-content: space-between;
-}
-
-.links {
-  justify-content: center;
-  align-items: center;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  margin-top: 60px;
-  margin-bottom: -50px;
-  font-size: 11;
-}
- .links a{
-        color: #f4b400;
-        text-decoration: none;
-      }
-
-    </style>
-  </head>
-  <body>
-
+    .botao-login {
+      width: 100px;
+      padding: 12px;
+      background-color: #f4b400;
+      color: black;
+      border: none;
+      border-radius: 20px;
+      font-weight: bold;
+      cursor: pointer;
+      margin-top: 20px;
     
-    <div id="div_tela_inteira">
-      <div class="card">
-        <div  class="titulo">
+    }
+
+    .titulo {
+      color: #f4b400;
+      text-align: center;
+      align-self: center;
+      justify-self: center;
+      font-size: 200%;
+      padding-bottom: 60px;
+      font-weight: 700;
+    }
+
+    .campo {
+      display: flex;
+      flex-direction: column;
+      align-items: start;
+      justify-content: space-between;
+    }
+
+    .links {
+      justify-content: center;
+      align-items: center;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-top: 60px;
+      
+      font-size: 11px;
+    }
+
+    .links a {
+      color: #f4b400;
+      text-decoration: none;
+    }
+  </style>
+</head>
+
+<body>
+
+      
+<div id="header-auth"></div>
+
+<script>
+fetch("../includes/header-auth.html")
+  .then(resposta => resposta.text())
+  .then(dados => {
+    document.getElementById("header-auth").innerHTML = dados;
+  });
+</script>
+
+
+  <div class="div_tela_inteira">
+    <div class="card">
+      <div class="titulo">
         <span><b>LOGIN</b></span>
-        </div>
-        <div class="campo">
-          <label>Email: </label>
-          <input type="email" id="email_inserido" class="input-login" />
-        </div>
-        <div class="campo">
-          <label>Senha: </label>
-          <input type="password" id="senha_inserida" class="input-login" /> <button type="button" onclick="verSenha()">👁️</button>
-        </div>
-        <button class="botao-login" onclick="logar()"><b>ENTRAR</b></button>
-        <div class="links">
+      </div>
+      <div class="campo">
+        <label>Email: </label>
+        <input type="email" id="email_inserido" class="input-login" />
+      </div>
+      <div class="campo">
+        <label>Senha: </label>
+        <input type="password" id="senha_inserida" class="input-login" /> 
+      </div>
+      <button class="botao-login" onclick="logar()"><b>ENTRAR</b></button>
+      <div class="links">
         <span>Esqueceu a senha? <b>acesse aqui</b></span>
         <span>Não tem cadastro? <b><a href="Cadastro_etapa1.html">CADASTRE-SE AQUI</a></b></span>
-        </div>
       </div>
     </div>
-  </body>
-  <script>
-    function verSenha() {
-  var campo = senha_inserida; // pega o input direto pelo id
+  </div>
+</body>
 
-  if (campo.type == "password") {
-    campo.type = "text";
-    botao.textContent = "🙈";
-  } else {
-    campo.type = "password";
-    botao.textContent = "👁️";
-  }
-}
 
-  </script>
 </html>
 
 

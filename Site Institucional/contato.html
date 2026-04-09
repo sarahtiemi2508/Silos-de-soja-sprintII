@@ -10,41 +10,16 @@
 </head>
 
 <body> 
-        <header class="header">
-        <div class="container-header">
+     <div id="header"></div>
 
-            <div class="logo-esquerda">
-                <a href="home.html">
-                    <img src="public/img/logoCeres.png" alt="">
-                </a>
-            </div>
+<script>
+fetch("includes/header.html")
+  .then(resposta => resposta.text())
+  .then(dados => {
+    document.getElementById("header").innerHTML = dados;
+  });
+</script>
 
-            <div class="links-centro">
-                <ul class="links-comuns font-geral">
-                    <li class="link"><a href="home.html" class="link">Home</a></li>
-                    <li class="barra">|</li>
-                    <li class="link"><a href="sobre.html" class="link">Sobre</a></li>
-                    <li class="barra">|</li>
-                    <li class="link"><a href="contato.html" class="link">Contato</a></li>
-                </ul>
-            </div>
-
-            <div class="links-direita">
-                <ul class="links-cadastro">
-                    <li>
-                        <a id="btn-login" class="font-geral" href="auth/Login.html">LOGIN
-                        </a>
-                    </li>
-
-                    <li>
-                        <a id="btn-cadastro" class="font-geral" href="auth/Cadastro_etapa1.html">CADASTRO
-                        </a>
-                    </li>
-                </ul>
-            </div>
-
-        </div>
-    </header>
     <div id="pagina">
     <div class="boxes">
         <div class="box1">
