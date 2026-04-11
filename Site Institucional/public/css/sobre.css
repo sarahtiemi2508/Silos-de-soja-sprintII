@@ -165,7 +165,7 @@ h3 {
   flex: 1;
   flex-direction: column;
   align-items: flex-start;
-  button {
+  a {
     background-color: #ffba00;
     border-radius: 25px;
     border: 1px solid #ffba00;
@@ -180,6 +180,8 @@ h3 {
     font-size: 18px;
     margin-top: auto;
     cursor: pointer;
+    text-decoration: none;
+    color: black;
   }
 }
 
@@ -350,13 +352,13 @@ h3 {
 }
 
 .conteudo-calc {
-  width: 75%; 
-  margin: 0 auto; 
+  width: 75%;
+  margin: 0 auto;
   display: flex;
   flex-direction: row;
-  align-items: center; 
-  justify-content: space-between; 
-  gap: 50px; 
+  align-items: center;
+  justify-content: space-between;
+  gap: 50px;
 }
 
 .calculadora-texto {
@@ -364,9 +366,9 @@ h3 {
   flex: 1;
   flex-direction: column;
   align-items: flex-start;
-  gap: 30px; 
+  gap: 30px;
 
-  button {
+  a {
     background-color: #ffba00;
     border-radius: 25px;
     border: 1px solid #ffba00;
@@ -379,61 +381,67 @@ h3 {
     font-weight: bolder;
     font-family: "Montserrat", sans-serif;
     font-size: 18px;
-    margin-top: auto; 
+    margin-top: auto;
     cursor: pointer;
+    text-decoration: none;
+    color: black;
   }
 }
 
 .img-calc {
   flex: 1;
   display: flex;
-  justify-content: center; 
-  
+  justify-content: center;
+
   img {
-      max-width: 100%; 
-      object-fit: contain;
+    max-width: 100%;
+    object-fit: contain;
   }
 }
 
 .calc-p {
-    font-size: 21px;
+  font-size: 21px;
 }
 
 /* Animação estilo Ana Carolina <3 */
-.card-da-solucao, .card-sistema {
+.card-da-solucao,
+.card-sistema {
   transition: all 0.4s ease-in-out;
-  cursor: pointer; 
+  cursor: pointer;
 }
 
-.card-da-solucao:hover, .card-sistema:hover {
+.card-da-solucao:hover,
+.card-sistema:hover {
   transform: translateY(-15px);
   box-shadow: 0px 20px 40px rgba(0, 53, 42, 0.3);
-  border-color: #ffba00; 
+  border-color: #ffba00;
 }
 
-button {
-  transition: all 0.3s ease; 
+a {
+  transition: all 0.3s ease;
 }
 
-button:hover {
-  transform: scale(1.05); 
+a:hover {
+  transform: scale(1.05);
   background-color: #00352a;
-  color: #ffba00; 
+  color: #ffba00;
   border: 1px solid #00352a;
   box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.15);
 }
 
-.like-button, .tag-solucao, .tag-sistema {
-  transition: all 0.4s ease; 
+.like-button,
+.tag-solucao,
+.tag-sistema {
+  transition: all 0.4s ease;
 }
 
 .like-button:hover {
-  background-color: #ffba00; 
-  color: #00352a; 
+  background-color: #ffba00;
+  color: #00352a;
 }
 
 .tag-solucao:hover {
-  background-color: #8b9271; 
+  background-color: #8b9271;
   color: white;
 }
 
