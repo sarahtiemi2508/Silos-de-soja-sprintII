@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Página de Contato- Ceres</title>
+    <link rel="stylesheet" href="public/css/styleContato.css">
+    <link rel="stylesheet" href="public/css/header-footer.css">
+</head>
+
+<body> 
+     <div id="header"></div>
+
+<script>
+fetch("includes/header.html")
+  .then(resposta => resposta.text())
+  .then(dados => {
+    document.getElementById("header").innerHTML = dados;
+  });
+</script>
+
+    <div id="pagina">
+    <div class="boxes">
+        <div class="box1">
+            <h2 id="titulo1"><i>FICOU INTERESSADO?</i></h2>
+            <p id="p1">Entre em contato com a nossa equipe para poder acessar todos os benefícios da nossa solução</p>
+            <br>
+            <div id="imgZap_botao">
+                <img src="public/img/whatsapp.svg" alt="imgZap"
+                    width="37px">
+                <button id="botaoZap">ENTRE EM CONTATO!</button>
+            </div>
+        </div>
+        <div class="box2">
+            <h2 id="titulo2"><i>OUTROS MEIOS DE CONTATO</i></h2>
+            <p id="p2">Para fins de contato formal, disponibilizamos nosso e-mail e número de telefone</p>
+            <button id="botaoEmail">
+                <img id="imgEmail" src="public/img/email.svg" alt="imgTelefone"
+                    width="18px">
+                <p id="textEmail"><b>empresa.ceres@hotmail.com</b></p></button><br>
+            <button id="botaoTelefone">
+                <img id="imgTelefone" src="public/img/telefone.svg"alt="imgTelefone" width="18px">
+                <p id="textTelefone"><b>(11) 9002-8922</b></p>
+            </button>
+        </div>
+    </div>
+</div>
+
+
+
+</body>
+
+</html>
