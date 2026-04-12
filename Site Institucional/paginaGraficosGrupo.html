@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="stylePaginaGraficosGrupo.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+    <div id="header"></div>
+    <div id="parte1">
+        <div id="titulo">
+            <img src="imagemtitulo.svg" alt="imagemTitulo" width="50px">
+            <h2 id="tituloTelaGraficosBateria">SITUAÇÃO DA BATERIA</h2>
+        </div>
+        <div id="informacoesP1">
+            <div id="boxNiveis">
+                <div id="boxNiveisSilos">
+                    <div id="boxNiveisBateria">
+                        <div id="nivelTotalBateria"></div>
+                        <div id="nivelMediaBateria"></div>
+                    </div>
+                    <div id="maiorMenorNivelSilos"></div>
+                </div>
+                <div id="situacaoNivelCadaSilo">
+                    <canvas id="myChart"></canvas>
+                </div>
+            </div>
+        </div>
+        <div id="nivelPreenchimentoBateriaTempo">
+            <canvas id="myChart2"></canvas>
+        </div>
+    </div>
+</body>
+
+<script>
+    const labels = [
+        'Silo 1',
+        'Silo 2',
+        'Silo 3',
+        'Silo 4',
+        'Silo 5',
+        'Silo 6',
+        'Silo 7',
+        'Silo 8',
+    ];
+    const data = {
+        labels: labels,
+        datasets: [{
+            label: 'Nível de Cada Silo',
+            backgroundColor: 'rgb(255, 0, 0)',
+            borderColor: 'rgb(255, 0, 0)',
+            data: [30, 29, 28, 31, 22, 23, 7, 15],
+            barThickness: 50,
+        },
+
+        ]
+
+    };
+
+    const config = {
+        type: 'bar',
+        data: data,
+        options: {
+            plugins:{
+                title:{
+                    display:true,
+                    text:'SITUAÇÃO DO NÍVEL DE CADA SILO'
+                }
+            }
+        }
+    }
+
+</script>
+<script>
+    const myChart = new Chart(
+        document.getElementById('myChart'),
+        config
+    )
+
+
+
+</script>
+<script>
+    if (data > 30) {
+        backgroundColor: 'rgb(255, 255,0)'
+    }
+</script>
+<script>
+
+const labels2=[
+    'Janeiro',
+    'Fevereiro',
+    'Março',
+    'Abril',
+    'Maio',
+    'Junho',
+  ];
+  const data2={
+    labels:labels2,
+    datasets:[{
+        label:'Temperatura Média',
+        backgroundColor: 'rgb(255, 0,0)',
+        borderColor: 'rgb(255,0,0)',
+        data:[22,24,27,23,20,18],
+        },
+    ]
+  };
+  const config2={
+    type: 'line',
+    data: data2,
+    options:{
+        plugins:{
+                title:{
+                    display:true,
+                    text:'NÍVEL DE PREENCHIMENTO DA BATERIA EM RELAÇÃO AO TEMPO'
+                }
+            }
+    }
+  }
+
+</script>
+<script>
+const myChart2= new Chart(
+    document.getElementById('myChart2'),
+    config2
+)
+
+</script>
+</html>
