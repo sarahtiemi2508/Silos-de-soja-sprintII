@@ -130,6 +130,11 @@
     .column_dir {
       align-items: end;
     }
+
+      .btn_link {
+      text-decoration: none;
+      color: black;
+    }
   </style>
 </head>
 
@@ -178,7 +183,7 @@ fetch("../includes/header-auth.html")
         </div>
       </div>
 
-      <button class="botao-login" onclick="logar()"><b>CADASTRAR</b></button>
+      <button class="botao-login" onclick="logar()"><b><a class="btn_link" href="Login.html">CADASTRAR</a></b></button>
       <div class="links">
         <span>Esqueceu a senha? <b>acesse aqui</b></span>
         <span>Já tem login? <b><a href="Login.html">FAÇA LOGIN</a></b></span>
