@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="stylesheet" href="/Site Institucional/public/css/dashInd.css">
     <title>Dashboard - Individual</title>
 </head>
@@ -81,34 +82,61 @@
 
         </div>
 
-        <div class="campo-grafico">
-
+        <div class="campo-grafico" style="position: relative; width: 90vw; height: 400px;">
+            <canvas id="graficoSiloMocado"></canvas>
         </div>
 
     </div>
 
     <script>
+        // Lógica da barra
         const barraSilo = document.getElementById('silo-preenchimento');
         barraSilo.style.height = `84%`;
+        barraSilo.style.backgroundColor = '#FFBA00';
 
-        const botoes = document.querySelectorAll('.btn-silo'); // Seleciona e faz um "vetor" com todos os botões de silo
-
-        // Passa por todos os botoes
+        // Lógica dos botões
+        const botoes = document.querySelectorAll('.btn-silo');
         for (let i = 0; i < botoes.length; i++) {
-
-            // Adiciona o evento de "clique" em cada botão q passar
             botoes[i].addEventListener('click', function () {
-
-                // Quando clica tira o ativo de todos
                 for (let j = 0; j < botoes.length; j++) {
                     botoes[j].className = 'btn-silo';
                 }
-
-                // Depois coloca ativo só nó que teve ação de clique
                 botoes[i].className = 'btn-silo active';
             });
         }
 
+        // Gráfico mocado
+        const contextoGrafico = document.getElementById('graficoSiloMocado').getContext('2d');
+        const graficoLinha = new Chart(contextoGrafico, {
+            type: 'line',
+            data: {
+                // Horários fakes
+                labels: ['07:00', '07:30', '08:00', '08:30', '09:00', '09:30', '10:00', '10:30', '11:00', 'Agora'],
+                datasets: [{
+                    label: 'Nível de preenchimento do silo (%)',
+                    borderColor: '#FFBA00',
+                    backgroundColor: 'rgba(255, 186, 0, 0.2)',
+                    borderWidth: 3,
+                    fill: true,
+                    // Simular nível subindo
+                    data: [45, 50, 58, 63, 68, 72, 76, 80, 82, 84]
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    x: {
+                        beginAtZero: true
+                    },
+                    y: {
+                        beginAtZero: true,
+                        max: 100,
+                        title: { display: true, text: 'Preenchimento (%)' }
+                    }
+                }
+            }
+        });
     </script>
 
 </body>
