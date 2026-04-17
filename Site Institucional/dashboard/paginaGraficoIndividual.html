@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="stylesheet" href="/Site Institucional/public/css/dashInd.css">
     <title>Dashboard - Individual</title>
 </head>
@@ -21,16 +22,16 @@
 
                 <div class="cards-kpi">
                     <div class="kpi-live">
-                        <span>Volume livre para armazenamento</span>
-                        <h3>30 cm</h3>
-                        <h4>10% livre</h4>
+                        <span>Espaço livre para armazenamento</span>
+                        <h3>-- cm</h3>
+                        <h4>Porcentagem</h4>
                     </div>
 
                     <div class="kpi-ultima-leitura">
                         <span> <strong>Última leitura</strong> ocorreu há:</span>
-                        <h3>45 seg</h3>
-                        <h4>08/03/2026</h4>
-                        <p>10:12:05</p>
+                        <h3>-- seg</h3>
+                        <h4>28/04/2026</h4>
+                        <p>HH:mm:ss</p>
                     </div>
                 </div>
 
@@ -53,7 +54,6 @@
                 </div>
 
 
-
                 <div class="silo-container">
                     <img src="img/silosvg.svg" class="silo-overlay">
 
@@ -66,23 +66,23 @@
                     <div class="kpi-status">
                         <span>Estado do silo</span>
                         <div class="estado">
-                            <h3 style="color: green;">IDEAL</h3>
+                            <h3 style="color: #FFBA00;">--</h3>
                         </div>
-                        <h4>Sem risco atual</h4>
+                        <h4>Ação/desc</h4>
                     </div>
                     <div class="kpi-tempo-alerta">
                         <span>Tempo em alerta</span>
                         <h3>0D 0h 0m</h3>
                     </div>
                 </div>
-
             </div>
-
 
         </div>
 
         <div class="campo-grafico">
-
+            <div class="campo-grafico" style="position: relative; width: 90vw; height: 500px;">
+                <canvas id="graficoSilo"></canvas>
+            </div>
         </div>
 
     </div>
