@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/Site Institucional/public/css/dashInd.css">
+    <title>Dashboard - Individual</title>
+</head>
+
+<body>
+
+    <div class="titulo-pag">
+        <img src="img/siloicon.svg" alt="icone de silo">
+        <h1>SITUAÇÃO DO SILO</h1>
+    </div>
+
+    <div class="campos">
+        <div class="campo-silo">
+            <div class="alinhamento-campo-silo">
+
+                <div class="cards-kpi">
+                    <div class="kpi-live">
+                        <span>Volume livre para armazenamento</span>
+                        <h3>30 cm</h3>
+                        <h4>10% livre</h4>
+                    </div>
+
+                    <div class="kpi-ultima-leitura">
+                        <span> <strong>Última leitura</strong> ocorreu há:</span>
+                        <h3>45 seg</h3>
+                        <h4>08/03/2026</h4>
+                        <p>10:12:05</p>
+                    </div>
+                </div>
+
+                <div class="controle-silo-bateria">
+                    <span>SILOS DA BATERIA</span>
+                    <p>Bateria atual: 67</p>
+
+                    <div class="bateria-grid">
+                        <button class="btn-silo active">1</button>
+                        <button class="btn-silo">2</button>
+                        <button class="btn-silo">3</button>
+                        <button class="btn-silo">4</button>
+                        <button class="btn-silo">5</button>
+                        <button class="btn-silo">6</button>
+                        <button class="btn-silo">7</button>
+                        <button class="btn-silo">8</button>
+                    </div>
+
+                    <a href="#" class="link-bateria">VER SITUAÇÃO DA BATERIA <span>&rarr;</span></a>
+                </div>
+
+
+
+                <div class="silo-container">
+                    <img src="img/silosvg.svg" class="silo-overlay">
+
+                    <div class="silo-zona-enchimento">
+                        <div id="silo-preenchimento" class="silo-barra"></div>
+                    </div>
+                </div>
+
+                <div class="cards-kpi">
+                    <div class="kpi-status">
+                        <span>Estado do silo</span>
+                        <div class="estado">
+                            <h3 style="color: green;">IDEAL</h3>
+                        </div>
+                        <h4>Sem risco atual</h4>
+                    </div>
+                    <div class="kpi-tempo-alerta">
+                        <span>Tempo em alerta</span>
+                        <h3>0D 0h 0m</h3>
+                    </div>
+                </div>
+
+            </div>
+
+
+        </div>
+
+        <div class="campo-grafico">
+
+        </div>
+
+    </div>
+
+    <script src="dashscript.js"></script>
+
+</body>
+
+</html>

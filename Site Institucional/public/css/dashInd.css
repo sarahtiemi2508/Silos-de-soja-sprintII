@@ -1,0 +1,219 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap");
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background-color: black;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 0;
+  min-height: 100vh;
+  padding-bottom: 50px;
+  font-family: "Inter", sans-serif;
+}
+
+.titulo-pag {
+  color: white;
+  display: flex;
+  flex-direction: row;
+  font-weight: bolder;
+  flex-wrap: wrap;
+  align-items: center;
+  font-size: 18px;
+  gap: 20px;
+  margin: 30px;
+}
+
+.titulo-pag img {
+    width: 45px;
+    height: 45px;
+}
+
+.campos {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 50px;
+  width: 95vw;
+}
+
+.campo-silo, .campo-grafico {
+  background-color: white;
+  width: 90vw;
+  min-height: 500px;
+  border-radius: 25px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 50px;
+}
+
+.silo-container {
+    position: relative;
+    width: 250px; 
+    height: 450px;
+    background-color: transparent;
+}
+
+.silo-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 3;
+    pointer-events: none;
+}
+
+.silo-zona-enchimento {
+    position: absolute;
+    left:0; 
+    right:0;
+    top: 40px;
+    bottom: 70px; 
+    background-color: white;
+    z-index: 1;
+    overflow: hidden;
+    display: flex;
+    align-items: flex-end;
+}
+
+.silo-barra {
+    width: 100%;
+    background-color: #FFBA00;
+    height: 0%;
+    transition: height 1s ease-in-out;
+}
+
+.alinhamento-campo-silo {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: stretch;
+  width: 100%;
+}
+
+.cards-kpi {
+  display: flex;
+  flex-direction: column;
+  gap: 30px; 
+  width: 25%;
+}
+
+.cards-kpi > div {
+  border: 2px solid #ffba00;
+  border-radius: 20px;
+  padding: 20px;
+  max-width: 350px;
+  width: 100%;
+  background-color: white;
+  color: black;
+  margin: 0 auto;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center; 
+  align-items: center;
+  flex-grow: 1;
+
+    span {
+    text-align: center;
+    font-size: 21px;
+    margin: 10px 0;
+  }
+
+  h3 {
+    font-size: 65px;
+    margin: 10px 0;
+  }
+
+  h4 {
+    font-size: 18px;
+    margin: 10px 0;
+  }
+
+  p {
+    font-size: 18px;
+    margin: 10px 0;
+  }
+}
+
+
+.controle-silo-bateria {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    font-family: 'Inter', sans-serif;
+}
+
+.controle-silo-bateria span {
+    font-size: 21px;
+    font-weight: bold;
+    color: black;
+}
+
+.controle-silo-bateria p {
+    font-size: 18px;
+    color: black;
+    font-weight: bold;
+}
+
+.bateria-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 45px); /*4 colunas de 45px*/
+    grid-template-rows: repeat(2, 45px);    /*2 linhas de 45px*/
+    gap: 10px;
+}
+
+.btn-silo {
+    width: 45px;
+    height: 45px;
+    background-color: white;
+    border: 2px solid black;
+    border-radius: 10px;
+    font-weight: bold;
+    font-size: 21px;
+    cursor: pointer;
+}
+
+.btn-silo.active {
+    background-color: black;
+    color: white;
+    border-color: black;
+}
+
+.btn-silo:hover {
+    background-color: black;
+    color: white;
+    border-color: black;
+}
+
+/* Botao pra tela de bateria */
+.link-bateria {
+    text-decoration: none;
+    color: black;
+    font-size: 18px;
+    font-weight: bold;
+    border: 2px solid #333;
+    padding: 5px 15px;
+    border-radius: 20px;
+    margin-top: 10px;
+}
+
+.link-bateria:hover {
+    background-color: black;
+    color: white;
+
+    span {
+        color: white;
+    }
+}
