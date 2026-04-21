@@ -1,0 +1,27 @@
+<div id="header"></div>
+
+
+
+<script>
+    fetch("/site-institucional/includes/header-footer/header.html")
+        .then(resposta => resposta.text())
+        .then(dados => {
+            document.getElementById("header").innerHTML = dados;
+        });
+</script>
+
+
+
+
+
+
+
+<div id="footer"></div>
+
+<script>
+    fetch("/site-institucional/includes/header-footer/footer.html")
+        .then(resposta => resposta.text())
+        .then(dados => {
+            document.getElementById("footer").innerHTML = dados
+        });
+</script>
