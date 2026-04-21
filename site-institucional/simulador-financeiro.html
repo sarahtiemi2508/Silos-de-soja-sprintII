@@ -1,23 +1,26 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="shortcut icon" href="/Site Institucional/public/img/favicon-dark.ico" media="(prefers-color-scheme: dark)">
-    <link rel="shortcut icon" href="/Site Institucional/public/img/favicon-light.ico" media="(prefers-color-scheme: light)">
+
+    <link rel="shortcut icon" href="/site-institucional/public/img/favicon-dark.ico" media="(prefers-color-scheme: dark)">
+    <link rel="shortcut icon" href="/site-institucional/public/img/favicon-light.ico" media="(prefers-color-scheme: light)">
+
+    <link rel="stylesheet" href="/site-institucional/public/css/calculadora-financeira.css">
+
     <title>Simulador Financeiro</title>
-    <link rel="stylesheet" href="public/css/calculadora-financeira.css">
 </head>
 <body>
      
-<div id="header-simulador"></div>
+<div id="header"></div>
 
 <script>
-fetch("includes/header-simulador.html")
-  .then(resposta => resposta.text())
-  .then(dados => {
-    document.getElementById("header-simulador").innerHTML = dados;
-  });
+    fetch("/site-institucional/includes/header-footer/header.html")
+        .then(resposta => resposta.text())
+        .then(dados => {
+            document.getElementById("header").innerHTML = dados;
+        });
 </script>
 
 
