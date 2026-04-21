@@ -1,154 +1,31 @@
-<html>
+<!DOCTYPE html>
+<html lang="pt-BR">
 
 <head>
 
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Cadastro_etapa2</title>
 
+  <link rel="shortcut icon" href="/site-institucional/public/img/favicon-dark.ico" media="(prefers-color-scheme: dark)">
+  <link rel="shortcut icon" href="/site-institucional/public/img/favicon-light.ico"
+    media="(prefers-color-scheme: light)">
 
+  <link rel="stylesheet" href="/site-institucional/public/css/cadastro-etapa2.css">
 
-  <style>
- * {
-      padding: 0%;
-      box-sizing: border-box;
-      margin: 0%;
-    }
-
-    body {
-
-      font-family: Arial, Helvetica, sans-serif;
-    }
-
-
-
-    .div_tela_inteira {
-      position: relative;
-      width: 100%;
-      min-height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      overflow: hidden;
-
-
-    }
-
-    .div_tela_inteira::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background-image: url('../public/img/background_login.png');
-      background-position: center;
-      background-repeat: no-repeat;
-      background-size: cover;
-      filter: blur(5px);
-      z-index: -1;
-      transform: scale(1.1)
-    }
-
-    .card {
-      margin-top: 50px;
-      background-color: white;
-      height: auto;
-      width: 800px;
-      padding: 13px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      flex-direction: column;
-      border-radius: 50px;
-      box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
-    }
-
-
-
-    .input-login {
-      width: 350px;
-      padding: 8px;
-      margin: 10px 0;
-      border-radius: 20px;
-      border: 1px solid #ccc;
-      outline: none;
-    }
-
-    .botao-login {
-      width: 150;
-      padding: 8px;
-      background-color: #f4b400;
-      color: black;
-      border: none;
-      border-radius: 20px;
-      font-weight: bold;
-      cursor: pointer;
-      margin-top: 20px;
-    }
-
-    .titulo {
-      color: #f4b400;
-      text-align: center;
-      align-self: center;
-      
-      justify-self: center;
-      font-size: 32px;
-      padding-bottom: 60px;
-      font-weight: 700;
-    }
-
-    .campo {
-      display: flex;
-      flex-direction: column;
-      align-items: start;
-      justify-content: space-between;
-    }
-
-    .links {
-      justify-content: center;
-      align-items: center;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      margin-top: 60px;
-      font-size: 11px;
-    }
-
-    .links a {
-      color: #f4b400;
-      text-decoration: none;
-    }
-
-    .formulario {
-      display: flex;
-      flex-direction: row;
-      gap: 80px;
-    }
-
-    .coluna_esq {
-      align-items: start;
-    }
-
-    .column_dir {
-      align-items: end;
-    }
-
-      .btn_link {
-      text-decoration: none;
-      color: black;
-    }
-  </style>
+  <title>Cadastro</title>
 </head>
 
 <body>
 
   <div id="header-auth"></div>
 
-<script>
-fetch("../includes/header-auth.html")
-  .then(resposta => resposta.text())
-  .then(dados => {
-    document.getElementById("header-auth").innerHTML = dados;
-  });
-</script>
+  <script>
+    fetch("/site-institucional/includes/header-footer/header-auth.html")
+      .then(resposta => resposta.text())
+      .then(dados => {
+        document.getElementById("header-auth").innerHTML = dados;
+      });
+  </script>
 
 
   <div class="div_tela_inteira">
@@ -183,10 +60,10 @@ fetch("../includes/header-auth.html")
         </div>
       </div>
 
-      <button class="botao-login" onclick="logar()"><b><a class="btn_link" href="Login.html">CADASTRAR</a></b></button>
+      <button class="botao-login" onclick="logar()"><b><a class="btn_link" href="/site-institucional/auth/login.html">CADASTRAR</a></b></button>
       <div class="links">
         <span>Esqueceu a senha? <b>acesse aqui</b></span>
-        <span>Já tem login? <b><a href="Login.html">FAÇA LOGIN</a></b></span>
+        <span>Já tem login? <b><a href="/site-institucional/auth/login.html">FAÇA LOGIN</a></b></span>
       </div>
     </div>
   </div>
