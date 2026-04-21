@@ -5,19 +5,34 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+    <!-- Chart JS -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
-    <link rel="stylesheet" href="/site-institucional/public/css/dashboard-individual.css">
     
-    <link rel="shortcut icon" href="/Site Institucional/public/img/favicon-dark.ico" media="(prefers-color-scheme: dark)">
-    <link rel="shortcut icon" href="/Site Institucional/public/img/favicon-light.ico" media="(prefers-color-scheme: light)">
-    <title>Dashboard - Individual</title>
+    <!-- CSS -->
+    <link rel="stylesheet" href="/site-institucional/public/css/dashboard-individual.css">
+
+    <!-- Icons -->
+    <link rel="shortcut icon" href="/site-institucional/public/img/favicon-dark.ico"
+        media="(prefers-color-scheme: dark)">
+    <link rel="shortcut icon" href="/site-institucional/public/img/favicon-light.ico"
+        media="(prefers-color-scheme: light)">
+
+    <title>Dashboard</title>
 </head>
 
 <body>
 
+    <div id="menu_hamburger"></div>
+    <script>
+        fetch("/site-institucional/includes/menu/menu.html")
+            .then(resposta => resposta.text())
+            .then(dados => {
+                document.getElementById("menu_hamburger").innerHTML = dados;
+            });
+    </script>
+
     <div class="titulo-pag">
-        <img src="/Site Institucional/dashboard/img/siloicon.svg" alt="icone de silo">
+        <img src="/site-institucional/public/img/siloicon.svg" alt="icone de silo">
         <h1>SITUAÇÃO DO SILO</h1>
     </div>
 
@@ -61,7 +76,7 @@
 
 
                 <div class="silo-container">
-                    <img src="/Site Institucional/dashboard/img/silosvg.svg" class="silo-overlay">
+                    <img src="/site-institucional/public/img/silosvg.svg" class="silo-overlay">
 
                     <div class="silo-zona-enchimento">
                         <div id="silo-preenchimento" class="silo-barra"></div>
