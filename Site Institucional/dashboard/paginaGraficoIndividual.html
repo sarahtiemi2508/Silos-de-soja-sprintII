@@ -5,11 +5,22 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="../public/css/header-footer.css">
     <link rel="stylesheet" href="/Site Institucional/public/css/dashInd.css">
+    <link rel="stylesheet" href="public/css/home.css">
     <title>Dashboard - Individual</title>
 </head>
 
 <body>
+    <div id="header"></div>
+
+    <script>
+        fetch("../includes/header.html")
+            .then(resposta => resposta.text())
+            .then(dados => {
+                document.getElementById("header").innerHTML = dados;
+            });
+    </script>
 
     <div class="titulo-pag">
         <img src="img/siloicon.svg" alt="icone de silo">
