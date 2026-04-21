@@ -1,0 +1,126 @@
+*{
+    background-color: black;
+}
+#header{
+height: 65px;
+
+}
+#parte1{
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+#titulo{
+    border: solid white 2px;
+    color: white;
+    font-size: larger;
+}
+#quadrobranco1{
+border: solid 2px;
+border-radius: 20px;
+background-color: white;
+width: 1100px;
+height: 440px;
+margin-top: 75px;
+display: flex;
+flex-direction: row;
+align-items: center;
+justify-content: space-evenly;
+}
+.quadros{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: white;
+    margin: 50px;
+    justify-content: space-evenly;
+    width: 145px;
+    height: 400px;
+    border: solid 1px black;
+
+}
+#porcentagemLivre{
+    border: solid 1.5px red;
+    background-color: white;
+    width: 145px;
+    height: 145px;
+    border-radius: 10px;
+}
+
+#ultimaLeitura{
+    border: solid 1.5px red;
+    background-color: white;
+    width: 145px;
+    height: 145px;
+    border-radius: 10px;
+}
+
+#selecaoSilos{
+    border: solid 2px black;
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 120px;
+    height: 120px;
+    /* border: solid 2px black; */
+}
+#bateriaSilos{
+    border: solid 2px black;
+    background-color: white;
+    display: flex;
+    flex-direction: row;
+    width: 120px;
+    height: 50px;
+    font-size: medium;
+}
+#botoes{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 120px;
+    background-color: white;
+}
+.camadasBotoes{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-evenly;
+    width: 120px;
+    background-color: white;
+    box-sizing: border-box;
+}
+.botaoP1{
+background-color: white;
+width: 25px;
+height: 35px;
+border-radius: 10px;
+
+}
+
+#status{
+    border: solid 1.5px red;
+    background-color: white;
+    width: 180px;
+    height: 100px;
+    border-radius: 10px;
+}
+
+#Silo{
+    border: solid 2px black;
+    border-top-left-radius:95px;
+    border-top-right-radius: 95px;
+    width: 200px;
+    height: 350px;
+    background-color: white;
+}
+
+#tempoEmAlerta{
+    border: solid 1.5px red;
+    background-color: white;
+    width: 180px;
+    height: 150px;
+    border-radius: 10px;
+}
