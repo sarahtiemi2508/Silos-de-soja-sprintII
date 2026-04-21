@@ -1,35 +1,42 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Alertas</title>
-    <link rel="shortcut icon" href="/Site Institucional/public/img/favicon-dark.ico" media="(prefers-color-scheme: dark)">
-    <link rel="shortcut icon" href="/Site Institucional/public/img/favicon-light.ico" media="(prefers-color-scheme: light)">
-    <link rel="stylesheet" href="/Site Institucional/public/css/alerta.css">
-    <link rel="stylesheet" href="/Site Institucional/menu/style.css">
+
+    <!-- Fontes -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet" />
 
-    <script src="/Site Institucional/menu/script.js"></script>
-    <style>
-      
-    </style>
+    <!-- Ícones -->
+    <link rel="shortcut icon" href="/site-institucional/public/img/favicon-dark.ico"
+        media="(prefers-color-scheme: dark)">
+    <link rel="shortcut icon" href="/site-institucional/public/img/favicon-light.ico"
+        media="(prefers-color-scheme: light)">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="/site-institucional/public/css/alerta.css">
+    <link rel="stylesheet" href="/site-institucional/public/css/menu.css">
+
+    <!-- JS -->
+    <script src="/site-institucional/public/js/menu.js"></script>
+
+    <title>Alertas</title>
 </head>
 
 <body>
 
     <div id="menu_hamburger"></div>
-<script>
-fetch("/Site Institucional/menu")
-  .then(resposta => resposta.text())
-  .then(dados => {
-    document.getElementById("menu_hamburger").innerHTML = dados;
-  });
-</script>
+    <script>
+        fetch("/site-institucional/includes/menu/menu.html")
+            .then(resposta => resposta.text())
+            .then(dados => {
+                document.getElementById("menu_hamburger").innerHTML = dados;
+            });
+    </script>
 
     <div class="fundo_geral_tela">
         <div class="div_elementos_gerais">
@@ -80,7 +87,7 @@ fetch("/Site Institucional/menu")
                                     <p class="p_bold">Contato</p>
                                     <p class="p_comum">(11) 98891-9181</p>
                                 </div>
-                                
+
                             </div>
                         </div>
                     </div>
@@ -95,7 +102,7 @@ fetch("/Site Institucional/menu")
                                 <div class="div_qtd_exclamacoes">
                                     <span class="exclamacao_pequena">!</span>
                                     <span class="exclamacao_media">!</span>
-                                    
+
                                 </div>
                                 <div class="desc_card_alerta">
                                     <h4>ALERTA URGENTE</h4>
@@ -120,7 +127,7 @@ fetch("/Site Institucional/menu")
                                     <p class="p_bold">Contato</p>
                                     <p class="p_comum">(11) 98891-9181</p>
                                 </div>
-                                
+
                             </div>
                         </div>
                     </div>
@@ -159,7 +166,7 @@ fetch("/Site Institucional/menu")
                                     <p class="p_bold">Contato</p>
                                     <p class="p_comum">(11) 98891-9181</p>
                                 </div>
-                                
+
                             </div>
                         </div>
                     </div>
@@ -178,7 +185,7 @@ fetch("/Site Institucional/menu")
                 <div class="elementos_qtd_alertas">
 
                     <div id="titulo_qtd_alerta">
-                       <h2>BEM-VINDO!</h2>
+                        <h2>BEM-VINDO!</h2>
                         <span>Empresa_01</span>
                     </div>
 
