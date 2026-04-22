@@ -137,29 +137,63 @@
   totalBateria.innerHTML = `<p>Volume Total da Bateria</p><p>${totalValores}<span>m³</span></p>`;
   mediaBateria.innerHTML = `<p>Média de Ocupação</p><p>${mediaValores.toFixed(1)}<span>m³</span></p>`;
 
-  const corBarra = valores.map((v) => {
-    if (v <= 20 || v >= 80) {
-      return "#E33333"; // Vermelho (Crítico: muito vazio ou muito cheio)
-    } else if (v <= 30 || v >= 70) {
-      return "#FF7E21"; // Laranja (Alerta: aproximando-se dos limites)
-    } else {
-      return "#FFEC31"; // Amarelo (Estável: entre 31% e 69%)
-    }
-  });
+  // const corBarra = valores.map((v) => {
+  //   if (v <= 20 || v >= 80) {
+  //     return "#E33333"; // Vermelho (Crítico: muito vazio ou muito cheio)
+  //   } else if (v <= 30 || v >= 70) {
+  //     return "#FF7E21"; // Laranja (Alerta: aproximando-se dos limites)
+  //   } else if(v >= 31 || v <= 69){
+  //     return "#FFEC31"; // Amarelo (Estável: entre 31% e 69%)
+  //   }
+  // });
 
-    const data = {
-      labels: labels,
-      datasets: [
-        {
-          label: "Estável",
-          backgroundColor: corBarra,
-          borderColor: corBarra,
-          data: valores,
-          barThickness: 50,
-          borderRadius: 5,
-        },
-      ],
-    };
+  const Criticos = valores.map((v) => {
+
+    return v <= 20 || v >= 80 ? v : null;
+  })
+  const Estavel = valores.map((v) => {
+
+    return (v <= 30 || v >= 70) && v > 20 && v < 80 ? v : null;
+  })
+  const Moderado = valores.map((v) => {
+
+    return (v >= 31 && v <= 69)  ? v : null;
+  })
+
+
+
+  console.log(valores)
+  console.log(Criticos)
+
+  const data = {
+    labels: labels,
+    datasets: [
+      {
+        label: "Crítico",
+        backgroundColor: "rgb(227, 51, 51)",
+        borderColor: "rgb(227, 51, 51)",
+        data: Criticos,
+        barThickness: 50,
+        borderRadius: 5,
+      },
+      {
+        label: "Moderado",
+        backgroundColor: "rgb(255, 126, 33)" ,
+        borderColor: "rgb(255, 126, 33)",
+        data: Moderado,
+        barThickness: 50,
+        borderRadius: 5,
+      },
+      {
+        label: "Estável",
+        backgroundColor: "rgb(255, 236, 49)" ,
+        borderColor: "rgb(255, 236, 49)",
+        data: Estavel,
+        barThickness: 50,
+        borderRadius: 5,
+      },
+    ],
+  };
 
   const config = {
     type: "bar",
@@ -171,7 +205,14 @@
         y: {
           min: 0,
           max: 100,
+          stacked: true
+
         },
+        x:{
+          stacked: true,
+          offset: true
+        }
+
       },
       plugins: {
         title: {
