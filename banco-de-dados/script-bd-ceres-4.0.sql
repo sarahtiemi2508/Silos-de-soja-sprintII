@@ -29,7 +29,7 @@ telefone VARCHAR(15),
 
 fk_empresa INT,
 CONSTRAINT ctfk_empresa
-FOREIGN KEY funcionario_empresa (fk_empresa)
+FOREIGN KEY (fk_empresa)
 REFERENCES empresa (id_empresa)
 );
 
@@ -183,7 +183,7 @@ INSERT INTO usuario (nome_usuario, cpf, dt_nascimento, senha, email, telefone, f
 ('Anna Santos', '21171683707', '1992-10-23', 'Anna@123', 'anna.santos@email.com', '(11) 6523-8331', 2),
 ('Daniel Cardoso', '84056133130', '1984-12-25', 'Daniel@123', 'daniel.cardoso@email.com', '(11) 7172-3488', 2),
 
--- 5 Usuários da empresa fk empresa 3
+-- 5 Usuários da empresa ContSoja fk empresa 3
 ('Tomás Azevedo', '99985232143', '2002-02-07', 'Tomas@123', 'tomas.azevedo@email.com', '(11) 8064-7075', 3),
 ('Guilherme Ribeiro', '70772010820', '1977-11-09', 'Guilherme@123', 'guilherme.ribeiro@email.com', '(11) 4489-7507', 3),
 ('Sarah Lima', '90576221490', '1988-03-28', 'Sarah@123', 'sarah.lima@email.com', '(41) 5308-6787', 3),
@@ -421,6 +421,19 @@ SELECT * FROM bateria_silo;
 SELECT * FROM silo_individual;
 SELECT * FROM gp_sensores;
 SELECT * FROM sensor;
+SELECT * FROM historico_sensor;
+
+-- Select para ver os registros do arduino
+SELECT
+h.distancia_captada,
+s.localizacao,
+h.dt_hora_leitura
+FROM historico_sensor AS h
+JOIN sensor AS s
+ON s.id_sensor = h.fk_sensor
+JOIN gp_sensores AS gp
+ON gp.id_gp_sensores = s.fk_gp_sensores
+WHERE gp.id_gp_sensores = 1 ORDER BY h.dt_hora_leitura DESC;
 
 -- Para consultar os Usuários e suas respectivas empresas
 SELECT
