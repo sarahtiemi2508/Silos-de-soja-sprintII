@@ -2,16 +2,13 @@
 <html lang="pt-BR">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <!-- Fontes -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet" />
+    <!-- Chart JS -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-    <!-- Ícones -->
+    <!-- Icons -->
     <link rel="shortcut icon" href="/site-institucional/public/img/favicon-dark.ico"
         media="(prefers-color-scheme: dark)">
     <link rel="shortcut icon" href="/site-institucional/public/img/favicon-light.ico"
@@ -19,18 +16,15 @@
 
     <!-- CSS -->
     <link rel="stylesheet" href="/site-institucional/public/css/dashboard-bateria.css">
-    <link rel="stylesheet" href="/site-institucional/public/css/menu.css">
+    <link rel="stylesheet" href="/site-institucional/public/css/home.css">
 
-    <!-- Chart js -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
-    <!-- MENU -->
-     <script src="/site-institucional/public/js/menu.js"></script>
+    <script src="/site-institucional/public/js/menu.js"></script>
 
     <title>Dashboard</title>
 </head>
 
 <body>
+
     <div id="menu_hamburger"></div>
     <script>
         fetch("/site-institucional/includes/menu/menu.html")
@@ -43,7 +37,7 @@
     <div id="header"></div>
     <div id="parte1">
         <div id="titulo">
-            <img src="/site-institucional/public/img/imagemtitulo.svg" alt="imagemTitulo" width="50px">
+            <img src="/site-institucional/public/img/imagemtitulo.svg" alt="imagemTitulo" width="50px" />
             <h2 id="tituloTelaGraficosBateria">SITUAÇÃO DA BATERIA</h2>
         </div>
         <div id="informacoesP1">
@@ -53,17 +47,24 @@
                         <div id="nivelTotalBateria"></div>
                         <div id="nivelMediaBateria"></div>
                     </div>
-                    <div id="boxMenorNivelSilos">
+                    <div id="graficosMaiorMenor">
                         <p id="tituloMaiorMenorNivel">MAIOR E MENOR NÍVEL DOS SILOS</p>
-                        <div id="graficosMaiorMenor">
-                            <div class="porcentagem">90%</div>
-                            <div class="SilosNivel">
-                                <div id="vermelhoMaior"></div>
+                        <div
+                            style="display: flex; flex-direction: row; justify-content: space-evenly; width: 100%; background: transparent">
+                            <div class="volumeSilo">
+                                <p id="siloMaximo">Silo 4</p>
+                                <div class="SilosNivel">
+                                    <div id="vermelhoMaior"></div>
+                                </div>
+                                <div class="porcentagem" id="maiorSilo">31<span>%</span></div>
                             </div>
-                            <div class="SilosNivel">
-                                <div id="vermelhoMenor"></div>
+                            <div class="volumeSilo">
+                                <p id="siloMinimo">Silo 7</p>
+                                <div class="SilosNivel">
+                                    <div id="vermelhoMenor"></div>
+                                </div>
+                                <div class="porcentagem" id="menorSilo">7<span>%</span></div>
                             </div>
-                            <div class="porcentagem">10%</div>
                         </div>
                     </div>
                 </div>
@@ -79,113 +80,151 @@
 </body>
 
 <script>
-    const labels = [
-        'Silo 1',
-        'Silo 2',
-        'Silo 3',
-        'Silo 4',
-        'Silo 5',
-        'Silo 6',
-        'Silo 7',
-        'Silo 8',
-    ];
+    const labels = ["Silo 1", "Silo 2", "Silo 3", "Silo 4", "Silo 5", "Silo 6", "Silo 7", "Silo 8"];
 
-    let valores = [30, 29, 28, 31, 22, 23, 7, 15];
+    let valores = [33, 19, 56, 82, 76, 44, 12, 92];
 
-    const corBarra = valores.map(v => {
-        if (v > 30) {
-            return '#E33333'; // vermelho
-        } else if (v > 20) {
-            return '#FF7E21'; // laranja
-        } else {
-            return '#FFEC31'; // amarelo
+    let totalValores = 0;
+
+    for (let i = 0; i < valores.length; i++) {
+        totalValores += valores[i];
+    }
+
+    let mediaValores = totalValores / valores.length;
+
+    let maiorValor = valores[0];
+    let menorValor = valores[0];
+
+    for (let i = 1; i < valores.length; i++) {
+        if (valores[i] > maiorValor) {
+            maiorValor = valores[i];
+        }
+        if (valores[i] < menorValor) {
+            menorValor = valores[i];
         }
     }
-    );
+
+    let indexMaior = 0;
+    let indexMenor = 0;
+
+    for (let i = 1; i < valores.length; i++) {
+        if (valores[i] > valores[indexMaior]) {
+            indexMaior = i;
+        }
+        if (valores[i] < valores[indexMenor]) {
+            indexMenor = i;
+        }
+    }
+
+    const porcentagemSiloMaior = document.getElementById("maiorSilo");
+    const porcentagemSiloMenor = document.getElementById("menorSilo");
+    const nomeSiloMaximo = document.getElementById("siloMaximo");
+    const nomeSiloMinimo = document.getElementById("siloMinimo");
+
+    porcentagemSiloMaior.innerHTML = `${maiorValor}<span>%</span>`;
+    porcentagemSiloMenor.innerHTML = `${menorValor}<span>%</span>`;
+    nomeSiloMaximo.innerText = `${labels[indexMaior]}`;
+    nomeSiloMinimo.innerText = `${labels[indexMenor]}`;
+
+    const barraMaior = document.getElementById("vermelhoMaior");
+    const barraMenor = document.getElementById("vermelhoMenor");
+
+    barraMaior.style.height = (maiorValor / 100) * 80 + "%";
+    barraMenor.style.height = (menorValor / 100) * 80 + "%";
+
+    const totalBateria = document.getElementById("nivelTotalBateria");
+    const mediaBateria = document.getElementById("nivelMediaBateria");
+
+    totalBateria.innerHTML = `<p>Volume Total da Bateria</p><p>${totalValores}<span>m³</span></p>`;
+    mediaBateria.innerHTML = `<p>Média de Ocupação</p><p>${mediaValores.toFixed(1)}<span>m³</span></p>`;
+
+    const corBarra = valores.map((v) => {
+        if (v <= 20 || v >= 80) {
+            return "#E33333"; // Vermelho (Crítico: muito vazio ou muito cheio)
+        } else if (v <= 30 || v >= 70) {
+            return "#FF7E21"; // Laranja (Alerta: aproximando-se dos limites)
+        } else {
+            return "#FFEC31"; // Amarelo (Estável: entre 31% e 69%)
+        }
+    });
 
     const data = {
         labels: labels,
-        datasets: [{
-            label: 'Nível de Cada Silo',
-            backgroundColor: corBarra,
-            borderColor: corBarra,
-            data: valores,
-            barThickness: 50,
-        },
-
-        ]
-
+        datasets: [
+            {
+                label: "Nível de Cada Silo",
+                backgroundColor: corBarra,
+                borderColor: corBarra,
+                data: valores,
+                barThickness: 50,
+                borderRadius: 5,
+            },
+        ],
     };
 
     const config = {
-        type: 'bar',
+        type: "bar",
         data: data,
         options: {
+            maintainAspectRatio: false, // PERMITE QUE O GRÁFICO ESTIQUE NA VERTICAL
+            responsive: true,
             scales: {
                 y: {
                     min: 0,
-                    max: 100
-                }
+                    max: 100,
+                },
             },
             plugins: {
                 title: {
                     display: true,
-                    text: 'SITUAÇÃO DO NÍVEL DE CADA SILO'
-                }
-            }
-        }
-    }
-
+                    text: "SITUAÇÃO DO NÍVEL DE CADA SILO",
+                },
+            },
+        },
+    };
 </script>
 <script>
-    const myChart = new Chart(
-        document.getElementById('myChart'),
-        config
-    )
-
+    const myChart = new Chart(document.getElementById("myChart"), config);
 </script>
 
-
 <script>
+    const labels2 = ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"];
 
-    const labels2 = [
-        'Janeiro',
-        'Fevereiro',
-        'Março',
-        'Abril',
-        'Maio',
-        'Junho',
-    ];
     const data2 = {
         labels: labels2,
-        datasets: [{
-            label: 'Temperatura Média',
-            backgroundColor: 'rgb(255, 0,0)',
-            borderColor: 'rgb(255,0,0)',
-            data: [22, 24, 27, 23, 20, 18],
-        },
-        ]
+        datasets: [
+            {
+                label: "Nível de Preenchimento",
+                backgroundColor: "rgb(255, 0, 0)",
+                borderColor: "rgb(255, 0, 0)",
+                data: [22, 40, 35, 50, 20, 15, 30, 45, 60, 55, 70, 80],
+                tension: 0.3,
+            },
+        ],
     };
+
     const config2 = {
-        type: 'line',
+        type: "line",
         data: data2,
         options: {
+            maintainAspectRatio: false,
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    max: 100,
+                },
+            },
             plugins: {
                 title: {
                     display: true,
-                    text: 'NÍVEL DE PREENCHIMENTO DA BATERIA EM RELAÇÃO AO TEMPO'
-                }
-            }
-        }
-    }
-
+                    text: "NÍVEL DE PREENCHIMENTO DA BATERIA EM RELAÇÃO AO TEMPO",
+                },
+            },
+        },
+    };
 </script>
 <script>
-    const myChart2 = new Chart(
-        document.getElementById('myChart2'),
-        config2
-    )
-
+    const myChart2 = new Chart(document.getElementById("myChart2"), config2);
 </script>
 
 </html>

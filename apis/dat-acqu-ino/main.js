@@ -8,22 +8,21 @@ const SERIAL_BAUD_RATE = 9600;
 const SERVIDOR_PORTA = 3300;
 
 // habilita ou desabilita a inserção de dados no banco de dados
-const HABILITAR_OPERACAO_INSERIR = false;
+const HABILITAR_OPERACAO_INSERIR = true;
 
 // função para comunicação serial
 const serial = async (
-    valoresSensorAnalogico,
-    valoresSensorDigital,
+    valoresSensorUltrassonico,
 ) => {
 
     // conexão com o banco de dados MySQL
     let poolBancoDados = mysql.createPool(
         {
             host: 'localhost',
-            user: 'root',
-            password: 'senha_vai_aqui',
-            database: 'arduino',
-            port: 3306
+            user: 'insert_user',
+            password: 'Urubu@100',
+            database: 'ceres',
+            port: 3307
         }
     ).promise();
 
@@ -53,32 +52,34 @@ const serial = async (
     arduino.pipe(new serialport.ReadlineParser({ delimiter: '\r\n' })).on('data', async (data) => {
         console.log(data);
         const valores = data.split(';');
-        const sensorDigital = parseInt(valores[0]);
-        const sensorAnalogico = parseFloat(valores[1]);
+        const sensorUltrassonico = parseFloat(valores[0]);
 
         // armazena os valores dos sensores nos arrays correspondentes
-        valoresSensorAnalogico.push(sensorAnalogico);
-        valoresSensorDigital.push(sensorDigital);
-
-        //aleatorios
-        //let mocadoAnalogico = Math.floor(Math.random() * 100); 
-
-        // aleatorio de 0 ou 1
-        //let mocadoDigital = Math.round(Math.random()); 
-
-        // Insere os valores mocados nos arrays
-        //valoresSensorAnalogico.push(mocadoAnalogico);
-        //valoresSensorDigital.push(mocadoDigital);
+        valoresSensorUltrassonico.push(sensorUltrassonico);
 
         // insere os dados no banco de dados (se habilitado)
         if (HABILITAR_OPERACAO_INSERIR) {
 
             // este insert irá inserir os dados na tabela "medida"
             await poolBancoDados.execute(
-                'INSERT INTO medida (sensor_analogico, sensor_digital) VALUES (?, ?)',
-                [sensorAnalogico, sensorDigital]
+                'INSERT INTO historico_sensor (distancia_captada, fk_sensor) VALUES (?, 2)',
+                [sensorUltrassonico]
             );
-            console.log("valores inseridos no banco: ", sensorAnalogico + ", " + sensorDigital);
+            console.log("Sensor centro inserido no banco: ", sensorUltrassonico);
+
+            let simular_distancia = sensorUltrassonico - 10;
+            await poolBancoDados.execute(
+                'INSERT INTO historico_sensor (distancia_captada, fk_sensor) VALUES (?, 1)',
+                [simular_distancia]
+            );
+            console.log("Sensor esquerda inserido no banco: ", simular_distancia);
+
+            let simular_distancia2 = sensorUltrassonico - 8;
+            await poolBancoDados.execute(
+                'INSERT INTO historico_sensor (distancia_captada, fk_sensor) VALUES (?, 3)',
+                [simular_distancia2]
+            );
+            console.log("Sensor direita inserido no banco: ", simular_distancia2);
 
         }
 
@@ -92,8 +93,7 @@ const serial = async (
 
 // função para criar e configurar o servidor web
 const servidor = (
-    valoresSensorAnalogico,
-    valoresSensorDigital
+    valoresSensorUltrassonico
 ) => {
     const app = express();
 
@@ -111,28 +111,22 @@ const servidor = (
 
     // define os endpoints da API para cada tipo de sensor
     app.get('/sensores/analogico', (_, response) => {
-        return response.json(valoresSensorAnalogico);
-    });
-    app.get('/sensores/digital', (_, response) => {
-        return response.json(valoresSensorDigital);
+        return response.json(valoresSensorUltrassonico);
     });
 }
 
 // função principal assíncrona para iniciar a comunicação serial e o servidor web
 (async () => {
     // arrays para armazenar os valores dos sensores
-    const valoresSensorAnalogico = [];
-    const valoresSensorDigital = [];
+    const valoresSensorUltrassonico = [];
 
     // inicia a comunicação serial
     await serial(
-        valoresSensorAnalogico,
-        valoresSensorDigital
+        valoresSensorUltrassonico
     );
 
     // inicia o servidor web
     servidor(
-        valoresSensorAnalogico,
-        valoresSensorDigital
+        valoresSensorUltrassonico
     );
 })();
