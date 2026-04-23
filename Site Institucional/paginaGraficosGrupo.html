@@ -80,7 +80,7 @@
 
 <script>
   const labels = ["Silo 1", "Silo 2", "Silo 3", "Silo 4", "Silo 5", "Silo 6", "Silo 7", "Silo 8"];
-
+  
   let valores = [33, 19, 56, 82, 76, 44, 12, 92];
 
   let totalValores = 0;
@@ -137,27 +137,19 @@
   totalBateria.innerHTML = `<p>Volume Total da Bateria</p><p>${totalValores}<span>m³</span></p>`;
   mediaBateria.innerHTML = `<p>Média de Ocupação</p><p>${mediaValores.toFixed(1)}<span>m³</span></p>`;
 
-  // const corBarra = valores.map((v) => {
-  //   if (v <= 20 || v >= 80) {
-  //     return "#E33333"; // Vermelho (Crítico: muito vazio ou muito cheio)
-  //   } else if (v <= 30 || v >= 70) {
-  //     return "#FF7E21"; // Laranja (Alerta: aproximando-se dos limites)
-  //   } else if(v >= 31 || v <= 69){
-  //     return "#FFEC31"; // Amarelo (Estável: entre 31% e 69%)
-  //   }
-  // });
+
 
   const Criticos = valores.map((v) => {
 
-    return v <= 20 || v >= 80 ? v : null;
-  })
-  const Estavel = valores.map((v) => {
-
-    return (v <= 30 || v >= 70) && v > 20 && v < 80 ? v : null;
+    return v <= 15 || v >= 85 ? v : null;
   })
   const Moderado = valores.map((v) => {
 
-    return (v >= 31 && v <= 69)  ? v : null;
+    return (v <= 25 || v >= 75) && v > 15 && v < 85 ? v : null;
+  })
+  const Estavel = valores.map((v) => {
+
+    return (v >= 26 && v <= 74)  ? v : null;
   })
 
 
