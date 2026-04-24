@@ -138,27 +138,46 @@
     totalBateria.innerHTML = `<p>Volume Total da Bateria</p><p>${totalValores}<span>m³</span></p>`;
     mediaBateria.innerHTML = `<p>Média de Ocupação</p><p>${mediaValores.toFixed(1)}<span>m³</span></p>`;
 
-    const corBarra = valores.map((v) => {
-        if (v <= 20 || v >= 80) {
-            return "#E33333"; // Vermelho (Crítico: muito vazio ou muito cheio)
-        } else if (v <= 30 || v >= 70) {
-            return "#FF7E21"; // Laranja (Alerta: aproximando-se dos limites)
-        } else {
-            return "#FFEC31"; // Amarelo (Estável: entre 31% e 69%)
-        }
-    });
+  const Criticos = valores.map((v) => {
+
+    return v <= 15 || v >= 85 ? v : null;
+  })
+  const Moderado = valores.map((v) => {
+
+    return (v <= 25 || v >= 75) && v > 15 && v < 85 ? v : null;
+  })
+  const Estavel = valores.map((v) => {
+
+    return (v >= 26 && v <= 74)  ? v : null;
+  })
 
     const data = {
         labels: labels,
         datasets: [
-            {
-                label: "Nível de Cada Silo",
-                backgroundColor: corBarra,
-                borderColor: corBarra,
-                data: valores,
-                barThickness: 50,
-                borderRadius: 5,
-            },
+      {
+        label: "Urgente",
+        backgroundColor: "rgb(255, 43, 86)",
+        borderColor: "rgb(255, 43, 86)",
+        data: Criticos,
+        barThickness: 50,
+        borderRadius: 5,
+      },
+      {
+        label: "Moderado",
+        backgroundColor: "rgb(255, 236, 49)" ,
+        borderColor: "rgb(255, 236, 49)",
+        data: Moderado,
+        barThickness: 50,
+        borderRadius: 5,
+      },
+      {
+        label: "Estável",
+        backgroundColor: "rgb(0, 230, 95)" ,
+        borderColor: "rgb(0, 230, 95)",
+        data: Estavel,
+        barThickness: 50,
+        borderRadius: 5,
+      },
         ],
     };
 
@@ -172,7 +191,12 @@
                 y: {
                     min: 0,
                     max: 100,
+                    stacked: true
                 },
+            x:{
+          stacked: true,
+          offset: true
+        }
             },
             plugins: {
                 title: {
@@ -195,8 +219,8 @@
         datasets: [
             {
                 label: "Nível de Preenchimento",
-                backgroundColor: "rgb(255, 0, 0)",
-                borderColor: "rgb(255, 0, 0)",
+                backgroundColor: "rgb(255, 43, 86)",
+                borderColor: "rgb(255, 43, 86)",
                 data: [22, 40, 35, 50, 20, 15, 30, 45, 60, 55, 70, 80],
                 tension: 0.3,
             },
