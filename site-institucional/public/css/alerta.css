@@ -75,6 +75,7 @@
   display: flex;
   flex-direction: row;
   color: white;
+  font-weight: 700;
   flex: 3;
   border-radius: 8px;
 
@@ -110,20 +111,11 @@
   display: inline-block;
 }
 
-.exclamacao_pequena {
-  font-size: 40px;
-  line-height: 1;
-}
-
 .exclamacao_media {
   font-size: 50px;
   line-height: 1;
 }
 
-.exclamacao_grande {
-  font-size: 60px;
-  line-height: 1;
-}
 
 .desc_card_alerta {
   width: 85%;
@@ -155,39 +147,27 @@
 }
 
 .cor_fundo_alerta_critico {
-  background-color: #e33333;
-}
-
-.cor_fundo_alerta_urgente {
-  background-color: #ff7e21;
+  background-color: rgb(222, 0, 44);
 }
 
 .cor_fundo_alerta_moderado {
-  background-color: #ff7e21;
+  background-color: rgb(255, 189, 22);
 }
 
 .cor_font_critico {
-  color: #e33333;
-}
-
-.cor_font_urgente {
-  color: #ff7e21;
+  color: rgb(222, 0, 44);
 }
 
 .cor_font_moderado {
-  color: #ff7e21;
+  color: rgb(255, 197, 22);
 }
 
 .cor_border_critico {
-  border-color: #e33333;
-}
-
-.cor_border_urgente {
-  border-color: #ff7e21;
+  border-color: rgb(222, 0, 44);
 }
 
 .cor_border_moderado {
-  border-color: #ff7e21;
+  border-color: rgb(255, 197, 22);
 }
 
 .div_fazenda {

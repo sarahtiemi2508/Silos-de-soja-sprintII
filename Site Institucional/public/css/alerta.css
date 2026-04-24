@@ -170,40 +170,40 @@
         }
 
         .cor_fundo_alerta_critico {
-            background-color: #E33333;
+            background-color: rgb(255, 43, 86);
         }
 
         .cor_fundo_alerta_urgente {
-            background-color: #FF7E21;
+            background-color: rgb(255, 236, 49);
         }
 
         .cor_fundo_alerta_moderado {
-            background-color: #ff7e21;
+            background-color: rgb(255, 236, 49);
         }
 
         .cor_font_critico{
-            color: #E33333;
+            color: rgb(255, 43, 86);
         }
 
         .cor_font_urgente{
-            color: #FF7E21;
+            color: rgb(255, 236, 49);
         }
 
         .cor_font_moderado{
-            color: #ff7e21;
+            color: rgb(255, 236, 49);
         }
 
         
         .cor_border_critico{
-            border-color: #E33333;
+            border-color: rgb(255, 43, 86);
         }
 
         .cor_border_urgente{
-            border-color: #FF7E21;
+            border-color: rgb(255, 236, 49);
         }
 
         .cor_border_moderado{
-            border-color: #ff7e21;
+            border-color: rgb(255, 236, 49);
         }
 
         .div_fazenda {

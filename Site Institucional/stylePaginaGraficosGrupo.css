@@ -111,13 +111,13 @@ body {
 #vermelhoMaior,
 #vermelhoMenor {
   width: 100%;
-  background-color: #e33333;
+  background-color: rgb(255, 43, 86);
   border-radius: 0;
   transition: height 0.5s ease;
 }
 
 .porcentagem {
-  color: #e33333;
+  color: rgb(255, 43, 86);
   font-weight: bold;
   font-size: 1.5rem;
   background: transparent !important;
