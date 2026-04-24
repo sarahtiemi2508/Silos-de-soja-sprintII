@@ -6,40 +6,40 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Login</title>
   <style>
-    * {
-      padding: 0%;
-      box-sizing: border-box;
-      margin: 0%;
-    }
 
+    *{
+    padding: 0%;
+    box-sizing: border-box;
+    margin: 0%;
+}
     body {
       font-family: Arial, Helvetica, sans-serif;
     }
 
-    .div_tela_inteira {
-      position: relative;
-      width: 100%;
-      min-height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      overflow: hidden;
+   .div_tela_inteira {
+  position: relative;
+  width: 100%;
+  min-height:100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  
 
+}
 
-    }
-
-    .div_tela_inteira::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background-image: url('../public/img/background_login.png');
-      background-position: center;
-      background-repeat: no-repeat;
-      background-size: cover;
-      filter: blur(5px);
-      z-index: -1;
-      transform: scale(1.1)
-    }
+.div_tela_inteira::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: url('../public/img/background_login.png');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  filter: blur(5px); 
+  z-index: -1;
+   transform: scale(1.1)
+}
 
     .card {
       margin-top: 60px;
@@ -76,7 +76,7 @@
       font-weight: bold;
       cursor: pointer;
       margin-top: 20px;
-
+    
     }
 
     .titulo {
@@ -103,36 +103,29 @@
       flex-direction: column;
       gap: 10px;
       margin-top: 60px;
-
+      
       font-size: 11px;
     }
 
     .links a {
       color: #f4b400;
       text-decoration: none;
-
-
-    }
-
-    .btn_link {
-      text-decoration: none;
-      color: black;
     }
   </style>
 </head>
 
 <body>
 
+      
+<div id="header-auth"></div>
 
-  <div id="header-auth"></div>
-
-  <script>
-    fetch("../includes/header-auth.html")
-      .then(resposta => resposta.text())
-      .then(dados => {
-        document.getElementById("header-auth").innerHTML = dados;
-      });
-  </script>
+<script>
+fetch("../includes/header-auth.html")
+  .then(resposta => resposta.text())
+  .then(dados => {
+    document.getElementById("header-auth").innerHTML = dados;
+  });
+</script>
 
 
   <div class="div_tela_inteira">
@@ -146,10 +139,9 @@
       </div>
       <div class="campo">
         <label>Senha: </label>
-        <input type="password" id="senha_inserida" class="input-login" />
+        <input type="password" id="senha_inserida" class="input-login" /> 
       </div>
-      <button class="botao-login" onclick="logar()"><b><a class="btn_link"
-            href="../dashboard/alerta.html">ENTRAR</a></b></button>
+      <button class="botao-login" onclick="logar()"><b>ENTRAR</b></button>
       <div class="links">
         <span>Esqueceu a senha? <b>acesse aqui</b></span>
         <span>Não tem cadastro? <b><a href="Cadastro_etapa1.html">CADASTRE-SE AQUI</a></b></span>
@@ -157,7 +149,48 @@
     </div>
   </div>
 </body>
+<script>
+  function logar() {
 
+    let email = email_inserido.value
+    let senha = senha_inserida.value
+
+    if (email == "" || senha == "") {
+      alert("Uma das informações necessárias está vazia. Verifique os campos.");
+      return;
+    }
+
+
+    let usuarios = [
+      { email: "fernandobrandao@gmail.com", senha: "pesquiseeinove" },
+      { email: "juliaararipe@gmail.com", senha: "pesquiseeinove" },
+      { email: "ceresADMS", senha: "admin" }
+    ];
+
+    let loginValido = false;
+
+
+    for (let i = 0; i < usuarios.length; i++) {
+
+      if (
+        email === usuarios[i].email &&
+        senha === usuarios[i].senha
+      ) {
+        loginValido = true;
+        break; // para o loop quando encontra
+      }
+
+    }
+
+
+    if (loginValido) {
+      alert("Login realizado com sucesso!");
+      window.location.href = "../dashboard-alerta.html";
+    } else {
+      alert("Email ou senha inválidos!");
+    }
+  }
+</script>
 
 </html>
 

@@ -6,21 +6,16 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Cadastro_etapa2</title>
 
-
-
   <style>
- * {
+    * {
       padding: 0%;
       box-sizing: border-box;
       margin: 0%;
     }
 
     body {
-
       font-family: Arial, Helvetica, sans-serif;
     }
-
-
 
     .div_tela_inteira {
       position: relative;
@@ -30,8 +25,6 @@
       justify-content: center;
       align-items: center;
       overflow: hidden;
-
-
     }
 
     .div_tela_inteira::before {
@@ -44,7 +37,7 @@
       background-size: cover;
       filter: blur(5px);
       z-index: -1;
-      transform: scale(1.1)
+      transform: scale(1.1);
     }
 
     .card {
@@ -52,54 +45,57 @@
       background-color: white;
       height: auto;
       width: 800px;
-      padding: 13px;
+      padding: 30px;
       display: flex;
-      justify-content: center;
-      align-items: center;
       flex-direction: column;
+      align-items: center;
       border-radius: 50px;
       box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
     }
 
+    .titulo {
+      color: #f4b400;
+      text-align: center;
+      font-size: 32px;
+      padding-bottom: 40px;
+      font-weight: 700;
+    }
 
+    /* 🔥 FORM CENTRAL NOVO */
+    .formulario {
+      width: 90%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .campo {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+    }
 
     .input-login {
-      width: 350px;
-      padding: 8px;
-      margin: 10px 0;
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
       border-radius: 20px;
       border: 1px solid #ccc;
       outline: none;
     }
 
     .botao-login {
-      width: 150;
-      padding: 8px;
+      width: 150px;
+      padding: 10px;
       background-color: #f4b400;
       color: black;
       border: none;
       border-radius: 20px;
       font-weight: bold;
       cursor: pointer;
-      margin-top: 20px;
-    }
-
-    .titulo {
-      color: #f4b400;
-      text-align: center;
-      align-self: center;
-      
-      justify-self: center;
-      font-size: 32px;
-      padding-bottom: 60px;
-      font-weight: 700;
-    }
-
-    .campo {
-      display: flex;
-      flex-direction: column;
-      align-items: start;
-      justify-content: space-between;
+      margin-top: 25px;
     }
 
     .links {
@@ -117,24 +113,6 @@
       text-decoration: none;
     }
 
-    .formulario {
-      display: flex;
-      flex-direction: row;
-      gap: 80px;
-    }
-
-    .coluna_esq {
-      align-items: start;
-    }
-
-    .column_dir {
-      align-items: end;
-    }
-
-      .btn_link {
-      text-decoration: none;
-      color: black;
-    }
   </style>
 </head>
 
@@ -142,64 +120,70 @@
 
   <div id="header-auth"></div>
 
-<script>
-fetch("../includes/header-auth.html")
-  .then(resposta => resposta.text())
-  .then(dados => {
-    document.getElementById("header-auth").innerHTML = dados;
-  });
-</script>
-
+  <script>
+    fetch("../includes/header-auth.html")
+      .then(resposta => resposta.text())
+      .then(dados => {
+        document.getElementById("header-auth").innerHTML = dados;
+      });
+  </script>
 
   <div class="div_tela_inteira">
+
     <div class="card">
+
       <div class="titulo">
-        <span><b>CADASTRO</b></span>
+        <b>CADASTRO</b>
       </div>
 
       <div class="formulario">
-        <div class="coluna_esq">
-          <div class="campo">
-            <label>Nome Fantasia: </label>
-            <input type="text" id="email_inserido" class="input-login" />
-          </div>
 
-          <div class="campo">
-            <label>CNPJ: </label>
-            <input type="text" id="senha_inserida" class="input-login" />
-          </div>
+        <div class="campo">
+          <label>Nome Fantasia:</label>
+          <input type="text" id="nome_fantasia_inserido" class="input-login" />
         </div>
 
-        <div class="coluna_dir">
-          <div class="campo">
-            <label>Razão Social: </label>
-            <input type="email" id="senha_inserida" class="input-login" />
-          </div>
-
-          <div class="campo">
-            <label>Data de Cadastro: </label>
-            <input type="date" id="senha_inserida" class="input-login" />
-          </div>
+        <div class="campo">
+          <label>CNPJ:</label>
+          <input type="text" id="cnpj_inserido" class="input-login" />
         </div>
+
+        <div class="campo">
+          <label>Razão Social:</label>
+          <input type="text" id="razao_social_inserida" class="input-login" />
+        </div>
+
       </div>
 
-      <button class="botao-login" onclick="logar()"><b><a class="btn_link" href="Login.html">CADASTRAR</a></b></button>
+      <button class="botao-login" onclick="logar()"><b>CADASTRAR</b></button>
+
       <div class="links">
         <span>Esqueceu a senha? <b>acesse aqui</b></span>
         <span>Já tem login? <b><a href="Login.html">FAÇA LOGIN</a></b></span>
       </div>
+
     </div>
+
   </div>
+
 </body>
-<script></script>
+
+<script>
+
+  function logar() {
+
+    let nm_fantasia = nome_fantasia_inserido.value
+    let rz_social = razao_social_inserida.value
+    let cnpj = cnpj_inserido.value
+
+    if (nm_fantasia == "" || rz_social == "" || cnpj == "") {
+      alert("Uma das informações necessárias para o cadastro está vazia. Verifique os campos e tente novamente");
+    }
+    else {
+      window.location.href = "../home.html"
+    }
+  }
+
+</script>
 
 </html>
-
-<!--
-
-padding - margem interior
-margin - margem exterior
-
-gap - distanciamento de diferentes conteudos dentro de uma mesma div
-
--->
