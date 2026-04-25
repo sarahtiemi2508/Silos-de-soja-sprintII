@@ -5,17 +5,98 @@
     <title>Graphics</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
+<style>
+/* API da fonte de títulos Inter */
+@import url('https://fonts.googleapis.com/css2?&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
 
+ * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+ }
+
+/* Root de variáveis para paleta de cores e fontes */
+:root {
+    --primary-yellow: #FFBA00;
+    --second-green: #00352A;
+    --paragrafo: 'Montserrat', sans-serif;
+    --titulo: 'Inter', sans-serif;
+} 
+
+ body {
+    background-color: black;
+    font-family: var(--titulo);
+    display: flex;
+    flex-direction: column;
+ }
+
+ .div-grafico {
+    display: flex;
+    justify-content: center;
+    align-self: center;
+    text-align: center;
+    background-color: white;
+    height: 70vh;
+    width: 90vw;
+    border-radius: 25px;
+ }
+
+ .grafico {
+    align-self: center;
+    width: 60%;
+    height: auto;
+ }
+
+ .titulo {
+    font-weight: 600;
+    align-self: center;
+    margin-bottom: 1%;
+    font-size: 25px;
+    margin-top: 7%;
+    color: white;
+ }
+
+ .teste {
+    border-color: #ff5067;
+ }
+
+.header{
+    background-color: rgb(0, 0, 0, 0.7);
+    position: fixed;
+    z-index: 10;
+    width: 100%;
+    height: 10vh;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    font-family: var(--titulo);
+    gap: 15px;
+}
+
+.header h3 {
+    color: var(--primary-yellow);
+    font-size: 28px;
+    text-transform: uppercase;
+}
+
+.header img {
+    width: 40px;
+    height: auto;
+}
+</style>
 <body>
+    <div class="header">
+        <h3>Dashboard</h3>
+        <img src="../../Site Institucional/public/img/logoCeres.png" alt="">
+    </div>
 
-    <h1>Graphics</h1>
-    <div style="display: flex;">
-        <div style="width: 70%;">
+    <h1 class="titulo">Gráfico de Nível do Silo</h1>
+    <div class="div-grafico">
+        <div class="grafico">
             <canvas id="sensorAnalogico"></canvas>
         </div>
-        <!-- <div style="width: 50%;">
-            <canvas id="sensorDigital"></canvas>
-        </div> -->
     </div>
 
     <script>
@@ -23,9 +104,9 @@
             type: 'line',
             data: {
                 datasets: [{
-                    label: 'Ultrassonico',
-                    borderColor: '#63B1BC',
-                    backgroundColor: '#ED145B'
+                    label: 'Nível de Preenchimento',
+                    borderColor: '#cf041f',
+                    backgroundColor: '#ff5067'
                 }]
             },
             options: {
@@ -43,31 +124,6 @@
                 },
             }
         });
-
-        // var sensorDigital = new Chart(document.getElementById('sensorDigital').getContext('2d'), {
-        //     type: 'line',
-        //     data: {
-        //         datasets: [{
-        //             label: 'Digital',
-        //             borderColor: '#63B1BC',
-        //             backgroundColor: '#0762C8'
-        //         }]
-        //     },
-        //     options: {
-        //         scales: {
-        //             x: {
-        //                 beginAtZero: true
-        //             },
-        //             y: {
-        //                 title: {
-        //                     display: true,
-        //                     text: '(0-1)'
-        //                 },
-        //                 beginAtZero: true
-        //             }
-        //         }
-        //     }
-        // });
 
         var paginacao = {};
         var tempo = {};
@@ -103,7 +159,6 @@
 
         setInterval(() => {
             obterDados(sensorAnalogico, 'analogico');
-            // obterDados(sensorDigital, 'digital');
         }, 1000);
 
     </script>

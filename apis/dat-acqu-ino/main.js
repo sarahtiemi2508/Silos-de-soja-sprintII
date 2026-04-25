@@ -67,7 +67,7 @@ const serial = async (
             );
             console.log("Sensor centro inserido no banco: ", sensorUltrassonico);
 
-            let simular_distancia = sensorUltrassonico - 10;
+            let simular_distancia = sensorUltrassonico - 8;
             await poolBancoDados.execute(
                 'INSERT INTO historico_sensor (distancia_captada, fk_sensor) VALUES (?, 1)',
                 [simular_distancia]
