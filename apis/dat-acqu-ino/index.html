@@ -32,6 +32,7 @@
 
  .div-grafico {
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-self: center;
     text-align: center;
@@ -39,21 +40,29 @@
     height: 70vh;
     width: 90vw;
     border-radius: 25px;
+    gap: 10px;
  }
 
  .grafico {
     align-self: center;
-    width: 60%;
+    width: 55%;
     height: auto;
  }
 
  .titulo {
-    font-weight: 600;
-    align-self: center;
-    margin-bottom: 1%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    margin: 6% 0px 3% 0px;
+    gap: 20px;
+ }
+
+ .h-titulo {
+    font-weight: 700;
     font-size: 25px;
-    margin-top: 7%;
     color: white;
+    text-transform: uppercase;
  }
 
  .teste {
@@ -68,32 +77,53 @@
     height: 10vh;
     display: flex;
     flex-direction: row;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
     text-align: center;
     font-family: var(--titulo);
     gap: 15px;
+    padding: 0px 3%;
 }
 
 .header h3 {
     color: var(--primary-yellow);
-    font-size: 28px;
+    font-size: 20px;
     text-transform: uppercase;
 }
 
-.header img {
-    width: 40px;
+.header div img {
+    width: 50px;
     height: auto;
+}
+
+.header div {
+    display: flex;
+    width: 30vw;
+}
+
+.header .esq {
+    justify-self: flex-start;
+}
+
+.header .dir {
+    justify-self: flex-end;
 }
 </style>
 <body>
     <div class="header">
+        <div class="esq">
+            <img src="../../Site Institucional/public/img/logoCeres.png" alt="">
+        </div>
         <h3>Dashboard</h3>
-        <img src="../../Site Institucional/public/img/logoCeres.png" alt="">
+        <div class="dir"></div>
     </div>
 
-    <h1 class="titulo">Gráfico de Nível do Silo</h1>
+    <div class="titulo">
+        <img src="../../Site Institucional/dashboard/img/siloicon.svg" alt="icone de silo" style="width: 22px;">
+        <h1 class="h-titulo">Situação Do Silo</h1>
+    </div>
     <div class="div-grafico">
+        <h3 style="align-self: center;">Gráfico de Nível do Silo</h3>
         <div class="grafico">
             <canvas id="sensorAnalogico"></canvas>
         </div>
