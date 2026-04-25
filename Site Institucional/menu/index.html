@@ -17,28 +17,28 @@
 
     <div class="overlay" id="overlay" onclick="toggleMenu()"></div>
 
-    <aside class="sidebar" id="sidebar">
+    <div class="sidebar" id="sidebar">
       <div class="logo-area">
         <img src="img/logo-crop.png" alt="Logo Ceres" class="logo" />
         <h2>MENU</h2>
       </div>
 
-      <nav class="menu-links">
+      <div class="menu-links">
         <a href="../dashboard/alerta.html" class="menu-item">
           <img src="img/alerta.png" alt="Alertas" class="icon" />
           <span>ALERTAS</span>
         </a>
 
-        <a href="#" class="menu-item">
-          <img src="img/fazenda.png" alt="Fazendas" class="icon" />
-          <span>FAZENDAS</span>
+        <a href="../dashboard/paginaGraficoIndividual.html" class="menu-item">
+          <img src="img/individual.png" alt="Individual" class="icon" />
+          <span>INDIVIDUAL</span>
         </a>
 
         <a href="../paginaGraficosGrupo.html" class="menu-item">
-          <img src="img/fazenda.png" alt="Fazendas" class="icon" />
-          <span>DASHBOARD</span>
+          <img src="img/bateria.png" alt="Bateria" class="icon" />
+          <span>BATERIA</span>
         </a>
-      </nav>
+      </div>
 
       <div class="bottom-link">
         <a href="#" class="menu-item">
@@ -46,8 +46,27 @@
           <span>CONFIGURAÇÕES</span>
         </a>
       </div>
-    </aside>
+    </div>
 
-    <script src="script.js"></script>
+    <script>
+      let menuAberto = false;
+
+      function toggleMenu() {
+        let sidebar = document.getElementById("sidebar");
+        let overlay = document.getElementById("overlay");
+
+        if (menuAberto == false) {
+          sidebar.style.left = "0";
+          overlay.style.opacity = "1";
+          overlay.style.visibility = "visible";
+          menuAberto = true;
+        } else {
+          sidebar.style.left = "-320px";
+          overlay.style.opacity = "0";
+          overlay.style.visibility = "hidden";
+          menuAberto = false;
+        }
+      }
+    </script>
   </body>
 </html>
