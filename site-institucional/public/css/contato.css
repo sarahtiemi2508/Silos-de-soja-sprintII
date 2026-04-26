@@ -1,127 +1,125 @@
-
 * {
-    box-sizing: border-box;
-    padding: 0;
-    margin: 0;
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
 }
 
-#pagina{
-    font-family: 'Inter', sans-serif; 
-    background-image:linear-gradient(rgba(0,0,0,0.5),rgba(0,0,0,0.5)), url('../assets/imgs/imgFundo.svg') ; 
-    background-size: cover;
-    background-color: black;
-
-    
+#pagina {
+  font-family: "Inter", sans-serif;
+  background-image:
+    linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+    url("../assets/imgs/imgFundo.svg");
+  background-size: cover;
+  background-color: black;
 }
 
-.box1{
-    border: solid 1px color#FFBA00;
-    border-radius: 38px;
-    background-color: #FFBA00;
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-    width: 390px;
-    height: 280px;
+.box1 {
+  border: solid 1px color#FFBA00;
+  border-radius: 35px;
+  background-color: #ffba00;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  width: 25vw;
+  height: 35vh;
 }
-#botaoZap{
-border: none;
-border-radius: 30px;
-background-color: #00352A;
-color: #FFBA00;
-width: 200px;
-height: 35px;
-padding: 0px;
-}
-
-#imgZap_botao{
-    display: flex;
-    align-items: row;
-    padding: 20px;
+#botaoZap {
+  border: none;
+  border-radius: 30px;
+  background-color: #00352a;
+  color: #ffba00;
+  width: 250px;
+  height: 40px;
+  font-size: 18px;
+  font-weight: bold;
 }
 
-#botaoEmail{
-border: none;
-border-radius: 30px;
-background-color: #FFBA00;
-color: black;
-width: 250px;
-height: 35px;
-display: flex;
-align-items: center;
-flex-direction: row;
-justify-content: center;
-gap: 8px;
+#imgZap_botao {
+  display: flex;
+  align-items: row;
+  height: 40px;
 }
 
-#botaoTelefone{
-border: none;
-border-radius: 30px;
-background-color: #FFBA00;
-color: black;
-width: 190px;
-height: 35px;
-margin: 0px;
-display: flex;
-align-items: center;
-flex-direction: row;
-justify-content: center;
-gap: 8px;
-
+#botaoEmail {
+  border: none;
+  border-radius: 30px;
+  background-color: #ffba00;
+  color:#00352A;
+  font-size: 18px;
+  font-weight: bold;
+  width: 350px;
+  height: 40px;
+  margin-top: 10px;
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  justify-content: center;
+  gap: 8px;
 }
 
-#imgTelefone{
-    margin: 5px;
-    
+#botaoTelefone {
+  border: none;
+  border-radius: 30px;
+  background-color: #ffba00;
+  color:#00352A;
+  font-size: 18px;
+  font-weight: bold;
+  width: 350px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  justify-content: center;
+  gap: 8px;
 }
 
-.box2{
-    border: solid 1px color#00352A;
-    border-radius: 40px;
-    background-color: #00352A;
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-    width: 390px;
-    height: 280px;
+.box2 {
+  border: solid 1px color#00352A;
+  border-radius: 40px;
+  background-color: #00352a;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  width: 25vw;
+  height: 35vh;
 }
 
-#titulo1{
-color: #00352A;
-margin-top: 30px;
-font-size: x-large;
-font-weight: 900;
+#titulo1 {
+  color: #00352a;
+  margin: 10px;
+  font-size: x-large;
+  font-weight: 900;
 }
 
-#titulo2{
-color: #FFBA00;
-margin-top: 30px ;
-width: 290px;
-margin-bottom: 0px;
-font-weight: 900;
+#titulo2 {
+  color: #ffba00;
+  margin: 10px;
+  font-size: x-large;
+  font-weight: 900;
 }
 
-#p1{
-    color: black;
-    width: 295px ;
-    padding-bottom: 0px ;
-    font-size: medium;
+#p1 {
+  color: black;
+  text-align: left;
+  width: 350px;
+  font-size: 18px;
+  margin-bottom: 10px;
 }
-#p2{
-    color: white;
-    width: 320px;
-    font-size: medium;
-}
-
-
-
-.boxes{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: row;
-    border: 0px solid ;
-    height: 100vb;
-    gap: 120px;
+#p2 {
+  color: white;
+  text-align: left;
+  width: 350px;
+  font-size: 18px;
+  margin-bottom: 10px;
 }
 
+.boxes {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+  height: 100vb;
+  gap: 120px;
+}

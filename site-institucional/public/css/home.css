@@ -26,6 +26,7 @@ body {
     overflow-x: hidden;
 }
 
+
 .container {
     display: flex;
     flex-direction: column;
@@ -34,7 +35,7 @@ body {
     background-color: white;
     font-family: var(--paragrafo);
     width: 100%;
-    gap: 200px;
+    gap: 160px;
 }
 
 /* --- Style dos títulos --- */
@@ -388,7 +389,7 @@ body {
     flex-direction: column;
     justify-content: flex-start;
     align-items: center;
-    height: 145vh;
+    height: 110vh;
     background-image: url(../assets/imgs/home-background-pontos.svg);
     background-position: bottom;
     background-repeat: no-repeat;
