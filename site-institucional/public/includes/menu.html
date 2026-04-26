@@ -3,9 +3,10 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    
+
     <title>Menu Hambúrguer</title>
-    <link rel="stylesheet" href="/site-institucional/public/css/menu.css" />
+
+    <link rel="stylesheet" href="../css/menu.css" />
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -20,37 +21,56 @@
 
     <div class="overlay" id="overlay" onclick="toggleMenu()"></div>
 
-    <aside class="sidebar" id="sidebar">
+    <div class="sidebar" id="sidebar">
       <div class="logo-area">
-        <img src="/site-institucional/public/img/logo-crop.png" alt="Logo Ceres" class="logo" />
+        <img src="../assets/imgs/logo-crop.png" alt="Logo Ceres" class="logo" />
         <h2>MENU</h2>
       </div>
 
-      <nav class="menu-links">
-        <a href="/site-institucional/dashboards/alerta.html" class="menu-item">
-          <img src="/site-institucional/public/img/alerta.png" alt="Alertas" class="icon" />
+      <div class="menu-links">
+        <a href="../dashboard/alerta.html" class="menu-item">
+          <img src="../assets/imgs/alerta.png" alt="Alertas" class="icon" />
           <span>ALERTAS</span>
         </a>
 
-        <a href="#" class="menu-item">
-          <img src="/site-institucional/public/img/fazenda.png" alt="Fazendas" class="icon" />
-          <span>FAZENDAS</span>
+        <a href="../dashboard/dashboard-individual-mocado.html" class="menu-item">
+          <img src="../assets/imgs/individual.png" alt="Individual" class="icon" />
+          <span>INDIVIDUAL</span>
         </a>
 
-        <a href="/site-institucional/dashboards/dashboard-bateria.html" class="menu-item">
-          <img src="/site-institucional/public/img/fazenda.png" alt="Fazendas" class="icon" />
-          <span>DASHBOARD</span>
+        <a href="../dashboard/dashboard-bateria.html" class="menu-item">
+          <img src="../assets/imgs/bateria.png" alt="Bateria" class="icon" />
+          <span>BATERIA</span>
         </a>
-      </nav>
+      </div>
 
       <div class="bottom-link">
         <a href="#" class="menu-item">
-          <img src="/site-institucional/public/img/config.png" alt="Configurações" class="icon" />
+          <img src="../assets/imgs/config.png" alt="Configurações" class="icon" />
           <span>CONFIGURAÇÕES</span>
         </a>
       </div>
-    </aside>
+    </div>
 
-    <script src="/site-institucional/public/js/menu.js"></script>
+    <script>
+      let menuAberto = false;
+
+      function toggleMenu() {
+        let sidebar = document.getElementById("sidebar");
+        let overlay = document.getElementById("overlay");
+
+        if (menuAberto == false) {
+          sidebar.style.left = "0";
+          overlay.style.opacity = "1";
+          overlay.style.visibility = "visible";
+          menuAberto = true;
+        } else {
+          sidebar.style.left = "-320px";
+          overlay.style.opacity = "0";
+          overlay.style.visibility = "hidden";
+          menuAberto = false;
+        }
+      }
+    </script>
   </body>
 </html>
