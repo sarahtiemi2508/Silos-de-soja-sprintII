@@ -9,16 +9,21 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <!-- Icons -->
-    <link rel="shortcut icon" href="/site-institucional/public/img/favicon-dark.ico"
-        media="(prefers-color-scheme: dark)">
-    <link rel="shortcut icon" href="/site-institucional/public/img/favicon-light.ico"
-        media="(prefers-color-scheme: light)">
+    <link rel="shortcut icon" href="../assets/icon/favicon-dark.ico" media="(prefers-color-scheme: dark)">
+    <link rel="shortcut icon" href="../assets/icon/favicon-light.ico" media="(prefers-color-scheme: light)">
 
     <!-- CSS -->
-    <link rel="stylesheet" href="/site-institucional/public/css/dashboard-bateria.css">
-    <link rel="stylesheet" href="/site-institucional/public/css/home.css">
+    <link rel="stylesheet" href="../css/dashboard-bateria.css">
+    <link rel="stylesheet" href="../css/menu.css">
 
-    <script src="/site-institucional/public/js/menu.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"
+        rel="stylesheet" />
+
+    <script src="../js/menu.js"></script>
 
     <title>Dashboard</title>
 </head>
@@ -27,17 +32,18 @@
 
     <div id="menu_hamburger"></div>
     <script>
-        fetch("/site-institucional/includes/menu/menu.html")
+        fetch("../includes/menu.html")
             .then(resposta => resposta.text())
             .then(dados => {
                 document.getElementById("menu_hamburger").innerHTML = dados;
             });
     </script>
 
+
     <div id="header"></div>
     <div id="parte1">
         <div id="titulo">
-            <img src="/site-institucional/public/img/imagemtitulo.svg" alt="imagemTitulo" width="50px" />
+            <img src="../assets/imgs/imagemtitulo.svg" alt="imagemTitulo" width="50px" />
             <h2 id="tituloTelaGraficosBateria">SITUAÇÃO DA BATERIA</h2>
         </div>
         <div id="informacoesP1">
@@ -138,24 +144,50 @@
     totalBateria.innerHTML = `<p>Volume Total da Bateria</p><p>${totalValores}<span>m³</span></p>`;
     mediaBateria.innerHTML = `<p>Média de Ocupação</p><p>${mediaValores.toFixed(1)}<span>m³</span></p>`;
 
-    const corBarra = valores.map((v) => {
-        if (v <= 20 || v >= 80) {
-            return "#E33333"; // Vermelho (Crítico: muito vazio ou muito cheio)
-        } else if (v <= 30 || v >= 70) {
-            return "#FF7E21"; // Laranja (Alerta: aproximando-se dos limites)
-        } else {
-            return "#FFEC31"; // Amarelo (Estável: entre 31% e 69%)
-        }
-    });
+
+
+    const Criticos = valores.map((v) => {
+
+        return v <= 15 || v >= 85 ? v : null;
+    })
+    const Moderado = valores.map((v) => {
+
+        return (v <= 25 || v >= 75) && v > 15 && v < 85 ? v : null;
+    })
+    const Estavel = valores.map((v) => {
+
+        return (v >= 26 && v <= 74) ? v : null;
+    })
+
+
+
+    console.log(valores)
+    console.log(Criticos)
 
     const data = {
         labels: labels,
         datasets: [
             {
-                label: "Nível de Cada Silo",
-                backgroundColor: corBarra,
-                borderColor: corBarra,
-                data: valores,
+                label: "Crítico",
+                backgroundColor: "rgb(227, 51, 51)",
+                borderColor: "rgb(227, 51, 51)",
+                data: Criticos,
+                barThickness: 50,
+                borderRadius: 5,
+            },
+            {
+                label: "Moderado",
+                backgroundColor: "rgb(255, 126, 33)",
+                borderColor: "rgb(255, 126, 33)",
+                data: Moderado,
+                barThickness: 50,
+                borderRadius: 5,
+            },
+            {
+                label: "Estável",
+                backgroundColor: "rgb(255, 236, 49)",
+                borderColor: "rgb(255, 236, 49)",
+                data: Estavel,
                 barThickness: 50,
                 borderRadius: 5,
             },
@@ -172,7 +204,14 @@
                 y: {
                     min: 0,
                     max: 100,
+                    stacked: true
+
                 },
+                x: {
+                    stacked: true,
+                    offset: true
+                }
+
             },
             plugins: {
                 title: {
