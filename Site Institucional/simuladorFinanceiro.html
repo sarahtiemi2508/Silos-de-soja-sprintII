@@ -1,147 +1,243 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link
-      rel="shortcut icon"
-      href="public/img/favicon-dark.ico"
-      media="(prefers-color-scheme: dark)"
-    />
-    <link
-      rel="shortcut icon"
-      href="public/img/favicon-light.ico"
-      media="(prefers-color-scheme: light)"
-    />
-    <title>Simulador Financeiro</title>
-    <link rel="stylesheet" href="public/css/calculadora-financeira.css" />
-  </head>
-  <body>
-    <div id="header-simulador"></div>
-    
-    <script>
-      fetch("../Site Institucional/includes/header-simulador.html")
-        .then((resposta) => resposta.text())
-        .then((dados) => {
-          document.getElementById("header-simulador").innerHTML = dados;
-        });
-    </script>
 
-    <div class="container-financeiro">
-      <div class="circulo-fundo1"></div>
-      <div class="circulo-fundo2"></div>
-      <div class="circulo-fundo3"></div>
-      <div id="id_gap_form" class="form-simulador-financeiro font-geral">
-        <p id="subtitulo">Simulação Financeira</p>
-        <h1 id="titulo_principal">
-          Simule como os dados poderiam ser acessíveis e de facil visualização
-        </h1>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="shortcut icon" href="public/img/favicon-dark.ico" media="(prefers-color-scheme: dark)" />
+  <link rel="shortcut icon" href="public/img/favicon-light.ico" media="(prefers-color-scheme: light)" />
+  <title>Simulador Financeiro</title>
+  <link rel="stylesheet" href="public/css/calculadora-financeira.css" />
+</head>
 
-        <div id="div_geral" class="ipt-simulador-financeiro">
-          <input
-            type="text"
-            id="altura_silo"
-            placeholder="Altura do silo (m):"
-          />
-          <input type="text" id="raio_silo" placeholder="Raio do silo (m):" />
-          <input
-            type="text"
-            id="quantidade_silo"
-            placeholder="Quantidade de silos na bateria:"
-          />
-          <input
-            type="text"
-            id="preco_saca_soja"
-            placeholder="Preço da saca (R$):"
-          />
-          <input
-            type="text"
-            id="volume_medio"
-            placeholder="Volume médio de ocupação por silo (%):"
-          />
-        </div>
-        <button id="botao_geral" onclick="calcular()">CALCULAR</button>
-      </div>
-    </div>
-  </body>
+<body>
+  <div id="header-simulador"></div>
+
   <script>
-    function calcular() {
-      let altura_s = Number(altura_silo.value);
-      let raio_s = Number(raio_silo.value);
-      let qtd_s = Number(quantidade_silo.value);
-      let preco_saca = Number(preco_saca_soja.value);
-      let volume_m = Number(volume_medio.value);
-
-      if (
-        altura_s <= 0 ||
-        raio_s <= 0 ||
-        qtd_s <= 0 ||
-        preco_saca <= 0 ||
-        volume_m < 0
-      ) {
-        alert("Preencha todos os campos com valores válidos!");
-        return;
-      }
-
-      // volume (m³)
-      let volume_silo = Math.PI * (raio_s * raio_s) * altura_s;
-      let volume_bateria = volume_silo * qtd_s;
-
-      // conversão para kg
-      let volume_total_k = volume_bateria * 750;
-
-      // limites
-      let min_k = volume_total_k * 0.15;
-      let max_k = volume_total_k * 0.85;
-
-      // ocupação atual
-      let volume_ocupado = volume_total_k * (volume_m / 100);
-
-      // recomendações (sem negativo)
-      let volume_vender = Math.max(0, volume_ocupado - max_k);
-      let volume_encher = Math.max(0, min_k - volume_ocupado);
-
-      // financeiro
-      let sacas = volume_ocupado / 60;
-      let valor_total = sacas * preco_saca;
-
-      let status = ``;
-
-      if (volume_ocupado > max_k) {
-        status = `🔴 EXCESSO DE ESTOQUE`;
-      } else if (volume_ocupado < min_k) {
-        status = `🟡 ESTOQUE BAIXO`;
-      } else {
-        status = `🟢 ESTOQUE NORMAL`;
-      }
-
-      id_gap_form.style.gap = '15%';
-      document.getElementById('titulo_principal').remove();
-      document.getElementById('subtitulo').remove();
-      div_geral.innerHTML = `
-      <div class='container-mensagem'>
-        <div class='mensagem'>
-          <div>
-            <b>RELATÓRIO DO SILO</b><br><br>
-
-            ▷ Capacidade total da bateria: ${volume_total_k.toFixed(2)} Kg <br>
-            ▷ Ocupação atual: ${((volume_ocupado / volume_total_k) * 100).toFixed(1)}%<br>
-            ▷ Estoque atual: ${volume_ocupado.toFixed(2)} Kg<br>
-            ▷ Equivalente em sacas: ${sacas.toFixed(0)} sacas<br>
-            ▷ Valor estimado: R$ ${valor_total.toFixed(2)}<br><br>
-          </div>
-          <div>
-            <b>RECOMENDAÇÕES:</b><br><br>
-            ✔ Deve vender até ${volume_vender.toFixed(2)} Kg<br>
-            ✔ Deve armazenar mais ${volume_encher.toFixed(2)} Kg<br>
-
-            ▷ Limite mínimo: ${min_k.toFixed(2)} Kg<br>
-            ▷ Limite máximo: ${max_k.toFixed(2)} Kg
-          </div>
-        </div>
-        STATUS: ${status}<br><br>
-        <i>Coletando dados, organizando informações, e disponibilizando conhecimento. venha ser um cliente Ceres!</i>
-      </div>`;
-    }
+    fetch("../Site Institucional/includes/header-simulador.html")
+      .then((resposta) => resposta.text())
+      .then((dados) => {
+        document.getElementById("header-simulador").innerHTML = dados;
+      });
   </script>
+
+  <div class="container-financeiro">
+    <div class="circulo-fundo1"></div>
+    <div class="circulo-fundo2"></div>
+    <div class="circulo-fundo3"></div>
+    <div id="id_gap_form" class="form-simulador-financeiro font-geral">
+      <p id="subtitulo">Simulação Financeira</p>
+      <h1 id="titulo_principal">
+        Simule como os dados poderiam ser acessíveis e de facil visualização
+      </h1>
+
+      <div id="div_geral" class="ipt-simulador-financeiro">
+        <input type="text" id="altura_silo" placeholder="Altura do silo (m):" />
+        <input type="text" id="raio_silo" placeholder="Raio do silo (m):" />
+        <input type="text" id="quantidade_silo" placeholder="Quantidade de silos na bateria:" />
+        <input type="text" id="preco_saca_soja" placeholder="Preço da saca (R$):" />
+        <input type="text" id="volume_medio" placeholder="Quantidade armazenadas (Toneladas):" />
+      </div>
+      <button id="botao_geral" onclick="calcular(this)">CALCULAR</button>
+    </div>
+  </div>
+</body>
+<script>
+  function calcular(botao) {
+    for (let i = 0; i < altura_silo.value.length; i++) {
+      if (isNaN(altura_silo.value[i])) {
+        alert(
+          "Por favor para métricas de simulação utilize apenas numeros inteiros",
+        );
+        altura_silo.value = "";
+        return;
+        break;
+      }
+    }
+
+    for (let i = 0; i < raio_silo.value.length; i++) {
+      if (isNaN(raio_silo.value[i])) {
+        alert(
+          "Por favor para métricas de simulação utilize apenas numeros inteiros",
+        );
+        raio_silo.value = "";
+        return;
+        break;
+      }
+    }
+
+    for (let i = 0; i < quantidade_silo.value.length; i++) {
+      if (isNaN(quantidade_silo.value[i])) {
+        alert(
+          "Por favor para métricas de simulação utilize apenas numeros inteiros e nenhum outro caracter",
+        );
+        quantidade_silo.value = "";
+        return;
+        break;
+      }
+    }
+
+    for (let i = 0; i < preco_saca_soja.value.length; i++) {
+      if (isNaN(preco_saca_soja.value[i])) {
+        alert(
+          "Por favor para métricas de simulação utilize apenas numeros inteiros",
+        );
+        preco_saca_soja.value = "";
+        return;
+        break;
+      }
+    }
+
+    for (let i = 0; i < volume_medio.value.length; i++) {
+      if (isNaN(volume_medio.value[i])) {
+        alert(
+          "Por favor para métricas de simulação utilize apenas numeros inteiros",
+        );
+        volume_medio.value = "";
+        return;
+        break;
+      }
+    }
+
+    let altura_s = Number(altura_silo.value);
+    let raio_s = Number(raio_silo.value);
+    let qtd_s = Number(quantidade_silo.value);
+    let preco_saca = Number(preco_saca_soja.value);
+    let volume_m = Number(volume_medio.value);
+
+    if (
+      altura_s <= 0 ||
+      raio_s <= 0 ||
+      qtd_s <= 0 ||
+      preco_saca <= 0 ||
+      volume_m < 0
+    ) {
+      alert("Preencha todos os campos com valores válidos! (Use números inteiros para estimativa correta e precisa)");
+      return;
+    }
+
+    // volume (m³)
+    let volume_silo = Math.PI * (raio_s * raio_s) * altura_s;
+    let volume_bateria = volume_silo * qtd_s;
+
+    // conversão para kg
+    let volume_total_k = volume_bateria * 750;
+    let volume_total_t = volume_total_k / 1000;
+
+    // limites
+    let min_t = volume_total_t * 0.15;
+    let max_t = volume_total_t * 0.85;
+
+    // ocupação atual
+    let volume_ocupado = volume_total_t * (volume_m / 100);
+
+    // recomendações (sem negativo)
+    let volume_vender = Math.max(0, volume_ocupado - max_t);
+    let volume_encher = Math.max(0, min_t - volume_ocupado);
+
+    // financeiro
+    let sacas = (volume_ocupado * 1000) / 60;
+    let valor_total = sacas * preco_saca;
+    let valor_total_formatado = valor_total.toLocaleString('pt-BR',
+      {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2
+      }
+    )
+
+    let status = ``;
+
+    if (volume_ocupado > max_t) {
+      status = `🔴 EXCESSO DE ESTOQUE`;
+    } else if (volume_ocupado < min_t) {
+      status = `🟡 ESTOQUE BAIXO`;
+    } else {
+      status = `🟢 ESTOQUE NORMAL`;
+    }
+
+    id_gap_form.style.gap = '15%';
+    document.getElementById('titulo_principal').remove();
+    document.getElementById('subtitulo').remove();
+
+    if (volume_ocupado < min_t) {
+      div_geral.innerHTML = `
+        <div class='container-mensagem'>
+          <div class='mensagem'>
+            <div>
+              <b>RELATÓRIO DO SILO</b><br><br>
+  
+              ▷ Capacidade total da bateria: ${volume_total_t.toFixed(2)} Ton<br>
+              ▷ Ocupação atual: ${((volume_ocupado / volume_total_t) * 100).toFixed(1)}%<br>
+              ▷ Estoque atual: ${volume_ocupado.toFixed(2)} Ton<br>
+              ▷ Equivalente em sacas: ${sacas.toFixed(0)} sacas<br>
+              ▷ Valor estimado: R$ ${valor_total_formatado}<br><br>
+            </div>
+            <div>
+              <b>RECOMENDAÇÕES:</b><br><br>
+              ✔ Pode armazenar mais ${volume_encher.toFixed(2)} Ton<br>
+  
+              ▷ Limite mínimo: ${min_t.toFixed(2)} Ton<br>
+              ▷ Limite máximo: ${max_t.toFixed(2)} Ton
+            </div>
+          </div>
+          STATUS: ${status}<br><br>
+          <i>Coletando dados, organizando informações, e disponibilizando conhecimento. venha ser um cliente Ceres!</i>
+        </div>`;
+    } else if (volume_ocupado > max_t) {
+      div_geral.innerHTML = `
+        <div class='container-mensagem'>
+          <div class='mensagem'>
+            <div>
+              <b>RELATÓRIO DO SILO</b><br><br>
+  
+              ▷ Capacidade total da bateria: ${volume_total_t.toFixed(2)} Ton<br>
+              ▷ Ocupação atual: ${((volume_ocupado / volume_total_t) * 100).toFixed(1)}%<br>
+              ▷ Estoque atual: ${volume_ocupado.toFixed(2)} Ton<br>
+              ▷ Equivalente em sacas: ${sacas.toFixed(0)} sacas<br>
+              ▷ Valor estimado: R$ ${valor_total_formatado}<br><br>
+            </div>
+            <div>
+              <b>RECOMENDAÇÕES:</b><br><br>
+              ✔ Precisa liberar ${volume_vender.toFixed(2)} Ton<br>
+  
+              ▷ Limite mínimo: ${min_t.toFixed(2)} Ton<br>
+              ▷ Limite máximo: ${max_t.toFixed(2)} Ton
+            </div>
+          </div>
+          STATUS: ${status}<br><br>
+          <i>Coletando dados, organizando informações, e disponibilizando conhecimento. venha ser um cliente Ceres!</i>
+        </div>`;
+    } else {
+      div_geral.innerHTML = `
+        <div class='container-mensagem'>
+          <div class='mensagem'>
+            <div>
+              <b>RELATÓRIO DO SILO</b><br><br>
+  
+              ▷ Capacidade total da bateria: ${volume_total_t.toFixed(2)} Ton<br>
+              ▷ Ocupação atual: ${((volume_ocupado / volume_total_t) * 100).toFixed(1)}%<br>
+              ▷ Estoque atual: ${volume_ocupado.toFixed(2)} Ton<br>
+              ▷ Equivalente em sacas: ${sacas.toFixed(0)} sacas<br>
+              ▷ Valor estimado: R$ ${valor_total_formatado}<br><br>
+            </div>
+            <div>
+              <b>RECOMENDAÇÕES:</b><br><br>
+              ▷ Limite mínimo: ${min_t.toFixed(2)} Ton<br>
+              ▷ Limite máximo: ${max_t.toFixed(2)} Ton
+            </div>
+          </div>
+          STATUS: ${status}<br><br>
+          <i>Coletando dados, organizando informações, e disponibilizando conhecimento. venha ser um cliente Ceres!</i>
+        </div>`;
+    }
+
+    botao.innerText = "RECALCULAR"
+    botao.onclick = recalcular
+  }
+
+  function recalcular() {
+    location.reload() // volta a pagina
+  }
+</script>
+
 </html>
