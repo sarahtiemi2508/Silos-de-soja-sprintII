@@ -9,15 +9,21 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <!-- Icons -->
-    <link rel="shortcut icon" href="/site-institucional/public/img/favicon-dark.ico"
-        media="(prefers-color-scheme: dark)">
-    <link rel="shortcut icon" href="/site-institucional/public/img/favicon-light.ico"
-        media="(prefers-color-scheme: light)">
+    <link rel="shortcut icon" href="../assets/icon/favicon-dark.ico" media="(prefers-color-scheme: dark)">
+    <link rel="shortcut icon" href="../assets/icon/favicon-light.ico" media="(prefers-color-scheme: light)">
 
     <!-- CSS -->
-    <link rel="stylesheet" href="/site-institucional/public/css/dashboard-individual.css">
-    
-    <script src="/site-institucional/public/js/menu.js"></script>
+    <link rel="stylesheet" href="../css/dashboard-individual.css">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"
+        rel="stylesheet" />
+
+    <script src="../js/menu.js"></script>
+
 
     <title>Dashboard</title>
 </head>
@@ -25,7 +31,7 @@
 <body>
     <div id="menu_hamburger"></div>
     <script>
-        fetch("/site-institucional/includes/menu/menu.html")
+        fetch("../includes/menu.html")
             .then(resposta => resposta.text())
             .then(dados => {
                 document.getElementById("menu_hamburger").innerHTML = dados;
@@ -33,7 +39,7 @@
     </script>
 
     <div class="titulo-pag">
-        <img src="/site-institucional/public/img/siloicon.svg" alt="icone de silo">
+        <img src="../assets/imgs/siloicon.svg" alt="icone de silo">
         <h1>SITUAÇÃO DO SILO</h1>
     </div>
 
@@ -76,7 +82,7 @@
 
 
                 <div class="silo-container">
-                    <img src="/site-institucional/public/img/silosvg.svg" class="silo-overlay">
+                    <img src="../assets/imgs/silosvg.svg" class="silo-overlay">
 
                     <div class="silo-zona-enchimento">
                         <div id="silo-preenchimento" class="silo-barra"></div>
@@ -108,7 +114,7 @@
 
     </div>
 
-    <script src="/site-institucional/public/js/dashboard-individual.js"></script>
+    <script src="../js/dashboard-individual.js"></script>
 
 </body>
 
