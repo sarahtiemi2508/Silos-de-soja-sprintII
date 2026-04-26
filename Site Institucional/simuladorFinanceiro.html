@@ -18,9 +18,9 @@
   </head>
   <body>
     <div id="header-simulador"></div>
-
+    
     <script>
-      fetch("includes/header-simulador.html")
+      fetch("../Site Institucional/includes/header-simulador.html")
         .then((resposta) => resposta.text())
         .then((dados) => {
           document.getElementById("header-simulador").innerHTML = dados;
@@ -31,10 +31,10 @@
       <div class="circulo-fundo1"></div>
       <div class="circulo-fundo2"></div>
       <div class="circulo-fundo3"></div>
-      <div class="form-simulador-financeiro font-geral">
-        <p>Simulação Financeira</p>
-        <h1>
-          Simule como os dados poderiam ser acessiveis e de facil visualizacao
+      <div id="id_gap_form" class="form-simulador-financeiro font-geral">
+        <p id="subtitulo">Simulação Financeira</p>
+        <h1 id="titulo_principal">
+          Simule como os dados poderiam ser acessíveis e de facil visualização
         </h1>
 
         <div id="div_geral" class="ipt-simulador-financeiro">
@@ -115,30 +115,33 @@
         status = `🟢 ESTOQUE NORMAL`;
       }
 
+      id_gap_form.style.gap = '15%';
+      document.getElementById('titulo_principal').remove();
+      document.getElementById('subtitulo').remove();
       div_geral.innerHTML = `
-<div class='mensagem'>
-    <div>
-        <b>RELATÓRIO DO SILO</b><br>
+      <div class='container-mensagem'>
+        <div class='mensagem'>
+          <div>
+            <b>RELATÓRIO DO SILO</b><br><br>
 
-        ▷ Capacidade total da bateria: ${volume_total_k.toFixed(2)} Kg<br>
-        ▷ Ocupação atual: ${((volume_ocupado / volume_total_k) * 100).toFixed(1)}%<br>
-        ▷ Estoque atual: ${volume_ocupado.toFixed(2)} Kg<br>
-        ▷ Equivalente em sacas: ${sacas.toFixed(0)} sacas<br>
-        ▷ Valor estimado: R$ ${valor_total.toFixed(2)}<br><br>
-    </div>
-    <div>
-        <b>RECOMENDAÇÕES:</b><br>
-        ✔ Pode vender até ${volume_vender.toFixed(2)} Kg<br>
-        ✔ Pode armazenar mais ${volume_encher.toFixed(2)} Kg<br>
+            ▷ Capacidade total da bateria: ${volume_total_k.toFixed(2)} Kg <br>
+            ▷ Ocupação atual: ${((volume_ocupado / volume_total_k) * 100).toFixed(1)}%<br>
+            ▷ Estoque atual: ${volume_ocupado.toFixed(2)} Kg<br>
+            ▷ Equivalente em sacas: ${sacas.toFixed(0)} sacas<br>
+            ▷ Valor estimado: R$ ${valor_total.toFixed(2)}<br><br>
+          </div>
+          <div>
+            <b>RECOMENDAÇÕES:</b><br><br>
+            ✔ Deve vender até ${volume_vender.toFixed(2)} Kg<br>
+            ✔ Deve armazenar mais ${volume_encher.toFixed(2)} Kg<br>
 
-        ▷ Limite mínimo: ${min_k.toFixed(2)} Kg<br>
-        ▷ Limite máximo: ${max_k.toFixed(2)} Kg<br><br>
-    </div>
-</div>
-STATUS: ${status}<br><br>`;
-
-      div_geral.innerHTML += `<i>Coletando dados, organizando informações, e disponibilizando conhecimento.
-    venha ser um cliente Ceres</i>`;
+            ▷ Limite mínimo: ${min_k.toFixed(2)} Kg<br>
+            ▷ Limite máximo: ${max_k.toFixed(2)} Kg
+          </div>
+        </div>
+        STATUS: ${status}<br><br>
+        <i>Coletando dados, organizando informações, e disponibilizando conhecimento. venha ser um cliente Ceres!</i>
+      </div>`;
     }
   </script>
 </html>
