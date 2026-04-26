@@ -7,20 +7,20 @@
 
     <title>Página de Contato- Ceres</title>
 
-    <link rel="shortcut icon" href="/site-institucional/public/img/favicon-dark.ico"
-        media="(prefers-color-scheme: dark)">
-    <link rel="shortcut icon" href="/site-institucional/public/img/favicon-light.ico"
-        media="(prefers-color-scheme: light)">
+    <!-- Icons -->
+  <link rel="shortcut icon" href="../assets/icon/favicon-dark.ico" media="(prefers-color-scheme: dark)">
+  <link rel="shortcut icon" href="../assets/icon/favicon-light.ico"
+    media="(prefers-color-scheme: light)">
 
-    <link rel="stylesheet" href="/site-institucional/public/css/contato.css">
-    <link rel="stylesheet" href="/site-institucional/public/css/header-footer.css">
+    <link rel="stylesheet" href="./css/contato.css">
+    <link rel="stylesheet" href="./css/header-footer.css">
 </head>
 
 <body>
     <div id="header"></div>
 
     <script>
-        fetch("/site-institucional/includes/header-footer/header.html")
+        fetch("./includes/header.html")
             .then(resposta => resposta.text())
             .then(dados => {
                 document.getElementById("header").innerHTML = dados;
@@ -35,7 +35,7 @@
                 </p>
                 <br>
                 <div id="imgZap_botao">
-                    <img src="/site-institucional/public/img/whatsapp.svg" alt="imgZap" width="37px">
+                    <img src="./assets/imgs/whatsapp.svg" alt="imgZap" width="37px">
                     <button id="botaoZap">ENTRE EM CONTATO!</button>
                 </div>
             </div>
@@ -43,11 +43,11 @@
                 <h2 id="titulo2"><i>OUTROS MEIOS DE CONTATO</i></h2>
                 <p id="p2">Para fins de contato formal, disponibilizamos nosso e-mail e número de telefone</p>
                 <button id="botaoEmail">
-                    <img id="imgEmail" src="/site-institucional/public/img/email.svg" alt="imgTelefone" width="18px">
+                    <img id="imgEmail" src="./assets/imgs/email.svg" alt="imgTelefone" width="18px">
                     <p id="textEmail"><b>empresa.ceres@hotmail.com</b></p>
                 </button><br>
                 <button id="botaoTelefone">
-                    <img id="imgTelefone" src="/site-institucional/public/img/telefone.svg" alt="imgTelefone"
+                    <img id="imgTelefone" src="./assets/imgs/telefone.svg" alt="imgTelefone"
                         width="18px">
                     <p id="textTelefone"><b>(11) 9002-8922</b></p>
                 </button>
