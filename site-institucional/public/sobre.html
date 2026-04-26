@@ -5,11 +5,12 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <link rel="shortcut icon" href="/site-institucional/public/img/favicon-dark.ico" media="(prefers-color-scheme: dark)">
-  <link rel="shortcut icon" href="/site-institucional/public/img/favicon-light.ico"
-    media="(prefers-color-scheme: light)">
+  <!-- Icons -->
+  <link rel="shortcut icon" href="../assets/icon/favicon-dark.ico" media="(prefers-color-scheme: dark)">
+  <link rel="shortcut icon" href="../assets/icon/favicon-light.ico" media="(prefers-color-scheme: light)">
 
-  <link rel="stylesheet" href="/site-institucional/public/css/sobre.css">
+  <link rel="stylesheet" href="./css/sobre.css">
+  <link rel="stylesheet" href="./css/header-footer.css">
 
   <title>Ceres - Monitoramento de nível de silos</title>
 </head>
@@ -19,19 +20,18 @@
   <div id="header"></div>
 
   <script>
-    fetch("/site-institucional/includes/header-footer/header.html")
+    fetch("./includes/header.html")
       .then(resposta => resposta.text())
       .then(dados => {
         document.getElementById("header").innerHTML = dados;
       });
   </script>
-
   <div class="container">
 
     <!--Banner-->
 
     <div class="div-banner">
-      <img class="banner-bg" src="/site-institucional/public/img/hero-page.svg" alt="Vista aérea de silos">
+      <img class="banner-bg" src="./assets/imgs/hero-page.svg" alt="Vista aérea de silos">
       <h1>COMO O PROJETO <br> FUNCIONA?</h1>
     </div>
 
@@ -53,7 +53,7 @@
           real, identificar variações e melhorar a tomada de decisões garantindo maior precisão, segurança e eficiência
           na gestão dos silos.</p>
       </div>
-      <img class="imagem-sobre" src="/site-institucional/public/img/imagem-agrupada-elipses.svg"
+      <img class="imagem-sobre" src="./assets/imgs/imagem-agrupada-elipses.svg"
         alt="Imagem agrupada com exemplos de grãos">
     </div>
 
@@ -70,12 +70,11 @@
             </div>
             <h2>Monitoramento inteligente de silos</h2>
 
-            <a href="/site-institucional/contato.html" class="btn-fale">FALE CONOSCO</a>
+            <a href="./contato.html" class="btn-fale">FALE CONOSCO</a>
           </div>
 
           <div class="solucao-dir">
-            <img class="img-solucao" src="/site-institucional/public/img/agricola.svg"
-              alt="Vista aérea de campo agrícola com drone">
+            <img class="img-solucao" src="./assets/imgs/agricola.svg" alt="Vista aérea de campo agrícola com drone">
           </div>
         </div>
 
@@ -83,7 +82,7 @@
 
           <div class="card-da-solucao">
             <div class="card-header">
-              <img src="/site-institucional/public/img/sensor.svg" alt="Sensor ultrassônico">
+              <img src="./assets/imgs/sensor.svg" alt="Sensor ultrassônico">
             </div>
 
             <div class="card-titulo">
@@ -98,7 +97,7 @@
 
           <div class="card-da-solucao">
             <div class="card-header">
-              <img src="/site-institucional/public/img/grafico.png" alt="Ilustração genérica de gráfico">
+              <img src="./assets/imgs/grafico.png" alt="Ilustração genérica de gráfico">
             </div>
 
             <div class="card-titulo">
@@ -113,7 +112,7 @@
 
           <div class="card-da-solucao">
             <div class="card-header">
-              <img src="/site-institucional/public/img/escudo.png" alt="Ilustração genérica de escudo">
+              <img src="./assets/imgs/escudo.png" alt="Ilustração genérica de escudo">
             </div>
 
             <div class="card-titulo">
@@ -155,15 +154,15 @@
             </div>
 
             <div class="card-s-setinha">
-              <img src="/site-institucional/public/img/setinha.png" alt="Pequena seta para a direita">
+              <img src="./assets/imgs/setinha.png" alt="Pequena seta para a direita">
             </div>
 
             <div class="card-s-img">
-              <img src="/site-institucional/public/img/toposilo.png" alt="Topo de um silo vertical">
+              <img src="./assets/imgs/toposilo.png" alt="Topo de um silo vertical">
             </div>
           </div>
 
-          <div class="seta"><img src="/site-institucional/public/img/seta.png" alt=""></div>
+          <div class="seta"><img src="./assets/imgs/seta.png" alt=""></div>
 
           <div class="card-sistema">
             <div class="card-s-header">
@@ -175,15 +174,15 @@
             </div>
 
             <div class="card-s-setinha">
-              <img src="/site-institucional/public/img/setinha.png" alt="Pequena seta para a direita">
+              <img src="./assets/imgs/setinha.png" alt="Pequena seta para a direita">
             </div>
 
             <div class="card-s-img">
-              <img src="/site-institucional/public/img/compartimento.png" alt="Compartimento com dashboard de dados">
+              <img src="./assets/imgs/compartimento.png" alt="Compartimento com dashboard de dados">
             </div>
           </div>
 
-          <div class="seta"><img src="/site-institucional/public/img/seta.png" alt=""></div>
+          <div class="seta"><img src="./assets/imgs/seta.png" alt=""></div>
 
           <div class="card-sistema">
             <div class="card-s-header">
@@ -195,11 +194,11 @@
             </div>
 
             <div class="card-s-setinha">
-              <img src="/site-institucional/public/img/setinha.png" alt="Pequena seta para a direita">
+              <img src="./assets/imgs/setinha.png" alt="Pequena seta para a direita">
             </div>
 
             <div class="card-s-img">
-              <img src="/site-institucional/public/img/dashsilo.png" alt="Computador com dashboard completa de um silo">
+              <img src="./assets/imgs/dashsilo.png" alt="Computador com dashboard completa de um silo">
             </div>
           </div>
 
@@ -220,11 +219,11 @@
           <p class="calc-p">Com a nossa calculadora financeira você tem um gostinho da nossa solução, além de simular
             quanto prejuízo
             pode ser evitado se tornando um cliente Ceres.</p>
-          <a href="/site-institucional/simulador-financeiro.html" class="btn-calculadora">CALCULE AGORA!</a>
+          <a href="./simulador-financeiro.html" class="btn-calculadora">CALCULE AGORA!</a>
         </div>
 
         <div class="img-calc">
-          <img class="img-calculadora" src="/site-institucional/public/img/graficosilo.png"
+          <img class="img-calculadora" src="./assets/imgs/graficosilo.png"
             alt="Ilustração gráfico subindo com silo desenhado">
         </div>
 
@@ -237,11 +236,12 @@
   <div id="footer"></div>
 
   <script>
-    fetch("/site-institucional/includes/header-footer/footer.html")
+    fetch("./includes/footer.html")
       .then(resposta => resposta.text())
       .then(dados => {
         document.getElementById("footer").innerHTML = dados
       });
+      
   </script>
 
 </body>
