@@ -134,13 +134,13 @@ body {
 #vermelhoMaior,
 #vermelhoMenor {
   width: 100%;
-  background-color: rgb(255, 43, 86);
+  background-color: rgb(245, 67, 67);
   border-radius: 0;
   transition: height 0.5s ease;
 }
 
 .porcentagem {
-  color: rgb(255, 43, 86);
+  color: rgb(224, 0, 0);
   font-weight: bold;
   font-size: 1.5rem;
   background: transparent !important;
@@ -250,7 +250,7 @@ body {
 }
 
 #nivelMediaBateria p:last-child {
-  color: red;
+  color: rgb(224, 0, 0);
 }
 
 #nivelTotalBateria span,
@@ -292,7 +292,7 @@ body {
   font-size: 48px;
   font-weight: bold;
   text-align: center;
-  color: red;
+  color: rgb(224, 0, 0);
 }
 
 #nivelTotalBateria p:last-child span,
