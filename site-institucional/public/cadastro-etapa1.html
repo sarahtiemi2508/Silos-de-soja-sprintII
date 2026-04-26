@@ -6,24 +6,26 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <link rel="shortcut icon" href="/site-institucional/public/img/favicon-dark.ico" media="(prefers-color-scheme: dark)">
-  <link rel="shortcut icon" href="/site-institucional/public/img/favicon-light.ico" media="(prefers-color-scheme: light)">
+  <!-- Icons -->
+  <link rel="shortcut icon" href="../assets/icon/favicon-dark.ico" media="(prefers-color-scheme: dark)">
+  <link rel="shortcut icon" href="../assets/icon/favicon-light.ico" media="(prefers-color-scheme: light)">
 
-  <link rel="stylesheet" href="/site-institucional/public/css/cadastro-etapa1.css">
+  <link rel="stylesheet" href="./css/cadastro-etapa1.css">
+  <link rel="stylesheet" href="./css/header-footer.css">
 
   <title>Cadastro</title>
-  
+
 </head>
 
 <body>
 
-  <div id="header-auth"></div>
+  <div id="header"></div>
 
   <script>
-    fetch("/site-institucional/includes/header-footer/header-auth.html")
+    fetch("./includes/header.html")
       .then(resposta => resposta.text())
       .then(dados => {
-        document.getElementById("header-auth").innerHTML = dados;
+        document.getElementById("header").innerHTML = dados;
       });
   </script>
 
@@ -70,10 +72,10 @@
         </div>
       </div>
 
-      <button class="botao-login" onclick="logar()"><b><a href="/site-institucional/auth/cadastro-etapa2.html">CONTINUAR</a></b></button>
+      <button class="botao-login" onclick="logar()"><b><a href="./cadastro-etapa2.html">CONTINUAR</a></b></button>
       <div class="links">
         <span>Esqueceu a senha? <b>acesse aqui</b></span>
-        <span>Já tem login? <b><a href="/site-institucional/auth/login.html">FAÇA LOGIN</a></b></span>
+        <span>Já tem login? <b><a href="./login.html">FAÇA LOGIN</a></b></span>
       </div>
     </div>
   </div>
