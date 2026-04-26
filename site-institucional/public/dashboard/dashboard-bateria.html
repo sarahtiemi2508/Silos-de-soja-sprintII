@@ -23,7 +23,7 @@
         href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"
         rel="stylesheet" />
 
-        <script src="../js/menu.js"></script>
+    <script src="../js/menu.js"></script>
 
     <title>Dashboard</title>
 </head>
@@ -39,14 +39,14 @@
             });
     </script>
 
+    <div class="titulo-pag">
+        <img src="../assets/imgs/imagemtitulo.svg" alt="imagemTitulo">
+        <h1>SITUAÇÃO DA BATERIA</h1>
+    </div>
 
-    <div id="header"></div>
-    <div id="parte1">
-        <div id="titulo">
-            <img src="../assets/imgs/imagemtitulo.svg" alt="imagemTitulo" width="50px" />
-            <h2 id="tituloTelaGraficosBateria">SITUAÇÃO DA BATERIA</h2>
-        </div>
-        <div id="informacoesP1">
+    <div class="campos">
+
+        <div class="campo-silo">
             <div id="boxNiveis">
                 <div id="boxNiveisSilos">
                     <div id="boxNiveisBateria">
@@ -79,9 +79,11 @@
                 </div>
             </div>
         </div>
-        <div id="nivelPreenchimentoBateriaTempo">
+
+        <div class="campo-grafico">
             <canvas id="myChart2"></canvas>
         </div>
+
     </div>
 </body>
 

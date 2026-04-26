@@ -1,28 +1,60 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap");
+
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: "Inter", sans-serif;
 }
 
 body {
   background-color: black;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0;
+  min-height: 100vh;
+  padding-bottom: 50px;
+  font-family: "Inter", sans-serif;
 }
 
-#header {
-  /* border: solid 2px white; */
-  height: 65px;
-}
-
-#titulo {
+.titulo-pag {
+  color: white;
   display: flex;
   flex-direction: row;
+  font-weight: bolder;
+  flex-wrap: wrap;
   align-items: center;
+  font-size: 18px;
+  gap: 20px;
+  margin: 30px;
+  margin-top: 100px;
+}
+
+.titulo-pag img {
+    width: 45px;
+    height: 45px;
+}
+
+.campos {
+  display: flex;
+  flex-direction: column;
   justify-content: center;
-  gap: 15px;
-  width: 100%;
-  height: 80px;
-  margin-bottom: 20px;
+  align-items: center;
+  gap: 50px;
+  width: 95vw;
+}
+
+.campo-silo, .campo-grafico {
+  background-color: white;
+  width: 90vw;
+  max-width: 1600px;
+  min-height: 500px;
+  border-radius: 25px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 50px;
+  box-sizing: border-box;
 }
 
 #tituloTelaGraficosBateria {
@@ -31,50 +63,40 @@ body {
   font-size: x-large;
   font-weight: 900;
 }
-#parte1 {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-}
-#informacoesP1 {
-  /* border: solid 2px white ; */
+
+#boxNiveis {
   display: flex;
   flex-direction: row;
-  width: 1250px;
-  height: 450px;
+  align-items: stretch;
+  justify-content: space-between;
+  width: 100%;
+  height: auto; 
+  gap: 100px;
+  flex-wrap: wrap;
 }
+
 #boxNiveisBateria {
   display: flex;
   flex-direction: row;
+  flex-wrap: wrap;
   justify-content: space-between;
-  width: 420px;
-  height: 160px;
+  width: 100%;
+  gap: 30px;
   margin-bottom: 30px;
 }
-#nivelTotalBateria {
-  border: solid 2px white;
-  border-radius: 10px;
-  background-color: white;
-  width: 190px;
-  height: 160px;
-  display: flex;
-  flex-direction: column;
-  padding: 15px 15px 25px 15px;
-  justify-content: space-between;
-  box-sizing: border-box;
-}
+
+#nivelTotalBateria,
 #nivelMediaBateria {
-  border: solid 2px white;
-  border-radius: 10px;
+  border: 2px solid #ffba00;
+  border-radius: 20px;
   background-color: white;
-  width: 190px;
-  height: 160px;
+  flex: 1; 
+  min-width: 200px;
+  min-height: 160px; 
   display: flex;
   flex-direction: column;
-  padding: 15px 15px 25px 15px;
+  padding: 20px; 
   justify-content: space-between;
-  box-sizing: border-box;
 }
 
 #boxMenorNivelSilos {
@@ -89,14 +111,15 @@ body {
 }
 
 #graficosMaiorMenor {
-  width: 420px;
-  height: 240px;
+  width: 100%;
+  height: 270px; 
   background-color: white;
-  border-radius: 10px;
+  border: 2px solid #ffba00;
+  border-radius: 20px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 15px;
+  padding: 20px;
 }
 
 #tituloMaiorMenorNivel {
@@ -161,7 +184,9 @@ body {
 }
 
 #situacaoNivelCadaSilo {
-  height: 100%; /* Garante que a div pai do canvas também tenha altura total */
+  flex: 1;
+  min-width: 300px; 
+  height: 450px;
   display: flex;
   align-items: stretch;
 }
@@ -179,8 +204,17 @@ body {
 #myChart {
   background-color: white;
   border-radius: 10px;
+  width: 100% !important; 
   height: 100% !important;
-  width: 700px;
+}
+
+#myChart2 {
+
+  border: none;
+  background-color: transparent;
+  width: 100% !important;
+  height: 100% !important;
+  margin-top: 0;
 }
 
 /* #nivelPreenchimentoBateriaTempo{
@@ -190,15 +224,6 @@ body {
     border-radius: 20px;
     margin-top: 30px;
 } */
-
-#myChart2 {
-  border: solid 2px white;
-  background-color: white;
-  border-radius: 20px;
-  width: 1000px;
-  height: 400px;
-  margin-top: 40px;
-}
 
 #nivelTotalBateria p,
 #nivelMediaBateria p {
@@ -219,7 +244,7 @@ body {
 #nivelTotalBateria p:last-child,
 #nivelMediaBateria p:last-child {
   margin: 0;
-  font-size: 48px;
+  font-size: 65px;
   font-weight: bold;
   text-align: center;
 }
@@ -232,6 +257,7 @@ body {
 #nivelMediaBateria span {
   background-color: transparent;
 }
+
 
 #siloMaximo,
 #siloMinimo {
@@ -272,6 +298,6 @@ body {
 #nivelTotalBateria p:last-child span,
 #nivelMediaBateria p:last-child span {
   color: black;
-  font-size: 24px;
+  font-size: 18px; 
   margin-left: 2px;
 }
