@@ -80,7 +80,7 @@
 
 <script>
   const labels = ["Silo 1", "Silo 2", "Silo 3", "Silo 4", "Silo 5", "Silo 6", "Silo 7", "Silo 8"];
-  
+
   let valores = [33, 19, 56, 82, 76, 44, 12, 92];
 
   let totalValores = 0;
@@ -149,7 +149,7 @@
   })
   const Estavel = valores.map((v) => {
 
-    return (v >= 26 && v <= 74)  ? v : null;
+    return (v >= 26 && v <= 74) ? v : null;
   })
 
 
@@ -170,7 +170,7 @@
       },
       {
         label: "Moderado",
-        backgroundColor: "rgb(255, 126, 33)" ,
+        backgroundColor: "rgb(255, 126, 33)",
         borderColor: "rgb(255, 126, 33)",
         data: Moderado,
         barThickness: 50,
@@ -178,7 +178,7 @@
       },
       {
         label: "Estável",
-        backgroundColor: "rgb(255, 236, 49)" ,
+        backgroundColor: "rgb(255, 236, 49)",
         borderColor: "rgb(255, 236, 49)",
         data: Estavel,
         barThickness: 50,
@@ -200,7 +200,7 @@
           stacked: true
 
         },
-        x:{
+        x: {
           stacked: true,
           offset: true
         }

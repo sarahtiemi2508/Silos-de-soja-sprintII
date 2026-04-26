@@ -1,62 +1,96 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
-
+<html>
 <head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <!-- Icons -->
+	<!-- Icons -->
   <link rel="shortcut icon" href="../assets/icon/favicon-dark.ico" media="(prefers-color-scheme: dark)">
   <link rel="shortcut icon" href="../assets/icon/favicon-light.ico"
     media="(prefers-color-scheme: light)">
 
-  <link rel="stylesheet" href="./css/login.css">
+  <link rel="stylesheet" href="./css/auth.css">
   <link rel="stylesheet" href="./css/header-footer.css">
-
-  <title>Login</title>
-
+	<title>Login</title>
 </head>
+</style>
 
 <body>
 
+	<div id="header"></div>
 
-  <div id="header"></div>
+  <script>
+    fetch("./includes/header.html")
+      .then(resposta => resposta.text())
+      .then(dados => {
+        document.getElementById("header").innerHTML = dados;
+      });
+  </script>
 
-
-
-<script>
-fetch("./includes/header.html")
-  .then(resposta => resposta.text())
-  .then(dados => {
-    document.getElementById("header").innerHTML = dados;
-  });
-</script>
-
-
-  <div class="div_tela_inteira">
-    <div class="card">
-      <div class="titulo">
-        <span><b>LOGIN</b></span>
-      </div>
-      <div class="campo">
-        <label>Email: </label>
-        <input type="email" id="email_inserido" class="input-login" />
-      </div>
-      <div class="campo">
-        <label>Senha: </label>
-        <input type="password" id="senha_inserida" class="input-login" />
-      </div>
-      <button class="botao-login" onclick="logar()"><b><a class="btn_link"
-            href="./dashboard/alerta.html">ENTRAR</a></b></button>
-      <div class="links">
-        <span>Esqueceu a senha? <b>acesse aqui</b></span>
-        <span>Não tem cadastro? <b><a href="./cadastro-etapa1.html">CADASTRE-SE AQUI</a></b></span>
-      </div>
-    </div>
-  </div>
+	<div class="div_tela_inteira">
+		<div class="card">
+			<div class="titulo">
+				<span><b>LOGIN</b></span>
+			</div>
+			<div class="formulario">
+				<div class="campo">
+					<label>Email: </label>
+					<input type="email" id="email_inserido" class="input-login"/>
+				</div>
+				<div class="campo">
+					<label>Senha: </label>
+					<input type="password" id="senha_inserida" class="input-login"/>
+				</div>
+			</div>
+			<button class="botao-login" onclick="logar()">ENTRAR</button>
+			<div class="links">
+				<span>Esqueceu a senha? <b>acesse aqui</b></span>
+				<span>Não tem cadastro? <b><a href="./cadastro-etapa1.html">CADASTRE-SE AQUI</a></b></span>
+			</div>
+		</div>
+	</div>
 </body>
+<script>
+	function logar() {
 
+		let email = email_inserido.value
+		let senha = senha_inserida.value
+
+		if (email == "" || senha == "") {
+			alert("Uma das informações necessárias está vazia. Verifique os campos.");
+			return;
+		}
+
+
+		let usuarios = [ 
+			{ email: "fernandobrandao@gmail.com", senha: "pesquiseeinove" },
+			{ email: "juliaararipe@gmail.com", senha: "pesquiseeinove" },
+			{ email: "ceresADMS", senha: "admin" }
+		];
+
+		let loginValido = false;
+
+
+		for (let i = 0; i < usuarios.length; i++) {
+
+			if (
+				email === usuarios[i].email &&
+				senha === usuarios[i].senha
+			) {
+				loginValido = true;
+				break; // para o loop quando encontra
+			}
+
+		}
+
+
+		if (loginValido) {
+			alert("Login realizado com sucesso!");
+			window.location.href = "./dashboard/alerta.html";
+		} else {
+			alert("Email ou senha inválidos!");
+		}
+	}
+</script>
 
 </html>
 
