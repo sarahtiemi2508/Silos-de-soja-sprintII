@@ -122,7 +122,7 @@ body{
 }
 
 #btn-cadastro{
-    background-image: url(../img/cadeadoCadastro.png);
+    background-image: url(../assets/imgs/cadeadoCadastro.png);
     background-position: right 25px center;
     background-repeat: no-repeat;
     background-size: 18px;
@@ -145,7 +145,7 @@ body{
     color: #FFBA00;
     border-color: 2px solid #FFBA00;
     background-color: transparent;
-    background-image: url(../img/cadeadoCadastro_amarelo.png);
+    background-image: url(../assets/imgs/cadeadoCadastro_amarelo.png);
 }
 
 #btn-cadastro:active {
@@ -153,7 +153,7 @@ body{
     color: black;
     background-color: #FFBA00;
     transition: all ease-in-out 0.3s;
-    background-image: url(../img/cadeadoCadastro.png);
+    background-image: url(../assets/imgs/cadeadoCadastro.png);
 }
 
 /*FIM DO CSS DA NAVBAR*/
@@ -169,7 +169,7 @@ body{
     flex-direction: column;
     background-image: linear-gradient(rgba(0, 0, 0, 0.8), rgba(
     0, 0, 0, 0.5)),
-    url('../img/footerImage.png');
+    url('../assets/imgs/footerImage.png');
     background-size: cover;
     background-repeat: no-repeat;
     align-items: center;

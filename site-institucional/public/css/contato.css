@@ -7,7 +7,7 @@
 
 #pagina{
     font-family: 'Inter', sans-serif; 
-    background-image:linear-gradient(rgba(0,0,0,0.5),rgba(0,0,0,0.5)), url('../img/imgFundo.svg') ; 
+    background-image:linear-gradient(rgba(0,0,0,0.5),rgba(0,0,0,0.5)), url('../assets/imgs/imgFundo.svg') ; 
     background-size: cover;
     background-color: black;
 
