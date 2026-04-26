@@ -5,11 +5,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <link rel="shortcut icon" href="/site-institucional/public/img/favicon-dark.ico" media="(prefers-color-scheme: dark)">
-    <link rel="shortcut icon" href="/site-institucional/public/img/favicon-light.ico" media="(prefers-color-scheme: light)">
+    <!-- Icons -->
+  <link rel="shortcut icon" href="../assets/icon/favicon-dark.ico" media="(prefers-color-scheme: dark)">
+  <link rel="shortcut icon" href="../assets/icon/favicon-light.ico"
+    media="(prefers-color-scheme: light)">
 
-    <link rel="stylesheet" href="/site-institucional/public/css/home.css">
-    <link rel="stylesheet" href="/site-institucional/public/css/header-footer.css">
+    <link rel="stylesheet" href="./css/home.css">
+    <link rel="stylesheet" href="./css/header-footer.css">
 
     <title>Home</title>
 </head>
@@ -21,7 +23,7 @@
 
 
 <script>
-fetch("/site-institucional/includes/header-footer/header.html")
+fetch("./includes/header.html")
   .then(resposta => resposta.text())
   .then(dados => {
     document.getElementById("header").innerHTML = dados;
@@ -32,7 +34,7 @@ fetch("/site-institucional/includes/header-footer/header.html")
 
     <div class="container">
         <div class="box1">
-            <img src="/site-institucional/public/img/home-meia-logo-banner.svg" alt="Logo">
+            <img src="./assets/imgs/home-meia-logo-banner.svg" alt="Logo">
             <div class="titulo">
                 <h1>O SILO PODE SER UM ALIADO QUANDO AUTOMATIZADO</h1>
                 <p>É hora de olhar para os silos não como depósitos, mas como parte<br>estratégica da cadeia produtiva.
@@ -46,23 +48,23 @@ fetch("/site-institucional/includes/header-footer/header.html")
             </div>
             <div class="conteudo">
                 <div class="content">
-                    <img src="/site-institucional/public/img/home-icone-planejamento.svg" alt="Icone de Planejamento">
+                    <img src="./assets/imgs/home-icone-planejamento.svg" alt="Icone de Planejamento">
                     <span>Planejamento</span>
                     <p>Receba informações e transforme conhecimento em soluções estratéicas.</p>
                 </div>
                 <div class="content">
-                    <img src="/site-institucional/public/img/home-icone-analise.svg" alt="Icone de Análise">
+                    <img src="./assets/imgs/home-icone-analise.svg" alt="Icone de Análise">
                     <span>Análise</span>
                     <p>Gráficos gerados a partir de dados fornecidos pelos sensores que potencializam análises amplas.
                     </p>
                 </div>
                 <div class="content">
-                    <img src="/site-institucional/public/img/home-icone-dados.svg" alt="Icone de Dados">
+                    <img src="./assets/imgs/home-icone-dados.svg" alt="Icone de Dados">
                     <span>Dados</span>
                     <p>Coleta e armazenamento seguro dos seus dados dentro de um servidor virtual.</p>
                 </div>
                 <div class="content">
-                    <img src="/site-institucional/public/img/home-icone-impacto.svg" alt="Icone Impacto">
+                    <img src="./assets/imgs/home-icone-impacto.svg" alt="Icone Impacto">
                     <span>Impacto</span>
                     <p>Coleta e armazenamento seguro dos seus dados dentro de um servidor virtual.</p>
                 </div>
@@ -166,7 +168,7 @@ fetch("/site-institucional/includes/header-footer/header.html")
     <div id="footer"></div>
     
   <script>
-    fetch("/site-institucional/includes/header-footer/footer.html")
+    fetch("./includes/footer.html")
     .then(resposta => resposta.text())
     .then(dados =>{ 
         document.getElementById("footer").innerHTML = dados
