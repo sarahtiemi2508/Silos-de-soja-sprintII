@@ -296,7 +296,7 @@ body {
     align-items: flex-start;
     padding: 10px;
     width: 21vw;
-    height: 50vh;
+    height: 40vh;
     padding: 20px;
     background-repeat: no-repeat;
     border: 2px solid var(--primary-yellow);
@@ -305,7 +305,7 @@ body {
 }
 
 .box3 > .retangulos > .ret1 {
-    background-size: 19vw;
+    background-size: 20vw;
     background-position: top center;
     background-image: url(../assets/imgs/home-ret1-silos.svg);
 }
@@ -317,7 +317,7 @@ body {
 }
 
 .box3 > .retangulos > .ret3 {
-    background-size: 200px;
+    background-size: 27vh;
     background-position: top right;
     background-image: url(../assets/imgs/home-ret3-sacas.svg);
 }

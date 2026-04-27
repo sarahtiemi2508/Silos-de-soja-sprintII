@@ -151,11 +151,11 @@
   }
 
   .desc_card_alerta p {
-      font-size: 1.8vh;
+      font-size: 1.5vh;
   }
 
   .desc_card_alerta h4 {
-      font-size: 3vh;
+      font-size: 2.5vh;
   }
 
   .div_btn_VER_card_alerta {
@@ -167,7 +167,7 @@
   .div_btn_VER_card_alerta button {
       width: 100%;
       height: 40%;
-      font-size: 2.3vh;
+      font-size: 2vh;
       border-radius: 5vh;
       border: 2px solid;
       background-color: rgba(133, 42, 0, 0.199);
@@ -244,12 +244,12 @@
 
   .p_bold {
       font-weight: bold;
-      font-size: 2vh;
+      font-size: 1.5vh;
   }
 
 
   .p_comum {
-      font-size: 2vh;
+      font-size: 1.5vh;
   }
 
   .info_respons_fazenda {
@@ -268,27 +268,27 @@
   }
 
   #titulo_alerta {
-      font-size: 4vh;
+      font-size: 3vh;
   }
 
   #linha_titulo_alerta {
       display: flex;
       flex: 3;
       justify-content: center;
-      font-size: 3vh;
+      font-size: 2.5vh;
   }
 
   #linha_titulo_fazenda {
       display: flex;
       flex: 1;
       justify-content: center;
-      font-size: 3vh;
+      font-size: 2.5vh;
   }
 
   .titulo_nome_fazenda {
       font-weight: bold;
       padding-bottom: 2vh;
-      font-size: 3vh;
+      font-size: 2.5vh;
   }
 
 
