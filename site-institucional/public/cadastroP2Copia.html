@@ -1,0 +1,165 @@
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Icons -->
+  <link rel="shortcut icon" href="./assets/icon/favicon-dark.ico" media="(prefers-color-scheme: dark)">
+  <link rel="shortcut icon" href="./assets/icon/favicon-light.ico" media="(prefers-color-scheme: light)">
+
+  <link rel="stylesheet" href="./css/auth.css">
+  <link rel="stylesheet" href="./css/header-footer.css">
+
+  <title>Cadastro</title>
+</head>
+
+<body>
+
+  <div id="header"></div>
+
+  <script>
+    fetch("./includes/header.html")
+      .then(resposta => resposta.text())
+      .then(dados => {
+        document.getElementById("header").innerHTML = dados;
+      });
+  </script>
+
+  <div class="div_tela_inteira">
+
+    <div class="card">
+
+      <div class="titulo">
+        <b>CADASTRO</b>
+      </div>
+
+      <div class="formulario">
+
+        <div class="campo">
+          <label>Nome Fantasia:</label>
+          <input type="text" id="nome_fantasia_inserido" class="input-login" />
+        </div>
+
+        <div class="campo">
+          <label>CNPJ:</label>
+          <input type="text" id="cnpj_inserido" class="input-login" />
+        </div>
+
+        <div class="campo">
+          <label>Razão Social:</label>
+          <input type="text" id="razao_social_inserida" class="input-login" />
+        </div>
+
+      </div>
+
+      <button class="botao-login btn-cad" onclick="logar()">CADASTRAR</button>
+
+      <div class="links">
+        <span>Esqueceu a senha? <b>acesse aqui</b></span>
+        <span>Já tem login? <b><a href="./login.html">FAÇA LOGIN</a></b></span>
+      </div>
+
+    </div>
+
+  </div>
+
+</body>
+
+<script>
+
+  function logar() {
+
+    let nm_fantasia = nome_fantasia_inserido.value
+    let rz_social = razao_social_inserida.value
+    let cnpj = cnpj_inserido.value
+
+    if (nm_fantasia == "" || rz_social == "" || cnpj == "") {
+      alert("Uma das informações necessárias para o cadastro está vazia. Verifique os campos e tente novamente");
+    }
+    else {
+      window.location.href = "/site-institucional/public/login.html"
+    }
+  }
+
+</script>
+
+<script>
+
+  function cadastrar() {
+    // aguardar();
+
+    //Recupere o valor da nova input pelo nome do id
+    // Agora vá para o método fetch logo abaixo
+    var nomeFantasiaVar = nome_fantasia_inserido.value;
+    var cnpjVar = cnpj_inserido.value;
+    var razaoSocialVar = razao_social_inserida.value;
+
+
+    // Verificando se há algum campo em branco
+    if (
+      nomeFantasiaVar == "" ||
+      cnpjVar == "" ||
+      razaoSocialVar == "" 
+    ) {
+      cardErro.style.display = "block";
+      mensagem_erro.innerHTML =
+        "(Mensagem de erro para todos os campos em branco)";
+
+      finalizarAguardar();
+      return false;
+    } else {
+      setInterval(sumirMensagem, 5000);
+    }
+
+    
+
+    // Enviando o valor da nova input
+    fetch("/usuarios/cadastrar", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        // crie um atributo que recebe o valor recuperado aqui
+        // Agora vá para o arquivo routes/usuario.js
+        nomeFantasiaServer: nomeFantasiaVar,
+        cnpjServer: cpnjVar,
+        razaoSocialServer: razaoSocialVar
+      }),
+    })
+      .then(function (resposta) {
+        console.log("resposta: ", resposta);
+
+        if (resposta.ok) {
+          cardErro.style.display = "block";
+
+          mensagem_erro.innerHTML =
+            "Cadastro realizado com sucesso! Redirecionando para tela de Login...";
+
+          setTimeout(() => {
+            window.location = "login.html";
+          }, "2000");
+
+          limparFormulario();
+          finalizarAguardar();
+        } else {
+          throw "Houve um erro ao tentar realizar o cadastro!";
+        }
+      })
+      .catch(function (resposta) {
+        console.log(`#ERRO: ${resposta}`);
+        finalizarAguardar();
+      });
+
+    return false;
+  }
+
+
+
+  function sumirMensagem() {
+    cardErro.style.display = "none";
+  }
+</script>
+
+</html>

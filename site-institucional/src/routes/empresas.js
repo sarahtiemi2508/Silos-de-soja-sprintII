@@ -16,8 +16,5 @@ router.get("/buscar/:id", function (req, res) {
   empresaController.buscarPorId(req, res);
 });
 
-router.get("/listar", function (req, res) {
-  empresaController.listar(req, res);
-});
 
 module.exports = router;
