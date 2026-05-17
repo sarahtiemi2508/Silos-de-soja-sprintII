@@ -5,6 +5,7 @@
   padding: 0;
   box-sizing: border-box;
 }
+
 #header {
   width: 100%;
 }
@@ -27,7 +28,7 @@ body {
   flex-direction: row;
   font-weight: bolder;
   flex-wrap: wrap;
-  align-items: center;
+  align-items: baseline;
   font-size: 18px;
   gap: 20px;
   margin: 30px;
@@ -35,8 +36,20 @@ body {
 }
 
 .titulo-pag img {
-    width: 45px;
-    height: 45px;
+  width: 45px;
+  height: 45px;
+}
+
+.fazenda {
+  color: white;
+  font-size: 20px;
+  font-weight: 700;
+  background-color: black;
+  width: 15vw;
+  height: 4.5vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .campos {
@@ -48,7 +61,8 @@ body {
   width: 95vw;
 }
 
-.campo-silo, .campo-grafico {
+.campo-silo,
+.campo-grafico {
   background-color: white;
   width: 90vw;
   min-height: 500px;
@@ -60,47 +74,47 @@ body {
 }
 
 .silo-container {
-    position: relative;
-    width: 250px; 
-    height: 450px;
-    background-color: transparent;
+  position: relative;
+  width: 250px;
+  height: 450px;
+  background-color: transparent;
 }
 
 .silo-overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 3;
-    pointer-events: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 3;
+  pointer-events: none;
 }
 
 .silo-zona-enchimento {
-    position: absolute;
-    left:0; 
-    right:0;
-    top: 40px;
-    bottom: 70px; 
-    background-color: white;
-    z-index: 1;
-    overflow: hidden;
-    display: flex;
-    align-items: flex-end;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 40px;
+  bottom: 70px;
+  background-color: white;
+  z-index: 1;
+  overflow: hidden;
+  display: flex;
+  align-items: flex-end;
 }
 
 .silo-barra {
-    width: 100%;
-    background-color: #FFBA00;
-    height: 0%;
-    transition: height 1s ease-in-out;
+  width: 100%;
+  background-color: #FFBA00;
+  height: 0%;
+  transition: height 1s ease-in-out;
 }
 
 .alinhamento-campo-silo {
   display: flex;
   flex-direction: row;
   justify-content: space-around;
-  align-items: center; 
+  align-items: center;
   width: 100%;
   flex-wrap: wrap;
   gap: 30px;
@@ -109,13 +123,13 @@ body {
 .cards-kpi {
   display: flex;
   flex-direction: column;
-  gap: 30px; 
+  gap: 30px;
   width: 100%;
   max-width: 350px;
   min-width: 250px;
 }
 
-.cards-kpi > div {
+.cards-kpi>div {
   border: 2px solid #ffba00;
   border-radius: 20px;
   padding: 20px;
@@ -127,11 +141,11 @@ body {
 
   display: flex;
   flex-direction: column;
-  justify-content: center; 
+  justify-content: center;
   align-items: center;
   flex-grow: 1;
 
-    span {
+  span {
     text-align: center;
     font-size: 21px;
     margin: 10px 0;
@@ -155,73 +169,95 @@ body {
 
 
 .controle-silo-bateria {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 20px;
-    font-family: 'Inter', sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  font-family: 'Inter', sans-serif;
 }
 
 .controle-silo-bateria span {
-    font-size: 21px;
-    font-weight: bold;
-    color: black;
+  font-size: 21px;
+  font-weight: bold;
+  color: black;
 }
 
 .controle-silo-bateria p {
-    font-size: 18px;
-    color: black;
-    font-weight: bold;
+  font-size: 18px;
+  color: black;
+  font-weight: bold;
 }
 
 .bateria-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 45px); /*4 colunas de 45px*/
-    grid-template-rows: repeat(2, 45px);    /*2 linhas de 45px*/
-    gap: 10px;
+  display: grid;
+  grid-template-columns: repeat(4, 45px);
+  /*4 colunas de 45px*/
+  grid-template-rows: repeat(2, 45px);
+  /*2 linhas de 45px*/
+  gap: 10px;
+}
+
+#estavel {
+  background-color: rgb(20, 245, 106);
+}
+
+#critico {
+  background-color: rgb(245, 67, 67);
+}
+
+#moderado {
+  background-color: rgb(255, 198, 42);
 }
 
 .btn-silo {
-    width: 45px;
-    height: 45px;
-    background-color: white;
-    border: 2px solid black;
-    border-radius: 10px;
-    font-weight: bold;
-    font-size: 21px;
-    cursor: pointer;
+  width: 45px;
+  height: 45px;
+  background-color: white;
+  border: 3px solid black;
+  border-radius: 10px;
+  font-weight: bold;
+  font-size: 21px;
+  cursor: pointer;
+  transition: all ease-in-out 0.2s;
+  color: black;
 }
 
 .btn-silo.active {
-    background-color: black;
-    color: white;
-    border-color: black;
+  background-color: white;
+  color: white;
+  border-color: white;
 }
 
 .btn-silo:hover {
-    background-color: black;
-    color: white;
-    border-color: black;
+  transform: scale(1.1);
+  background-color: white;
+  color: white;
+  border-color: black;
 }
 
 /* Botao pra tela de bateria */
 .link-bateria {
-    text-decoration: none;
-    color: black;
-    font-size: 18px;
-    font-weight: bold;
-    border: 2px solid #333;
-    padding: 5px 15px;
-    border-radius: 20px;
-    margin-top: 10px;
+  text-decoration: none;
+  color: black;
+  font-size: 14px;
+  font-weight: bold;
+  border: 2px solid #333;
+  border-radius: 20px;
+  margin-top: 10px;
+  width: 15vw;
+  height: 4.5vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all ease-in-out 0.3s;
 }
 
 .link-bateria:hover {
-    background-color: black;
-    color: white;
+  background-color: black;
+  color: white;
 
-    span {
-        color: white;
-    }
+  span {
+    color: white;
+  }
 }

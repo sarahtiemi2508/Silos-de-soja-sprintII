@@ -50,7 +50,7 @@
                 <div class="cards-kpi">
                     <div class="kpi-live">
                         <span>Espaço livre para armazenamento</span>
-                        <h3>-- cm</h3>
+                        <h3>-- m</h3>
                         <h4>Porcentagem</h4>
                     </div>
 
@@ -63,6 +63,7 @@
                 </div>
 
                 <div class="controle-silo-bateria">
+                    <div class="fazenda">Fazenda XPTO</div>
                     <span>SILOS DA BATERIA</span>
                     <p>Bateria atual: 67</p>
 
@@ -95,7 +96,7 @@
                         <div class="estado">
                             <h3 style="color: #FFBA00;">--</h3>
                         </div>
-                        <h4>Ação/desc</h4>
+                        <h4 id="id_silo_mais">Ação</h4>
                     </div>
                     <div class="kpi-tempo-alerta">
                         <span>Tempo em alerta</span>
@@ -117,5 +118,94 @@
     <script src="../js/dashboard-individual.js"></script>
 
 </body>
+<script>
+    // Lógica para fazer os botões pegarem a cor do stts do silo
+    // Criação do JSON de silos
+    let silos = [
+        {
+            'nome': 'Silo1',
+            'numero': 1,
+            'porcentagem': 84
+        }, {
+            'nome': 'Silo2',
+            'numero': 2,
+            'porcentagem': 19
+        }, {
+            'nome': 'Silo3',
+            'numero': 3,
+            'porcentagem': 56
+        }, {
+            'nome': 'Silo4',
+            'numero': 4,
+            'porcentagem': 82
+        }, {
+            'nome': 'Silo5',
+            'numero': 5,
+            'porcentagem': 76
+        }, {
+            'nome': 'Silo6',
+            'numero': 6,
+            'porcentagem': 44
+        }, {
+            'nome': 'Silo7',
+            'numero': 7,
+            'porcentagem': 12
+        }, {
+            'nome': 'Silo8',
+            'numero': 8,
+            'porcentagem': 92
+        }
+    ]
+    let botoes_silos = document.querySelectorAll('.btn-silo');
+
+    for (let i = 0; i < botoes_silos.length; i++) {
+
+        if (silos[i].porcentagem >= 30 && silos[i].porcentagem <= 70) {
+
+            botoes_silos[i].id = 'estavel';
+
+        } else if (silos[i].porcentagem < 15 || silos[i].porcentagem > 85) {
+
+            botoes_silos[i].id = 'critico';
+
+        } else {
+
+            botoes_silos[i].id = 'moderado';
+        }
+    }
+
+    // Lógica para recomendação de escoamento
+    let silo_mais_vazio = silos[0];
+    let silo_mais_cheio = silos[0];
+
+    // Acha o silo mais vazio
+    for (let i = 0; i < silos.length; i++) {
+
+        if (silos[i].porcentagem < silo_mais_vazio.porcentagem) {
+            silo_mais_vazio = silos[i]
+        }
+
+    }
+
+    // Acha o silo mais cheio
+    for (let i = 0; i < silos.length; i++) {
+
+        if (silos[i].porcentagem > silo_mais_cheio.porcentagem) {
+            silo_mais_cheio = silos[i]
+        }
+
+    }
+
+    // For que recomenda escoamento ou enchimento 
+    for (let i = 0; i < silos.length; i++) {
+        if (silos[0].porcentagem > 70) {
+            id_silo_mais.innerHTML = `Escoar para ${silo_mais_vazio.nome}`;
+        } else if (silos[0].porcentagem < 25) {
+            id_silo_mais.innerHTML = `Preencher a partir de ${silo_mais_cheio.nome}`;
+        }
+    }
+
+
+</script>
 
 </html>

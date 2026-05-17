@@ -39,10 +39,14 @@
             });
     </script>
 
-    <div class="titulo-pag">
-        <img src="../assets/imgs/imagemtitulo.svg" alt="imagemTitulo">
-        <h1>SITUAÇÃO DA BATERIA</h1>
+    <div class="titulos">
+        <div class="titulo-pag">
+            <img src="../assets/imgs/imagemtitulo.svg" alt="imagemTitulo">
+            <h1>BATERIA XPTO</h1>
+        </div>
+        <h2 class="fazenda-grupo">Fazenda XPTO</h2>
     </div>
+
 
     <div class="campos">
 
@@ -90,7 +94,7 @@
 <script>
     const labels = ["Silo 1", "Silo 2", "Silo 3", "Silo 4", "Silo 5", "Silo 6", "Silo 7", "Silo 8"];
 
-    let valores = [33, 19, 56, 82, 76, 44, 12, 92];
+    let valores = [84, 19, 56, 82, 76, 44, 12, 92];
 
     let totalValores = 0;
 
@@ -124,6 +128,7 @@
         }
     }
 
+    // Calculo do maior e menor nível da bateria
     const porcentagemSiloMaior = document.getElementById("maiorSilo");
     const porcentagemSiloMenor = document.getElementById("menorSilo");
     const nomeSiloMaximo = document.getElementById("siloMaximo");
@@ -140,10 +145,15 @@
     barraMaior.style.height = (maiorValor / 100) * 80 + "%";
     barraMenor.style.height = (menorValor / 100) * 80 + "%";
 
+    // Carrega os resultados de nível total e de media da bateria
     const totalBateria = document.getElementById("nivelTotalBateria");
     const mediaBateria = document.getElementById("nivelMediaBateria");
 
-    totalBateria.innerHTML = `<p>Volume Total da Bateria</p><p>${totalValores}<span>m³</span></p>`;
+    // Calculo do total da bateria
+    // 2812.5  foi tirado do calculo de 100% de ocupação do silo individual 1
+    let totalMBateria = 2812.5 * labels.length;
+
+    totalBateria.innerHTML = `<p>Volume Total da Bateria</p><p>${totalMBateria}<span>m³</span></p>`;
     mediaBateria.innerHTML = `<p>Média de Ocupação</p><p>${mediaValores.toFixed(1)}<span>m³</span></p>`;
 
 

@@ -65,6 +65,7 @@
                 </div>
 
                 <div class="controle-silo-bateria">
+                    <div class="fazenda">Fazenda XPTO</div>
                     <span>SILOS DA BATERIA</span>
                     <p>Bateria atual: 67</p>
 
@@ -79,7 +80,8 @@
                         <button class="btn-silo">8</button>
                     </div>
 
-                    <a href="../dashboard/dashboard-bateria.html" class="link-bateria">VER SITUAÇÃO DA BATERIA <span>&rarr;</span></a>
+                    <a href="../dashboard/dashboard-bateria.html" class="link-bateria">VER SITUAÇÃO DA BATERIA
+                        <span>&rarr;</span></a>
                 </div>
 
 
@@ -98,7 +100,7 @@
                         <div class="estado">
                             <h3 style="color: #FFBA00;">MODERADO</h3>
                         </div>
-                        <h4>Recomenda-se um escoamento</h4>
+                        <h4 id="id_silo_mais"></span></h4>
                     </div>
                     <div class="kpi-tempo-alerta">
                         <span>Tempo em alerta</span>
@@ -118,11 +120,6 @@
     </div>
 
     <script>
-        // Lógica da barra
-        const barraSilo = document.getElementById('silo-preenchimento');
-        barraSilo.style.height = `84%`;
-        barraSilo.style.backgroundColor = '#FFBA00';
-
         // Lógica dos botões
         const botoes = document.querySelectorAll('.btn-silo');
         for (let i = 0; i < botoes.length; i++) {
@@ -133,6 +130,102 @@
                 botoes[i].className = 'btn-silo active';
             });
         }
+
+        // Lógica para fazer os botões pegarem a cor do stts do silo
+        // Criação do JSON de silos
+        let silos = [
+            {
+                'nome': 'Silo1',
+                'numero': 1,
+                'porcentagem': 84
+            }, {
+                'nome': 'Silo2',
+                'numero': 2,
+                'porcentagem': 19
+            }, {
+                'nome': 'Silo3',
+                'numero': 3,
+                'porcentagem': 56
+            }, {
+                'nome': 'Silo4',
+                'numero': 4,
+                'porcentagem': 82
+            }, {
+                'nome': 'Silo5',
+                'numero': 5,
+                'porcentagem': 76
+            }, {
+                'nome': 'Silo6',
+                'numero': 6,
+                'porcentagem': 44
+            }, {
+                'nome': 'Silo7',
+                'numero': 7,
+                'porcentagem': 12
+            }, {
+                'nome': 'Silo8',
+                'numero': 8,
+                'porcentagem': 92
+            }
+        ]
+
+        // Criação da variável que pega todos os botões do silo
+        let botoes_silos = document.querySelectorAll('.btn-silo');
+
+        // For que verifica a % do silo e muda o fundo de acordo
+
+        for (let i = 0; i < botoes_silos.length; i++) {
+
+            if (silos[i].porcentagem >= 30 && silos[i].porcentagem <= 70) {
+
+                botoes_silos[i].id = 'estavel';
+
+            } else if (silos[i].porcentagem < 15 || silos[i].porcentagem > 85) {
+
+                botoes_silos[i].id = 'critico';
+
+            } else {
+
+                botoes_silos[i].id = 'moderado';
+            }
+        }
+
+        // Lógica para recomendação de escoamento
+        let silo_mais_vazio = silos[0];
+        let silo_mais_cheio = silos[0];
+
+        // Acha o silo mais vazio
+        for (let i = 0; i < silos.length; i++) {
+
+            if (silos[i].porcentagem < silo_mais_vazio.porcentagem) {
+                silo_mais_vazio = silos[i]
+            }
+
+        }
+
+        // Acha o silo mais cheio
+        for (let i = 0; i < silos.length; i++) {
+
+            if (silos[i].porcentagem > silo_mais_cheio.porcentagem) {
+                silo_mais_cheio = silos[i]
+            }
+
+        }
+
+        // For que recomenda escoamento ou enchimento 
+        for (let i = 0; i < silos.length; i++) {
+            if (silos[0].porcentagem > 70) {
+                id_silo_mais.innerHTML = `Escoar para ${silo_mais_vazio.nome}`;
+            } else if (silos[0].porcentagem < 25) {
+                id_silo_mais.innerHTML = `Preencher a partir de ${silo_mais_cheio.nome}`;
+            }
+        }
+
+        // Lógica da barra
+
+        const barraSilo = document.getElementById('silo-preenchimento');
+        barraSilo.style.height = `84%`;
+        barraSilo.style.backgroundColor = '#FFBA00';
 
         // Gráfico mocado
         const contextoGrafico = document.getElementById('graficoSiloMocado').getContext('2d');
@@ -163,7 +256,13 @@
                         max: 100,
                         title: { display: true, text: 'Preenchimento (%)' }
                     }
-                }
+                },
+                plugins: {
+                    title: {
+                        display: true,
+                        text: "NÍVEL DE PREENCHIMENTO DO SILO EM RELAÇÃO AO TEMPO",
+                    },
+                },
             }
         });
     </script>

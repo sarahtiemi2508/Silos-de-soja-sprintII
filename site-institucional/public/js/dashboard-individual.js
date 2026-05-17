@@ -94,7 +94,7 @@ function obterDadosDaAPI() {
 // Faz um loop infinito pra ficar chamando a função a cada 1 seg
 setInterval(obterDadosDaAPI, 1000);
 
-// Lógica pra atulizar as KPIs
+// Lógica pra atualizar as KPIs
 function atualizarPainelSilo(distanciaSensor) {
     // Pra não continuar dando erro
     if (distanciaSensor < 0) {
