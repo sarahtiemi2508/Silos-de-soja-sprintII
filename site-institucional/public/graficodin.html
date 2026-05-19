@@ -1,0 +1,197 @@
+<!doctype html>
+<html>
+
+<head>
+    <title>Graphics</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<style>
+/* API da fonte de títulos Inter */
+@import url('https://fonts.googleapis.com/css2?&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+
+ * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+ }
+
+/* Root de variáveis para paleta de cores e fontes */
+:root {
+    --primary-yellow: #FFBA00;
+    --second-green: #00352A;
+    --paragrafo: 'Montserrat', sans-serif;
+    --titulo: 'Inter', sans-serif;
+} 
+
+ body {
+    background-color: black;
+    font-family: var(--titulo);
+    display: flex;
+    flex-direction: column;
+ }
+
+ .div-grafico {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-self: center;
+    text-align: center;
+    background-color: white;
+    height: 70vh;
+    width: 90vw;
+    border-radius: 25px;
+    gap: 10px;
+ }
+
+ .grafico {
+    align-self: center;
+    width: 55%;
+    height: auto;
+ }
+
+ .titulo {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    margin: 6% 0px 3% 0px;
+    gap: 20px;
+ }
+
+ .h-titulo {
+    font-weight: 700;
+    font-size: 25px;
+    color: white;
+    text-transform: uppercase;
+ }
+
+ .teste {
+    border-color: #ff5067;
+ }
+
+.header{
+    background-color: rgb(0, 0, 0, 0.7);
+    position: fixed;
+    z-index: 10;
+    width: 100%;
+    height: 10vh;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    text-align: center;
+    font-family: var(--titulo);
+    gap: 15px;
+    padding: 0px 3%;
+}
+
+.header h3 {
+    color: var(--primary-yellow);
+    font-size: 20px;
+    text-transform: uppercase;
+}
+
+.header div img {
+    width: 50px;
+    height: auto;
+}
+
+.header div {
+    display: flex;
+    width: 30vw;
+}
+
+.header .esq {
+    justify-self: flex-start;
+}
+
+.header .dir {
+    justify-self: flex-end;
+}
+</style>
+<body>
+    <div class="header">
+        <div class="esq">
+            <img src="../assets/imgs/logoCeres.png" alt="">
+        </div>
+        <h3>Dashboard</h3>
+        <div class="dir"></div>
+    </div>
+
+    <div class="titulo">
+        <img src="../assets/imgs/siloicon.svg" alt="icone de silo" style="width: 22px;">
+        <h1 class="h-titulo">Situação do silo</h1>
+    </div>
+    <div class="div-grafico">
+        <h3 style="align-self: center;">Gráfico de nível do silo</h3>
+        <div class="grafico">
+            <canvas id="sensorAnalogico"></canvas>
+        </div>
+    </div>
+
+    <script>
+        var sensorAnalogico = new Chart(document.getElementById('sensorAnalogico').getContext('2d'), {
+            type: 'line',
+            data: {
+                datasets: [{
+                    label: 'Distância do sensor',
+                    borderColor: '#cf041f',
+                    backgroundColor: '#ff5067'
+                }]
+            },
+            options: {
+                scales: {
+                    x: {
+                        beginAtZero: true
+                    },
+                    y: {
+                        title: {
+                            display: true,
+                            text: '(%)'
+                        },
+                        beginAtZero: true,
+                    },
+                },
+            }
+        });
+
+        var paginacao = {};
+        var tempo = {};
+
+        function obterDados(grafico, endpoint) {
+            fetch('http://localhost:3300/sensores/' + endpoint)
+                .then(response => response.json())
+                .then(valores => {
+                    if (paginacao[endpoint] == null) {
+                        paginacao[endpoint] = 0;
+                    }
+                    if (tempo[endpoint] == null) {
+                        tempo[endpoint] = 0;
+                    }
+
+                    var ultimaPaginacao = paginacao[endpoint];
+                    paginacao[endpoint] = valores.length;
+                    valores = valores.slice(ultimaPaginacao);
+
+                    valores.forEach((valor) => {
+                        if (grafico.data.labels.length == 10 && grafico.data.datasets[0].data.length == 10) {
+                            grafico.data.labels.shift();
+                            grafico.data.datasets[0].data.shift();
+                        }
+
+                        grafico.data.labels.push(tempo[endpoint]++);
+                        grafico.data.datasets[0].data.push(parseFloat(valor));
+                        grafico.update();
+                    });
+                })
+                .catch(error => console.error('Erro ao obter dados:', error));
+        }
+
+        setInterval(() => {
+            obterDados(sensorAnalogico, 'analogico');
+        }, 1000);
+
+    </script>
+</body>
+
+</html>
