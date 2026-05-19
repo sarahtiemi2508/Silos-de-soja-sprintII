@@ -83,8 +83,8 @@ function cadastrar(req, res) {
                         .then(function (resultadoCadastro) {
                             res.json(resultadoCadastro);
                         }).catch(function (erro) {
-                            console.log("Erro no cadastro do usuário:", erro.sqlMessage);
-                            res.status(500).json(erro.sqlMessage);
+                            console.log("Erro no cadastro do usuário:", erro);
+                            res.status(500).json(erro);
                         });
 
                 } else {
@@ -93,8 +93,8 @@ function cadastrar(req, res) {
                 }
 
             }).catch(function (erro) {
-                console.log("Erro ao buscar a empresa:", erro.sqlMessage);
-                res.status(500).json(erro.sqlMessage);
+                console.log("Erro ao buscar a empresa:", erro);
+                res.status(500).json(erro);
             });
     }
 }
