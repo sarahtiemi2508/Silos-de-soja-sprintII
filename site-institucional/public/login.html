@@ -1,15 +1,15 @@
 <html>
+
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 	<!-- Icons -->
-  <link rel="shortcut icon" href="./assets/icon/favicon-dark.ico" media="(prefers-color-scheme: dark)">
-  <link rel="shortcut icon" href="./assets/icon/favicon-light.ico"
-    media="(prefers-color-scheme: light)">
+	<link rel="shortcut icon" href="./assets/icon/favicon-dark.ico" media="(prefers-color-scheme: dark)">
+	<link rel="shortcut icon" href="./assets/icon/favicon-light.ico" media="(prefers-color-scheme: light)">
 
-  <link rel="stylesheet" href="./css/auth.css">
-  <link rel="stylesheet" href="./css/header-footer.css">
+	<link rel="stylesheet" href="./css/auth.css">
+	<link rel="stylesheet" href="./css/header-footer.css">
 	<title>Login</title>
 </head>
 </style>
@@ -18,13 +18,13 @@
 
 	<div id="header"></div>
 
-  <script>
-    fetch("./includes/header.html")
-      .then(resposta => resposta.text())
-      .then(dados => {
-        document.getElementById("header").innerHTML = dados;
-      });
-  </script>
+	<script>
+		fetch("./includes/header.html")
+			.then(resposta => resposta.text())
+			.then(dados => {
+				document.getElementById("header").innerHTML = dados;
+			});
+	</script>
 
 	<div class="div_tela_inteira">
 		<div class="card">
@@ -34,11 +34,11 @@
 			<div class="formulario">
 				<div class="campo">
 					<label>Email: </label>
-					<input type="email" id="email_inserido" class="input-login"/>
+					<input type="email" id="email_inserido" class="input-login" />
 				</div>
 				<div class="campo">
 					<label>Senha: </label>
-					<input type="password" id="senha_inserida" class="input-login"/>
+					<input type="password" id="senha_inserida" class="input-login" />
 				</div>
 			</div>
 			<button class="botao-login" onclick="logar()">ENTRAR</button>
@@ -52,43 +52,85 @@
 <script>
 	function logar() {
 
-		let email = email_inserido.value
-		let senha = senha_inserida.value
+		let email = document.getElementById("email_inserido").value.trim();
+		let senha = document.getElementById("senha_inserido").value.trim();
 
 		if (email == "" || senha == "") {
 			alert("Uma das informações necessárias está vazia. Verifique os campos.");
 			return;
 		}
 
+		fetch("/usuarios/autenticar", {
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json",
+			},
+			body: JSON.stringify({
+				// crie um atributo que recebe o valor recuperado aqui
+				emailServer: email,
+				senhaServer: senha,
+			}),
+		})
+			.then(function (resposta) {
+				console.log("resposta: ", resposta);
 
-		let usuarios = [ 
-			{ email: "fernandobrandao@gmail.com", senha: "pesquiseeinove" },
-			{ email: "juliaararipe@gmail.com", senha: "pesquiseeinove" },
-			{ email: "ceresADMS", senha: "admin" }
-		];
+				if (resposta.ok) {
+					console.log(resposta);
 
-		let loginValido = false;
+					// Pegar os dados do json q veio do bd
+					resposta.json().then(json => {
+						console.log(json);
+						console.log(JSON.stringify(json));
 
+						// Guardar na sessão
+						sessionStorage.EMAIL_USUARIO = json.email;
+						sessionStorage.NOME_USUARIO = json.nome_usuario;
+						sessionStorage.ID_USUARIO = json.id_usuario;
+						sessionStorage.ID_EMPRESA = json.fk_empresa; 
 
-		for (let i = 0; i < usuarios.length; i++) {
+						alert("Login realizado com sucesso. Seja bem vindo(a)!");
 
-			if (
-				email === usuarios[i].email &&
-				senha === usuarios[i].senha
-			) {
-				loginValido = true;
-				break; // para o loop quando encontra
-			}
+						setTimeout(() => {
+							window.location = "/dashboard/alerta.html";
+						}, 2000);
+					});
+				} else {
+					throw "Houve um erro ao tentar realizar o login!";
+					alert("Email ou senha inválidos!");
+				}
+			})
+			.catch(function (resposta) {
+				console.log(`#ERRO: ${resposta}`);
+			});
 
-		}
+		return false;
 
+		// let usuarios = [ 
+		// 	{ email: "fernandobrandao@gmail.com", senha: "pesquiseeinove" },
+		// 	{ email: "juliaararipe@gmail.com", senha: "pesquiseeinove" },
+		// 	{ email: "ceresADMS", senha: "admin" }
+		// ];
 
-		if (loginValido) {
-			alert("Login realizado com sucesso!");
-			window.location.href = "./dashboard/alerta.html";
-		} else {
-			alert("Email ou senha inválidos!");
-		}
+		// let loginValido = false;
+
+		// for (let i = 0; i < usuarios.length; i++) {
+
+		// 	if (
+		// 		email === usuarios[i].email &&
+		// 		senha === usuarios[i].senha
+		// 	) {
+		// 		loginValido = true;
+		// 		break; // para o loop quando encontra
+		// 	}
+
+		// }
+
+		// if (loginValido) {
+		// 	alert("Login realizado com sucesso!");
+		// 	window.location.href = "./dashboard/alerta.html";
+		// } else {
+		// 	alert("Email ou senha inválidos!");
+		// }
 	}
 </script>
 
