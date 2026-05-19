@@ -1,4 +1,5 @@
 var usuarioModel = require("../models/usuarioModel");
+var empresaModel = require("../models/empresaModel");
 
 
 function autenticar(req, res) {
@@ -20,7 +21,7 @@ function autenticar(req, res) {
                     if (resultadoAutenticar.length == 1) {
                         console.log(resultadoAutenticar);
 
-                        
+
                     } else if (resultadoAutenticar.length == 0) {
                         res.status(403).send("Email e/ou senha inválido(s)");
                     } else {
@@ -40,17 +41,19 @@ function autenticar(req, res) {
 
 function cadastrar(req, res) {
     // Crie uma variável que vá recuperar os valores do arquivo cadastro.html
+    var codEmpresa = req.body.codEmpresaServer;
     var nome = req.body.nomeServer;
-    var cpf = req.body.cpfSercer;
+    var cpf = req.body.cpfServer;
     var dtNasc = req.body.dtNascServer
     var email = req.body.emailServer;
     var senha = req.body.senhaServer;
     var telefone = req.body.telefoneServer
 
-
     // Faça as validações dos valores
-    if (nome == undefined) {
-        res.status(400).send("Seu nome está undefined!");
+    if (codEmpresa == undefined) {
+        res.status(400).send("Código da empresa está undefined!");
+    } else if (nome == undefined) {
+        res.status(400).send("Seu CPF está undefined!");
     } else if (cpf == undefined) {
         res.status(400).send("Seu CPF está undefined!");
     } else if (dtNasc == undefined) {
@@ -63,22 +66,36 @@ function cadastrar(req, res) {
         res.status(400).send("Seu telefone está undefined!");
     } else {
 
-        // Passe os valores como parâmetro e vá para o arquivo usuarioModel.js
-        usuarioModel.cadastrar(nome, cpf, dtNasc, email, senha, telefone)
-            .then(
-                function (resultado) {
-                    res.json(resultado);
+        // Verifica se a empresa existe
+        empresaModel.buscarCodigo(codEmpresa)
+            .then(function(resultadoEmpresa) {
+                // Se o resultado retornar mais que 0, a empresa foi encontrada
+                if (resultadoEmpresa.length > 0) {
+
+                    // Pega o ID da empresa que veio na consulta do bd
+                    var idEmpresa = resultadoEmpresa[0].id_empresa;
+
+                    // Como ele tem o código e ta se cadastrando pelo cadastro, ele é o adm da empresa
+                    var tipoUsuario = 'AdmEmpresa'; 
+
+                    // Chama a função de cadastrar
+                    usuarioModel.cadastrar(nome, cpf, dtNasc, email, senha, telefone, tipoUsuario, idEmpresa)
+                        .then(function (resultadoCadastro) {
+                            res.json(resultadoCadastro);
+                        }).catch(function (erro) {
+                            console.log("Erro no cadastro do usuário:", erro.sqlMessage);
+                            res.status(500).json(erro.sqlMessage);
+                        });
+
+                } else {
+                    // Se o length for 0 então o cód da empresa não está no banco
+                    res.status(403).send("Código de empresa inválido ou não encontrado!");
                 }
-            ).catch(
-                function (erro) {
-                    console.log(erro);
-                    console.log(
-                        "\nHouve um erro ao realizar o cadastro! Erro: ",
-                        erro.sqlMessage
-                    );
-                    res.status(500).json(erro.sqlMessage);
-                }
-            );
+
+            }).catch(function (erro) {
+                console.log("Erro ao buscar a empresa:", erro.sqlMessage);
+                res.status(500).json(erro.sqlMessage);
+            });
     }
 }
 

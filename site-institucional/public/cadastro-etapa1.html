@@ -33,6 +33,17 @@
 
 			<div class="formulario form-row">
 				<div class="colunas">
+					<div class="campo cod">
+
+						<div class="info-cod">
+							<label>Código de empresa:</label>
+							<img src="./assets/imgs/info.png" alt="Ícone de interrogação">
+							<span class="infocod-text">Entre em contato pela central de atendimento para solicitar um código de empresa</span>
+						</div>
+						<input type="text" id="empresa_inserido" class="input-cadastro" />
+
+					</div>
+
 					<div class="campo">
 						<label>Nome: </label>
 						<input type="text" id="nome_inserido" class="input-cadastro" />
@@ -44,7 +55,7 @@
 					</div>
 
 					<div class="campo">
-						<label>Data de Nascimento: </label>
+						<label>Data de nascimento: </label>
 						<input type="date" id="data_inserida" class="input-cadastro" />
 					</div>
 				</div>
@@ -61,13 +72,18 @@
 					</div>
 
 					<div class="campo">
+						<label>Confirme sua senha: </label>
+						<input type="password" id="senha_inserida2" class="input-cadastro" />
+					</div>
+
+					<div class="campo">
 						<label>Telefone: </label>
 						<input type="tel" id="telefone_inserido" class="input-cadastro" />
 					</div>
 				</div>
 			</div>
 
-			<button class="botao-login btn-cad" onclick="logar()">CONTINUAR
+			<button class="botao-login btn-cad" onclick="cadastrar()">CONTINUAR
 				<!--<b><a href="Cadastro_etapa2.html">CONTINUAR</a></b>*/-->
 			</button>
 			<div class="links">
@@ -78,32 +94,80 @@
 	</div>
 </body>
 <script>
-	function logar(params) {
-		let nome = nome_inserido.value;
-		let CPF = cpf_inserido.value;
-		let dt_nasc = data_inserida.value;
-		let email = email_inserido.value;
-		let senha = senha_inserida.value;
-		let telefone = telefone_inserido.value;
-		console.log(dt_nasc)
 
-		if (nome == "" || CPF == "" || dt_nasc == "" || email == "" || senha == "" || telefone == "") {
-			alert("Uma das informações necessárias para o cadastro está vazia. Verifique os campos e tente novamente");
-		}
-		else if (CPF.length !== 11) {
-			alert(`Detectamos queo número de carácteres do seu cpf nâo está dentro do padrão esperado. Verifique se quantidade
-        de números inseridos é 11, e se todos os caracteres são realmente números. após isso tente novamente`);
-		}
+	function cadastrar() {
+    let codEmpresa = document.getElementById("empresa_inserido").value.trim();
+    let nome = document.getElementById("nome_inserido").value.trim();
+    let cpf = document.getElementById("cpf_inserido").value.trim();
+    let dtNasc = document.getElementById("data_inserida").value;
+	// console.log(dtNasc);
+    let email = document.getElementById("email_inserido").value.trim();
+    let senha = document.getElementById("senha_inserida").value;
+    let senhaConfirmacao = document.getElementById("senha_inserida2").value;
+    let telefone = document.getElementById("telefone_inserido").value.trim();
 
-		//adiiconar validaçao para conferir se todos od digitos do cpf sao numeros
+    // Verificação de campos preenchidos
+    if (codEmpresa === "" || nome === "" || cpf === "" || dtNasc === "" || email === "" || senha === "" || senhaConfirmacao === "" || telefone === "") {
+        alert("Uma das informações necessárias para o cadastro está vazia. Verifique os campos e tente novamente");
+        return;
+    }
 
-		else if (!email.includes("@") || !email.includes(".com")) {
-			alert(`Detectamos ausênsia de "@" ou ".com" no seu email. Verifique o campo e tente novamente`);
-		}
-		else {
-			window.location.href = "/site-institucional/public/cadastro-etapa2.html"
-		}
-	}
+    // Verificação do tamanho do cpf
+    if (cpf.length !== 11) {
+        alert("O CPF deve conter exatamente 11 dígitos numéricos, sem pontos ou traços.");
+        return;
+    }
+
+    // Verificar se é email
+    if (email.indexOf("@") === -1 || email.indexOf(".com") === -1) {
+        alert("Detectamos ausência de '@' ou '.com' no seu email. Verifique o campo e tente novamente");
+        return;
+    }
+
+    // Verificar se as senhas batem
+    if (senha !== senhaConfirmacao) {
+        alert("As senhas não coincidem. Digite novamente.");
+        return;
+    }
+    
+    // Se passar tudo (chegar até essa linha), podemos enviar pro Backend
+    // Fetch e manda pra tela de login
+	fetch("/usuarios/cadastrar", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        // crie um atributo que recebe o valor recuperado aqui
+        // Agora vá para o arquivo routes/usuario.js
+        codEmpresaServer: codEmpresa,
+        nomeServer: nome,
+        cpfServer: cpf,
+        dtNascServer: dtNasc,
+        emailServer: email,
+        senhaServer: senha, 
+        telefoneServer: telefone
+      }),
+    })
+      .then(function (resposta) {
+        console.log("resposta: ", resposta);
+
+        if (resposta.ok) {
+           console.log("O adm foi vinculado na empresa");
+
+          setTimeout(() => {
+            window.location = "./login.html";
+          }, "2000");
+        } else {
+          throw "Houve um erro ao tentar realizar o cadastro!";
+        }
+      })
+      .catch(function (resposta) {
+        console.log(`#ERRO: ${resposta}`);
+      });
+
+    return false;
+}
 </script>
 
 </html>

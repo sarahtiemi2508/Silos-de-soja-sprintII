@@ -1,175 +1,224 @@
-	/* API da fonte de títulos Inter */
-	@import url('https://fonts.googleapis.com/css2?&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+/* API da fonte de títulos Inter */
+@import url("https://fonts.googleapis.com/css2?&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap");
 
-	/* API da fonte padrão Montserrat */
-	@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&display=swap');
+/* API da fonte padrão Montserrat */
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&display=swap");
 
-	:root {
-	      --primary-yellow: #FFBA00;
-	      --second-green: #00352A;
-	      --paragrafo: 'Montserrat', sans-serif;
-	      --titulo: 'Inter', sans-serif;
-	}
+:root {
+  --primary-yellow: #ffba00;
+  --second-green: #00352a;
+  --paragrafo: "Montserrat", sans-serif;
+  --titulo: "Inter", sans-serif;
+}
 
-	* {
-	      padding: 0%;
-	      box-sizing: border-box;
-	      margin: 0%;
-	}
+* {
+  padding: 0%;
+  box-sizing: border-box;
+  margin: 0%;
+}
 
-	body {
-	      font-family: var(--paragrafo);
-	}
+body {
+  font-family: var(--paragrafo);
+}
 
-	.div_tela_inteira {
-	      position: relative;
-	      width: 100%;
-	      min-height: 100vh;
-	      display: flex;
-	      justify-content: center;
-	      align-items: center;
-	      overflow: hidden;
-	}
+.div_tela_inteira {
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
 
-	.div_tela_inteira:before {
-	      content: "";
-	      position: absolute;
-	      inset: 0;
-	      background-image: url('../assets/imgs/background_login.svg');
-	      background-position: center;
-	      background-repeat: no-repeat;
-	      background-size: cover;
-	      filter: blur(5px);
-	      z-index: -1;
-	      transform: scale(1.1);
-	}
+.div_tela_inteira:before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: url("../assets/imgs/background_login.svg");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  filter: blur(5px);
+  z-index: -1;
+  transform: scale(1.1);
+}
 
-	.card {
-	      margin-top: 4%;
-	      background-color: white;
-	      height: 70vh;
-	      width: 45vw;
-	      padding: 2%;
-	      display: flex;
-	      justify-content: center;
-	      align-items: center;
-	      flex-direction: column;
-	      border-radius: 8%;
-	      box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
-	      gap: 8%;
-	}
+.card {
+  margin-top: 5%;
+  background-color: white;
+  height: 70vh;
+  width: 45vw;
+  padding: 2%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  border-radius: 8%;
+  box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
+  gap: 8%;
+}
 
-      .input-login { 
-		width: 30vw;
-		height: 5vh;
-		padding: 2%;
+.input-login {
+  width: 30vw;
+  height: 5vh;
+  padding: 2%;
 
-		border-radius: 20px;
-		border: 1px solid #ccc;
+  border-radius: 20px;
+  border: 1px solid #ccc;
 
-		outline: none;
-	}
+  outline: none;
+}
 
-      /* Especificar classe */
-	.colunas .input-cadastro {
-	      width: 18vw;
-	      height: 5vh;
-	      padding: 2%;
+/* Especificar classe */
+.colunas .input-cadastro {
+  width: 18vw;
+  height: 5vh;
+  padding: 2%;
 
-	      border-radius: 20px;
-	      border: 1px solid #ccc;
+  border-radius: 20px;
+  border: 1px solid #ccc;
 
-	      outline: none;
-	}
+  outline: none;
+}
 
-	.botao-login {
-            font-family: var(--titulo);
-            font-weight: 700;
-	      width: 8vw;
-	      padding: 2%;
-	      background-color: #f4b400;
-	      color: black;
-	      border: none;
-	      border-radius: 10vw;
-	      cursor: pointer;
-	      transition: all ease-in-out 0.3s;
-	}
+.botao-login {
+  font-family: var(--titulo);
+  font-weight: 700;
+  width: 8vw;
+  padding: 2%;
+  margin: 5px;
+  margin-top: 20px;
+  background-color: #f4b400;
+  color: black;
+  border: none;
+  border-radius: 10vw;
+  cursor: pointer;
+  transition: all ease-in-out 0.3s;
+}
 
-      .btn-cad {
-            width: 12vw;
-      }
+.btn-cad {
+  width: 12vw;
+}
 
-	.botao-login:hover {
-	      transform: scale(0.95);
-	      color: var(--primary-yellow);
-	      background-color: black;
-	      cursor: pointer;
-	}
+.botao-login:hover {
+  transform: scale(0.95);
+  color: var(--primary-yellow);
+  background-color: black;
+  cursor: pointer;
+}
 
-	.botao-login:active {
-	      transform: scale(1);
-	      color: black;
-	      background-color: var(--primary-yellow);
-	      cursor: pointer;
-	}
+.botao-login:active {
+  transform: scale(1);
+  color: black;
+  background-color: var(--primary-yellow);
+  cursor: pointer;
+}
 
-	.titulo {
-	      color: #f4b400;
-	      text-align: center;
-	      align-self: center;
-	      justify-self: center;
-	      font-size: 30px;
-	      font-weight: 700;
-	      font-family: var(--titulo);
-	}
+.titulo {
+  color: #f4b400;
+  text-align: center;
+  align-self: center;
+  justify-self: center;
+  font-size: 30px;
+  font-weight: 700;
+  font-family: var(--titulo);
+}
 
-      /* Especificar classe */
-      .titulo-login {
-            padding: 0px 0px 5% 0px;
-      }
+/* Especificar classe */
+.titulo-login {
+  padding: 0px 0px 5% 0px;
+}
 
-	.colunas .campo, .campo {
-	      display: flex;
-	      flex-direction: column;
-	      align-items: start;
-	      justify-content: center;
-	}
+.colunas .campo,
+.campo {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  justify-content: center;
+}
 
-	.colunas {
-	      display: flex;
-	      flex-direction: column;
-	      align-items: start;
-	      justify-content: center;
-	      gap: 10%;
-	}
+.colunas {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  justify-content: center;
+  gap: 10%;
+}
 
-	.links {
-	      justify-content: center;
-	      align-items: center;
-	      display: flex;
-	      flex-direction: column;
-	      gap: 10px;
-	      font-size: 16px;
-	}
+.links {
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  font-size: 16px;
+}
 
-	.links a {
-	      color: #f4b400;
-	      text-decoration: none;
-	      font-weight: 800;
-	      transition: all ease-in-out 0.3s;
-	}
+.links a {
+  color: #f4b400;
+  text-decoration: none;
+  font-weight: 800;
+  transition: all ease-in-out 0.3s;
+}
 
-	.links a:hover {
-	      color: var(--second-green);
-	}
+.links a:hover {
+  color: var(--second-green);
+}
 
-	.formulario {
-	      display: flex;
-	      flex-direction: column;
-	      justify-content: center;
-	      gap: 5%;
-	}
+.formulario {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5%;
+}
 
-      .form-row {
-            flex-direction: row;
-      }
+.form-row {
+  flex-direction: row;
+  width: 100%;
+  height: 100%;
+}
+
+/* Tooltip do cadastro */
+
+.campo .cod{
+	display: flex;
+	flex-direction: row;
+}
+
+.info-cod {
+  display: flex;
+  flex-direction: row;
+  position: relative;
+  cursor: help;
+
+  img{
+	height: 20px;
+	width: 25px;
+	padding-left: 3px ;
+  }
+}
+
+.info-cod .infocod-text {
+  visibility: hidden; /* Esconder o texto por padrao */
+  width: 300px;
+  background-color: #333;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 8px;
+  position: absolute;
+  z-index: 1;
+  bottom: 125%;
+  left: 50%;
+  margin-left: -125px;
+  opacity: 0; /*Pra ter uma transição bonitnha dele se revelando*/
+  transition: opacity 0.3s;
+  font-size: 12px;
+}
+
+/* Mostrar o texto no hover */
+.info-cod:hover .infocod-text {
+  visibility: visible;
+  opacity: 1;
+}
