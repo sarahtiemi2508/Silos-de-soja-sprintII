@@ -1,0 +1,125 @@
+*{
+    padding: 0px;
+    margin: 0px;
+
+}
+a{
+    cursor: pointer;
+}
+
+button{
+    cursor: pointer;
+}
+
+body{
+    font-family: Arial, Helvetica, sans-serif;
+    
+}
+#imgFundo{
+background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(../assets/imgs/img_fundo_alerta.png);
+    position: absolute;
+    width: 100%;
+    height: 100%;   
+}
+
+#header{
+    height: 65px;
+}
+
+#titulo{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 15px;
+    margin-left: 50px;
+    margin-top: 30px;
+}
+#imgTitulo{
+    width: 28px;
+    height: 28px;
+}
+.tituloPagina{
+    width: 100%;
+    height: auto;
+    color: white;
+
+}
+#boxes{
+    width: 100%;
+    height: 100vh;
+    margin-left: 40px;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    gap: 20px;
+    
+}
+.boxCadastrarFazenda{
+    width: 260px;
+    height: 170px;
+    background-color: white;
+    border-radius: 20px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center; 
+
+}
+.bordaAmarela{
+    width: 240px;
+    height: 150px;
+    background-color: white;
+    border: #FFBA00 solid 4px;
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+}
+
+#circuloAmarelo{
+    background-color: #FFBA00;
+    width: 70px;
+    height: 70px;
+    border-radius: 100px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    
+}
+
+#imgMais{
+    background-image: url(../assets/imgs/iconMais.svg);
+    width: 55px;
+    height: 55px;    
+}
+
+#textoAddFazenda{
+    margin-top: 10px;
+    font-weight: bold;
+    font-size: smaller;
+}
+
+.styleBotao{
+    font-size: xx-small;
+    background-color: #FFBA00;
+    font-weight: bold;
+    border-radius: 20px;
+    width: 70px;
+    height: 20px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+
+.boxBotoes{
+    width: 240px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-evenly;
+
+}
