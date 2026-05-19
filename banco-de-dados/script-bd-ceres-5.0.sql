@@ -3,6 +3,7 @@ USE ceres;
 
 CREATE TABLE empresa (
 id_empresa INT PRIMARY KEY AUTO_INCREMENT,
+cod_empresa VARCHAR(45) UNIQUE NOT NULL, -- Vai liberar o login. Com padrão interno da Ceres
 nome_fantasia VARCHAR(100),
 cnpj_empresa CHAR(14) UNIQUE NOT NULL,
 razao_social VARCHAR(100) NOT NULL,
@@ -26,6 +27,9 @@ dt_nascimento DATE,
 senha VARCHAR(255) NOT NULL,
 email VARCHAR(200) UNIQUE NOT NULL,
 telefone VARCHAR(15),
+
+tipo_usuario VARCHAR(30) NOT NULL,
+CONSTRAINT chk_tipo_usuario CHECK (tipo_usuario IN ('AdmEmpresa', 'AdmFazenda', 'Colaborador')),
 
 fk_empresa INT,
 CONSTRAINT ctfk_empresa
@@ -156,10 +160,10 @@ REFERENCES usuario(id_usuario)
 
 -- INSERTS -------------------------------------------------------------------------------
 
-INSERT INTO empresa (nome_fantasia, cnpj_empresa, razao_social) VALUES
-('Scheffer', '34086808000155', 'Armazenamento Agro LTDA'), -- fk empresa 1
-('Sementec', '53314648000107', 'Zen Armazenamentos SA'), -- fk empresa 2
-('ContSoja', '18749209000118', 'Container Soja LTDA'); -- fk empresa 3
+INSERT INTO empresa (cod_empresa, nome_fantasia, cnpj_empresa, razao_social) VALUES
+('SCH-0124','Scheffer', '34086808000155', 'Armazenamento Agro LTDA'), -- fk empresa 1
+('SEM-0498','Sementec', '53314648000107', 'Zen Armazenamentos SA'), -- fk empresa 2
+('CON-6767','ContSoja', '18749209000118', 'Container Soja LTDA'); -- fk empresa 3
 
 
 INSERT INTO endereco (cep, logradouro_fazenda, num_logradouro, cidade_fazenda, uf_fazenda) VALUES
@@ -174,25 +178,25 @@ INSERT INTO endereco (cep, logradouro_fazenda, num_logradouro, cidade_fazenda, u
 -- Endereço da fazenda da empresa ContSoja fk empresa 3
 ('47820-000', 'Sítio Grande', '790', 'São Desidério', 'BH');
 
-
-INSERT INTO usuario (nome_usuario, cpf, dt_nascimento, senha, email, telefone, fk_empresa) VALUES
+-- Chk_tipo_usuario CHECK (tipo_usuario IN ('AdmEmpresa', 'AdmFazenda', 'Colaborador')),
+INSERT INTO usuario (nome_usuario, cpf, dt_nascimento, senha, email, telefone, tipo_usuario, fk_empresa) VALUES
 -- 3 Usuários da empresa Scheffer fk empresa 1
-('Patrício Scheffer', '79620121023', '1978-01-02', 'Scheffer@123', 'scheffer.patricio@email.com', '(12) 2561-0474', 1),
-('Jonas Augusto', '62066691062', '1990-12-25', 'Jonas@123', 'augusto.jonas@email.com', '(19) 3901-6368', 1),
-('Mariana Franco', '60333608003', '1992-10-02', 'Mariana@123', 'franco.mariana@email.com', '(11) 2483-3297', 1),
+('Patrício Scheffer', '79620121023', '1978-01-02', 'Scheffer@123', 'scheffer.patricio@email.com', '(12) 2561-0474', 'AdmEmpresa', 1),
+('Jonas Augusto', '62066691062', '1990-12-25', 'Jonas@123', 'augusto.jonas@email.com', '(19) 3901-6368', 'AdmFazenda', 1),
+('Mariana Franco', '60333608003', '1992-10-02', 'Mariana@123', 'franco.mariana@email.com', '(11) 2483-3297', 'Colaborador', 1),
 
 -- 4 Usuários da empresa Sementec fk empresa 2
-('Erick Castro', '39479392488', '2001-07-09', 'Erick@123', 'erick.castro@email.com', '(11) 2828-2751', 2),
-('Giovanna Correia', '23283203687', '1964-03-30', 'Giovanna@123', 'giovanna.correia@email.com', '(11) 6403-8465', 2),
-('Anna Santos', '21171683707', '1992-10-23', 'Anna@123', 'anna.santos@email.com', '(11) 6523-8331', 2),
-('Daniel Cardoso', '84056133130', '1984-12-25', 'Daniel@123', 'daniel.cardoso@email.com', '(11) 7172-3488', 2),
+('Erick Castro', '39479392488', '2001-07-09', 'Erick@123', 'erick.castro@email.com', '(11) 2828-2751', 'AdmEmpresa', 2),
+('Giovanna Correia', '23283203687', '1964-03-30', 'Giovanna@123', 'giovanna.correia@email.com', '(11) 6403-8465', 'AdmFazenda', 2),
+('Anna Santos', '21171683707', '1992-10-23', 'Anna@123', 'anna.santos@email.com', '(11) 6523-8331','Colaborador', 2),
+('Daniel Cardoso', '84056133130', '1984-12-25', 'Daniel@123', 'daniel.cardoso@email.com', '(11) 7172-3488','Colaborador', 2),
 
 -- 5 Usuários da empresa ContSoja fk empresa 3
-('Tomás Azevedo', '99985232143', '2002-02-07', 'Tomas@123', 'tomas.azevedo@email.com', '(11) 8064-7075', 3),
-('Guilherme Ribeiro', '70772010820', '1977-11-09', 'Guilherme@123', 'guilherme.ribeiro@email.com', '(11) 4489-7507', 3),
-('Sarah Lima', '90576221490', '1988-03-28', 'Sarah@123', 'sarah.lima@email.com', '(41) 5308-6787', 3),
-('Brenda Melo', '81535689579', '1992-10-28', 'Brenda@123', 'brenda.melo@email.com', '(11) 5213-2368', 3),
-('Emily Correia', '65261626650', '2005-03-31', 'Emily@123', 'emily.correia@email.com', '(18) 2960-5857', 3);
+('Tomás Azevedo', '99985232143', '2002-02-07', 'Tomas@123', 'tomas.azevedo@email.com', '(11) 8064-7075', 'AdmEmpresa', 3),
+('Guilherme Ribeiro', '70772010820', '1977-11-09', 'Guilherme@123', 'guilherme.ribeiro@email.com', '(11) 4489-7507', 'AdmFazenda', 3),
+('Sarah Lima', '90576221490', '1988-03-28', 'Sarah@123', 'sarah.lima@email.com', '(41) 5308-6787', 'AdmFazenda', 3),
+('Brenda Melo', '81535689579', '1992-10-28', 'Brenda@123', 'brenda.melo@email.com', '(11) 5213-2368', 'Colaborador', 3),
+('Emily Correia', '65261626650', '2005-03-31', 'Emily@123', 'emily.correia@email.com', '(18) 2960-5857', 'Colaborador', 3);
 
 
 INSERT INTO fazenda (nome_fazenda, fk_endereco, fk_empresa) VALUES
@@ -210,21 +214,16 @@ INSERT INTO fazenda (nome_fazenda, fk_endereco, fk_empresa) VALUES
 
 INSERT INTO permissao (fk_usuario, fk_fazenda) VALUES
 -- Permissoes usuários da empresa Scheffer
-(1, 1), -- Patrício tem permissão da fazenda 1
-(1, 2), -- Patrício tem permissão da fazenda 2
 (2, 1), -- Jonas tem permissão da fazenda 1
 (2, 2), -- Jonas tem permissão da fazenda 2
 (3, 1), -- Mariana tem permissão da fazenda 1
 
 -- Permissoes usuários da empresa Sementec
-(4, 4), -- Erick tem permissão da fazenda 4
-(4, 3), -- Erick tem permissão da fazenda 3
 (5, 4), -- Giovanna tem permissão da fazenda 4
 (6, 3), -- Anna tem permissão da fazenda 3
 (7, 4), -- Daniel tem permissão da fazenda 4
 
 -- Permissoes usuários da empresa ContSoja
-(8, 5), -- Tomás tem permissão da fazenda 5
 (9, 5), -- Guilherme tem permissão da fazenda 5
 (10, 5), -- Sarah tem permissão da fazenda 5
 (11, 5), -- Brenda tem permissão da fazenda 5
@@ -517,5 +516,21 @@ ON e.id_empresa = u.fk_empresa;
 -- WHERE e.id_empresa = 1; -- Para uma empresa específica
 -- WHERE f.id_fazenda = 1; -- Para uma fazenda específica
 -- WHERE u.nome_usuario = 'Patrício Scheffer'; -- Para um usuário específico
+
+-- Usuários e suas permissões
+SELECT 
+    e.nome_fantasia AS 'Empresa', 
+    f.nome_fazenda AS 'Fazenda', 
+    GROUP_CONCAT(u.nome_usuario SEPARATOR ', ') AS 'Usuários com acesso'
+FROM empresa AS e
+JOIN fazenda AS f 
+    ON e.id_empresa = f.fk_empresa
+LEFT JOIN permissao AS p 
+    ON p.fk_fazenda = f.id_fazenda
+LEFT JOIN usuario AS u 
+    ON p.fk_usuario = u.id_usuario
+GROUP BY e.id_empresa, f.id_fazenda
+ORDER BY e.nome_fantasia, f.nome_fazenda;
+	
 
 -- FIM SELECT -------------------------------------------------------------------------
