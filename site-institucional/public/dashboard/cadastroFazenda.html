@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cdastro de Fazendas</title>
+    <link rel="stylesheet" href="../css/cadFazenda.css">
+    <script src="../js/menu.js"></script>
+</head>
+
+<body>
+    <div id="imgFundo">
+        <div class="blur">
+
+            <div id="menu_hamburger"></div>
+    
+            <main>
+    
+                <div id="titulo">
+                    <img id="imgTitulo" src="../assets/imgs/fazenda.png">
+                    <h1>Fazendas</h1>
+                </div>
+        
+                <div id="boxes">
+
+
+
+                    <div class="box-fazenda"> <!-- colunm -->
+                        <div class="tituloFazenda">Fazenda XPTO</div>
+                        <div class="content-infos">  <!-- row -->
+                            <div class="infos-fazenda">  <!-- colunm -->
+                                <div class="situacoes">  <!-- colunm -->
+                                    <h3>situações</h3>
+                                    <div class="box-situacoes">  <!-- row -->
+                                        <div class="box-sit sit-estavel" id="qtd_estavel">67</div>
+                                        <div class="box-sit sit-moderada" id="qtd_moderado">10</div>
+                                        <div class="box-sit sit-critica" id="qtd_critico">3</div>
+                                    </div>
+                                </div>
+                                <div class="totais">
+                                    <b>total de silos:</b>
+                                    <span id="qtd_silos">80</span>
+                                </div>
+                                <div class="totais">
+                                    <b>total de baterias:</b>
+                                    <span id="qtd_baterias">10</span>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="infos-responsavel">  <!-- colunm -->
+                                <div class="info">  <!-- colunm -->
+                                    <h3>responsavel: </h3>
+                                    <p id="id_responsavel">Fulano de Tal da Silva</p>
+                                </div>
+                                <div class="info">  <!-- colunm -->
+                                    <h3>contato: </h3>
+                                    <p id="id_resp_contato">+55 (11) 99999-0000</p>
+                                </div>
+                                <div class="info">  <!-- colunm -->
+                                    <h3>cidade e uf: </h3>
+                                    <p id="id_cidade_uf">Galiléia/MG</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="boxBotoes">  <!-- row -->
+                            <a class="styleBotao vizu" href="#">visualizar -></a>
+                            <a class="styleBotao conf" href="#"></a>
+                        </div>
+                    </div>
+
+
+
+                    <div class="box-fazenda"> <!-- colunm -->
+                        <div class="tituloFazenda">Fazenda XPTO</div>
+                        <div class="content-infos">  <!-- row -->
+                            <div class="infos-fazenda">  <!-- colunm -->
+                                <div class="situacoes">  <!-- colunm -->
+                                    <h3>situações</h3>
+                                    <div class="box-situacoes">  <!-- row -->
+                                        <div class="box-sit sit-estavel" id="qtd_estavel">67</div>
+                                        <div class="box-sit sit-moderada" id="qtd_moderado">10</div>
+                                        <div class="box-sit sit-critica" id="qtd_critico">3</div>
+                                    </div>
+                                </div>
+                                <div class="totais">
+                                    <b>total de silos:</b>
+                                    <span id="qtd_silos">80</span>
+                                </div>
+                                <div class="totais">
+                                    <b>total de baterias:</b>
+                                    <span id="qtd_baterias">10</span>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="infos-responsavel">  <!-- colunm -->
+                                <div class="info">  <!-- colunm -->
+                                    <h3>responsavel: </h3>
+                                    <p id="id_responsavel">Fulano de Tal da Silva</p>
+                                </div>
+                                <div class="info">  <!-- colunm -->
+                                    <h3>contato: </h3>
+                                    <p id="id_resp_contato">+55 (11) 99999-0000</p>
+                                </div>
+                                <div class="info">  <!-- colunm -->
+                                    <h3>cidade e uf: </h3>
+                                    <p id="id_cidade_uf">Galiléia/MG</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="boxBotoes">  <!-- row -->
+                            <a class="styleBotao vizu" href="#">visualizar -></a>
+                            <a class="styleBotao conf" href="#"></a>
+                        </div>
+                    </div>
+
+
+
+                    <div class="box-fazenda cadastrar">
+                        <div id="circuloAmarelo">
+                            <div>+</div>
+                        </div>
+                        <div id="textoAddFazenda">adicionar fazenda</div>
+                    </div>
+        
+                </div>
+    
+            </main>
+
+        </div>
+    </div>
+</body>
+<script>
+    fetch("../includes/menu.html")
+        .then(resposta => resposta.text())
+        .then(dados => {
+            document.getElementById("menu_hamburger").innerHTML = dados;
+    });
+</script>
+<script>
+    
+</script>
+
+</html>
