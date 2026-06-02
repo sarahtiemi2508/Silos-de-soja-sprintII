@@ -1,5 +1,7 @@
 @import url(gerais.css);
 
+
+/* ESTILIZAÇÃO LISTAR FAZENDAS */
 a{
     cursor: pointer;
     text-decoration: none;
@@ -292,4 +294,244 @@ main {
     text-transform: uppercase;
     font-weight: 800;
     font-size: 16px;
+}
+
+/* ESTILIZAÇÃO CADASTRO DE FAZENDAS PARTE 1 */
+
+.main-cadastrar {
+    height: 100vh;
+    width: 100%;
+}
+
+.titulo{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    align-self: center;
+    padding: 2%;
+    gap: 5%;
+}
+
+.titulo h1 {
+    font-family: var(--titulo);
+    text-transform: uppercase;
+    font-size: 40px;
+    color: white;
+    font-weight: 900;
+}
+
+.container-cadastro {
+    display: flex;
+    flex-direction: column;
+    align-self: center;
+    justify-content: space-between;
+    align-items: center;
+    width: 50%;
+    height: 80%;
+    background-color: white;
+    border-radius: 35px;
+    padding: 5%;
+}
+
+.indicacao-parte {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    width: 80%;
+}
+
+.indicacao-parte hr {
+    width: 25%;
+    border: 1px solid black;
+}
+
+.circulo-atual {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    font-weight: 800;
+    width: 60px;
+    height: 60px;
+    background-color: var(--primary-yellow);
+    border-radius: 50px;
+}
+
+.circulo {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    font-weight: 500;
+    width: 45px;
+    height: 45px;
+    border: 2px solid var(--primary-yellow);
+    color: var(--primary-yellow);
+    border-radius: 50px;
+}
+
+.content-infos-cadastro {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    height: 80%;
+}
+
+.sobre-fazenda {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    gap: 25px;
+}
+
+.sobre-fazenda h1 {
+    font-size: 20px;
+    text-transform: uppercase;
+}
+
+.inputs {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 5px;
+    transition: all ease-in-out 0.3s;
+    width: 100%;
+}
+
+.inputs:hover {
+    transform: scale(1.05);
+}
+
+.inputs label {
+    font-family: var(--titulo);
+    font-size: 14px;
+    text-transform: uppercase;
+    font-weight: 800;
+    font-style: italic;
+    padding-left: 10%;
+}
+
+.inputs input {
+    height: 4vh;
+    border-radius: 50px;
+    border: none;
+    background-color: rgb(235, 243, 250);
+    font-size: 12px;
+    font-family: var(--paragrafo);
+    padding: 0px 20px;
+    transition: all ease-in-out 0.3s;
+}
+
+.inputs input:focus {
+    outline: none;
+    border: 2px solid rgb(152, 174, 196);
+    background-color: white;
+    transform: scale(1.05);
+}
+
+.nome {
+    width: 50%;
+}
+
+.nome input {
+    width: 100%;
+}
+
+.inputs input::placeholder {
+    color: rgb(85, 98, 110);
+}
+
+.endereco-fazenda-infos {
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 10%;
+}
+
+.endereco-fazenda-infos h3 {
+    text-transform: uppercase;
+    font-size: 16px;
+    font-weight: 800;
+}
+
+.inputs-dupla {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+.logradouro input {
+    width: 100%;
+}
+
+.numero {
+    align-items: center;
+    width: 30%;
+}
+
+.numero input {
+    width: 100%;
+    text-align: center;
+}
+
+.cep {
+    width: 65%;
+}
+
+.cep input {
+    width: 100%;
+}
+
+.uf {
+    align-items: center;
+    width: 30%;
+}
+
+.uf input {
+    width: 100%;
+    text-align: center;
+}
+
+.cidade {
+    width: 65%;
+}
+
+.cidade input {
+    width: 100%;
+}
+
+.content-infos-cadastro button {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 10vw;
+    height: 4vh;
+    background-color: var(--primary-yellow);
+    color: black;
+    font-family: var(--titulo);
+    text-transform: uppercase;
+    font-weight: 800;
+    font-size: 16px;
+    border: none;
+    border-radius: 50px;
+    transition: all ease-in-out 0.3s;
+}
+
+.content-infos-cadastro button:hover {
+    transform: scale(1.05);
+    color: black;
+    border: 2px solid black;
+    background-color: white;
 }

@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cdastro de Fazendas</title>
+    <link rel="stylesheet" href="../css/cadFazenda.css">
+    <script src="../js/menu.js"></script>
+</head>
+
+<body>
+    <div id="imgFundo">
+        <div class="blur">
+
+            <div id="menu_hamburger"></div>
+    
+            <main class="main-cadastrar">
+    
+                <div class="titulo">
+                    <img id="imgTitulo" src="../assets/imgs/fazenda.png">
+                    <h1>adicionar Fazenda</h1>
+                </div>
+        
+                <div class="container-cadastro"> <!-- Colunm -->
+        
+                    <div class="indicacao-parte"> <!-- Row -->
+                        <div class="circulo-atual">1</div>
+                        <hr>
+                        <div class="circulo">2</div>
+                        <hr>
+                        <div class="circulo">3</div>
+                    </div>
+
+                    <div class="content-infos-cadastro"> <!-- Colunm -->
+                        <div class="sobre-fazenda">
+                            <h1>Nos conte um pouco sobre a sua fazenda</h1>
+                            <div class="inputs nome">
+                                <label for="ipt_nome_fazenda">Nome: </label>
+                                <input type="text" id="ipt_nome_fazenda" placeholder="Qual é o nome da sua fazenda?">
+                            </div>
+                        </div>
+
+                        <div class="endereco-fazenda-infos"> <!-- Colunm -->
+                            <h3>Onde ela fica?</h3>
+                            <div class="inputs logradouro">
+                                <label for="ipt_logradouro">logradouro: </label>
+                                <input type="text" id="ipt_logradouro" placeholder="Ex: Rua Das Flores">
+                            </div>
+                            <div class="inputs-dupla cep-numero"> <!-- Row -->
+                                <div class="inputs cep"> <!-- Colunm -->
+                                    <label for="ipt_cep">cep: </label>
+                                    <input type="text" id="ipt_cep" placeholder="Ex: 013-81005">                                    
+                                </div>
+                                <div class="inputs numero"> <!-- Colunm -->
+                                    <label for="ipt_numero">numero: </label>
+                                    <input type="text" id="ipt_numero" placeholder="Ex: 454">                                    
+                                </div>
+                            </div>
+                            <div class="inputs-dupla uf-cidade"> <!-- Row -->
+                                <div class="inputs uf"> <!-- Colunm -->
+                                    <label for="ipt_uf">uf: </label>
+                                    <input type="text" id="ipt_uf" placeholder="Ex: MG">                                    
+                                </div>
+                                <div class="inputs cidade"> <!-- Colunm -->
+                                    <label for="ipt_cidade">cidade: </label>
+                                    <input type="text" id="ipt_cidade" placeholder="Ex: Diamantina">                       
+                                </div>
+                            </div>
+                        </div>
+                        <button class="continuar" onclick="enviarParte2()">continuar</button>
+                    </div>
+
+                </div>
+    
+            </main>
+
+        </div>
+    </div>
+</body>
+<script>
+    fetch("../includes/menu.html")
+        .then(resposta => resposta.text())
+        .then(dados => {
+            document.getElementById("menu_hamburger").innerHTML = dados;
+    });
+</script>
+<script>
+    
+</script>
+
+</html>
