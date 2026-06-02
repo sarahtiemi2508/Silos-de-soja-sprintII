@@ -408,6 +408,53 @@ INSERT INTO sensor (localizacao, stts_sensor, fk_gp_sensores) VALUES
 ('Esquerda', 1, 29), ('Centro', 1, 29), ('Direita', 1, 29), -- Sensores GP29
 ('Esquerda', 1, 30), ('Centro', 1, 30), ('Direita', 1, 30); -- Sensores GP30
 
+INSERT INTO historico_sensor (distancia_captada, fk_sensor) VALUES
+(4,1), -- esquerda
+(5,2), -- centro
+(6,3); -- direita
+
+SELECT * FROM historico_sensor;
+INSERT INTO historico_sensor (distancia_captada, fk_sensor) VALUES
+(8,4),
+(7,5),
+(9,6);
+INSERT INTO historico_sensor (distancia_captada, fk_sensor) VALUES
+(12,7),
+(13,8),
+(14,9);
+
+INSERT INTO historico_sensor (distancia_captada, fk_sensor) VALUES
+-- Silo 01 (80% ocupado)
+(4, 2),
+
+-- Silo 02 (60% ocupado)
+(8, 5),
+
+-- Silo 03 (35% ocupado)
+(13, 8),
+
+-- Silo 001 (90% ocupado)
+(3, 11),
+
+-- Silo 002 (50% ocupado)
+(15, 14);
+
+INSERT INTO historico_sensor (distancia_captada, fk_sensor, dt_hora_leitura) VALUES
+-- Silo 01 (80% ocupado)
+(4, 2, '2026-04-06 10:00:00'),
+
+-- Silo 02 (60% ocupado)
+(2, 5, '2026-04-06 10:00:00'),
+
+-- Silo 03 (35% ocupado)
+(14, 8, '2026-04-06 10:00:00'),
+
+-- Silo 001 (90% ocupado)
+(10, 11, '2026-04-06 10:00:00'),
+
+-- Silo 002 (50% ocupado)
+(3, 1, '2026-04-06 10:00:00');
+
 -- FIM INSERTS ------------------------------------------------------------------------
 
 
@@ -531,6 +578,106 @@ LEFT JOIN usuario AS u
     ON p.fk_usuario = u.id_usuario
 GROUP BY e.id_empresa, f.id_fazenda
 ORDER BY e.nome_fantasia, f.nome_fazenda;
-	
 
+
+--------------------------	
+-- DASHBOARD DA BATERIA --
+--------------------------
+
+-- SELECIONANDO O VOLUME TOTAL DO SILO
+CREATE VIEW volume_total AS
+ SELECT 
+	silo_i.id_silo_individual AS id_silo_indiv,
+	silo_i.modelo_silo AS modelo_silo_indiv,
+    bat.id_bateria_silo AS id,
+	bat.bateria_grupo AS bateria,
+	ROUND((PI() * POW(silo_i.diametro_silo/2, 2) * silo_i.altura_silo * 0.80) + ((PI() * POW(silo_i.diametro_silo/2, 2) * silo_i.altura_silo * 0.20)/3)) AS total
+FROM 
+silo_individual silo_i
+JOIN bateria_silo bat
+ ON bat.id_bateria_silo = silo_i.fk_bateria_silo;
+ 
+ SELECT * FROM volume_total;
+
+-- VOLUME TOTAL DOS SILOS DA BATERIA
+ SELECT 
+ bateria,
+ SUM(total)
+ FROM volume_total
+ GROUP BY id, bateria;
+
+  -- CALCULANDO O QUÃO CHEIO ESTÁ OS SILOS DA BATERIA
+ CREATE VIEW volume_preenchido_bateria AS
+ SELECT
+	silo_i.id_silo_individual,
+	silo_i.modelo_silo AS modelo_silo_indiv,
+    bat.id_bateria_silo AS id,
+	bat.bateria_grupo AS bateria,
+	ROUND((PI() * POW(silo_i.diametro_silo/2, 2) * silo_i.altura_silo * 0.80) + ((PI() * POW(silo_i.diametro_silo/2, 2) * silo_i.altura_silo * 0.20)/3)) AS total,
+ ROUND((
+(PI() * POW(silo_i.diametro_silo/2, 2) * silo_i.altura_silo * 0.80)
++ 
+((PI() * POW(silo_i.diametro_silo/2, 2) * silo_i.altura_silo * 0.20)/3)
+-
+(PI() * POW(silo_i.diametro_silo/2, 2) *AVG(ultima_leitura.distancia_captada))
+), 2) AS preenchimento
+
+FROM silo_individual silo_i
+
+JOIN bateria_silo bat
+	ON bat.id_bateria_silo = silo_i.fk_bateria_silo
+JOIN gp_sensores gp 
+	ON gp.fk_silo = silo_i.id_silo_individual
+JOIN sensor s ON s.fk_gp_sensores = gp.id_gp_sensores
+JOIN 
+(SELECT 
+hs1.fk_sensor,
+hs1.distancia_captada
+FROM historico_sensor hs1
+WHERE hs1.id_historico_sensor = (SELECT MAX(hs2.id_historico_sensor) 
+FROM historico_sensor hs2 
+WHERE hs1.fk_sensor = hs2.fk_sensor )
+) ultima_leitura 
+ON ultima_leitura.fk_sensor = s.id_sensor
+GROUP BY
+silo_i.id_silo_individual,
+silo_i.modelo_silo;
+
+SELECT * FROM volume_preenchido_bateria;
+
+-- SELECIONANDO VOLUME  DE UM SILO INDIVIDUAL ESPECÍFICO
+SELECT
+id_silo_individual as id_silo,
+modelo_silo_indiv as modelo,
+preenchimento
+FROM volume_preenchido_bateria
+WHERE id = 1; -- onclick função
+
+-- PARA TRAZER O MENOR VALOR
+SELECT 
+	id_silo_individual as id_silo,
+	modelo_silo_indiv as modelo,
+	preenchimento
+FROM volume_preenchido_bateria
+WHERE id = 1
+ORDER BY preenchimento
+LIMIT 1; -- onclick função
+
+-- PARA TRAZER O MAIOR VALOR
+SELECT 
+	id_silo_individual as id_silo,
+	modelo_silo_indiv as modelo,
+	preenchimento
+FROM volume_preenchido_bateria
+WHERE id = 1
+ORDER BY preenchimento DESC
+LIMIT 1; -- onclick função
+
+-- MEDIA
+SELECT
+id,
+bateria,
+TRUNCATE(AVG(preenchimento), 2)
+FROM volume_preenchido_bateria
+GROUP BY id, bateria;
 -- FIM SELECT -------------------------------------------------------------------------
