@@ -62,7 +62,11 @@ REFERENCES usuario (id_usuario),
 fk_fazenda INT,
 CONSTRAINT ctfk_fazenda_permissao
 FOREIGN KEY (fk_fazenda)
-REFERENCES fazenda (id_fazenda)
+REFERENCES fazenda (id_fazenda),
+
+tipo_permissao VARCHAR(45),
+CONSTRAINT ct_tipo_permissao
+CHECK (tipo_permissao IN ('Empresa', 'Responsável', 'Outros'))
 );
 
 CREATE TABLE bateria_silo (
@@ -195,7 +199,7 @@ INSERT INTO usuario (nome_usuario, cpf, dt_nascimento, senha, email, telefone, t
 -- 5 Usuários da empresa ContSoja fk empresa 3
 ('Tomás Azevedo', '99985232143', '2002-02-07', 'Tomas@123', 'tomas.azevedo@email.com', '(11) 8064-7075', 'AdmEmpresa', 3),
 ('Guilherme Ribeiro', '70772010820', '1977-11-09', 'Guilherme@123', 'guilherme.ribeiro@email.com', '(11) 4489-7507', 'AdmFazenda', 3),
-('Sarah Lima', '90576221490', '1988-03-28', 'Sarah@123', 'sarah.lima@email.com', '(41) 5308-6787', 'AdmFazenda', 3),
+('Sarah Lima', '90576221490', '1988-03-28', 'Sarah@123', 'sarah.lima@email.com', '(41) 5308-6787', 'Colaborador', 3),
 ('Brenda Melo', '81535689579', '1992-10-28', 'Brenda@123', 'brenda.melo@email.com', '(11) 5213-2368', 'Colaborador', 3),
 ('Emily Correia', '65261626650', '2005-03-31', 'Emily@123', 'emily.correia@email.com', '(18) 2960-5857', 'Colaborador', 3);
 
@@ -213,22 +217,22 @@ INSERT INTO fazenda (nome_fazenda, fk_endereco, fk_empresa) VALUES
 ('Silo Soja Prime', 5, 3);
 
 
-INSERT INTO permissao (fk_usuario, fk_fazenda) VALUES
+INSERT INTO permissao (fk_usuario, fk_fazenda, tipo_permissao) VALUES
 -- Permissoes usuários da empresa Scheffer
-(2, 1), -- Jonas tem permissão da fazenda 1
-(2, 2), -- Jonas tem permissão da fazenda 2
-(3, 1), -- Mariana tem permissão da fazenda 1
+(2, 1, 'Responsável'), -- Jonas tem permissão da fazenda 1
+(2, 2, 'Responsável'), -- Jonas tem permissão da fazenda 2
+(3, 1, 'Outros'), -- Mariana tem permissão da fazenda 1
 
 -- Permissoes usuários da empresa Sementec
-(5, 4), -- Giovanna tem permissão da fazenda 4
-(6, 3), -- Anna tem permissão da fazenda 3
-(7, 4), -- Daniel tem permissão da fazenda 4
+(5, 4, 'Responsável'), -- Giovanna tem permissão da fazenda 4
+(6, 3, 'Responsável'), -- Anna tem permissão da fazenda 3
+(7, 4, 'Outros'), -- Daniel tem permissão da fazenda 4
 
 -- Permissoes usuários da empresa ContSoja
-(9, 5), -- Guilherme tem permissão da fazenda 5
-(10, 5), -- Sarah tem permissão da fazenda 5
-(11, 5), -- Brenda tem permissão da fazenda 5
-(12, 5); -- Emily tem permissão da fazenda 5
+(9, 5, 'Responsável'), -- Guilherme tem permissão da fazenda 5
+(10, 5, 'Outros'), -- Sarah tem permissão da fazenda 5
+(11, 5, 'Outros'), -- Brenda tem permissão da fazenda 5
+(12, 5, 'Outros'); -- Emily tem permissão da fazenda 5
 
 
 INSERT INTO  bateria_silo (bateria_grupo, fk_fazenda) VALUES
@@ -774,14 +778,18 @@ WHERE e.id_empresa = 3; -- Trocar o ID de acordo com a empresa desejada
 
 -- Para saber as fazendas que cada usuário pode acessar
 SELECT
-u.nome_usuario AS 'Nome',
-u.cpf AS 'CPF',
-f.nome_fazenda AS 'Pode acessar:'
+	u.nome_usuario AS 'Nome',
+	u.telefone AS 'Telefone',
+	f.nome_fazenda AS 'Pode acessar:',
+	CONCAT(cidade_fazenda, '/', uf_fazenda) AS 'Endereço',
+    p.fk_usuario AS id_user
 FROM usuario AS u
 JOIN permissao AS p
 ON u.id_usuario = p.fk_usuario
 JOIN fazenda AS f
-ON f.id_fazenda = p.fk_fazenda;
+ON f.id_fazenda = p.fk_fazenda
+JOIN endereco AS e
+ON e.id_endereco = f.fk_endereco;
 
 -- Para saber as fazendas que cada usuario de tal empresa pode acessar
 SELECT
@@ -923,27 +931,32 @@ GROUP BY id, bateria;
 --------------------------	
 -- CRUD FAZENDAS --
 --------------------------
+
 SELECT
 	nome,
 	COUNT(id_bateria) AS qtd_silos,
-    COUNT(DISTINCT id_bateria) AS qtd_bateria
+	COUNT(DISTINCT id_bateria) AS qtd_bateria,
+	SUM(CASE WHEN situacao_silo = 'Estável' THEN 1 ELSE 0 END) AS estaveis,
+	SUM(CASE WHEN situacao_silo = 'Moderado' THEN 1 ELSE 0 END) AS moderados,
+	SUM(CASE WHEN situacao_silo = 'Crítico' THEN 1 ELSE 0 END) AS criticos
 FROM (
-SELECT
-	f.id_fazenda AS id_fazenda,
-	f.nome_fazenda AS nome,
-	b.id_bateria_silo AS id_bateria,
-	b.bateria_grupo AS bateria,
-	s.id_silo_individual AS id_silo,
-	s.modelo_silo AS silo
-FROM fazenda AS f
-JOIN bateria_silo AS b
-ON b.fk_fazenda = f.id_fazenda
-JOIN silo_individual AS s
-ON s.fk_bateria_silo = b.id_bateria_silo
-)
-AS infos_fazenda
-WHERE id_fazenda = 4;
-
-
+	SELECT
+		f.id_fazenda AS id_fazenda,
+		f.nome_fazenda AS nome,
+		b.id_bateria_silo AS id_bateria,
+		b.bateria_grupo AS bateria,
+		s.id_silo_individual AS id_silo,
+		s.modelo_silo AS silo,
+		a.situacao AS situacao_silo
+	FROM fazenda AS f
+	JOIN bateria_silo AS b ON b.fk_fazenda = f.id_fazenda
+	JOIN silo_individual AS s ON s.fk_bateria_silo = b.id_bateria_silo
+	JOIN gp_sensores AS gs ON gs.fk_silo = s.id_silo_individual
+	JOIN sensor AS sr ON sr.fk_gp_sensores = gs.id_gp_sensores
+	JOIN historico_sensor AS hs ON hs.fk_sensor = sr.id_sensor
+	JOIN alerta AS a ON a.fk_historico_sensor = hs.id_historico_sensor
+) AS qtd_situacoes
+WHERE id_fazenda = 1 -- Onclick Função
+GROUP BY nome;
 
 -- FIM SELECT -------------------------------------------------------------------------
