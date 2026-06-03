@@ -92,6 +92,29 @@
 </body>
 
 <script>
+
+    function obterDadosVolumeTotal(){
+    let id = req.params.id
+
+    fetch(`/quiz/selectUltimosPontosQuizMusica/${id}`, { cache: 'no-store' })
+    .then(function (response){
+        if(response.ok){
+            response.json().then(function(resposta){
+                
+                resposta.reverse();        
+                
+                plotarGraficosQuizMusica(resposta)
+             })   
+             
+            } else{
+                console.log("Nenhum dado encontrado")
+            }
+            
+        }) 
+        .catch( function (error){
+            console.error("Erro na obtenção de dados")
+        })
+}
     const labels = ["Silo 1", "Silo 2", "Silo 3", "Silo 4", "Silo 5", "Silo 6", "Silo 7", "Silo 8"];
 
     let valores = [84, 19, 56, 82, 76, 44, 12, 92];

@@ -1,7 +1,12 @@
 var database = require("../database/config")
 
-function selectVolumeTotal() {
-  var instrucaoSql = `SELECT * FROM volume_total;`;
+function selectVolumeTotal(idBateria) {
+  var instrucaoSql = `SELECT 
+ bateria,
+ SUM(total)
+ FROM volume_total
+ WHERE id=${idBateria}
+ GROUP BY id, bateria;`;
 
   return database.executar(instrucaoSql);
 }
@@ -54,11 +59,20 @@ WHERE id = ${idBateria};`;
   return database.executar(instrucaoSql);
 }
 
+function selectVolumeMensalBateria(idBateria) {
+  var instrucaoSql = `SELECT 
+*
+FROM media_preenchimento_mensal_por_bateria 
+WHERE bateria = ${idBateria};`;
+
+  return database.executar(instrucaoSql);
+}
+
 
 module.exports = {
    selectVolumeTotal,
    selectOcupacaoTotal, 
    selectMaiorNivel,
    selectMenorNivel,
-
+   selectVolumeMensalBateria
 };

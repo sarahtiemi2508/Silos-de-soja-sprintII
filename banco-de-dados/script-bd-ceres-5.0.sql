@@ -849,6 +849,7 @@ JOIN bateria_silo bat
  bateria,
  SUM(total)
  FROM volume_total
+ WHERE id=${idBateria}
  GROUP BY id, bateria;
 
   -- CALCULANDO O QUÃO CHEIO ESTÁ OS SILOS DA BATERIA
