@@ -969,6 +969,7 @@ SELECT * FROM media_preenchimento_mensal_por_bateria WHERE bateria = 1;
 -- CRUD FAZENDAS --
 --------------------------
 
+-- Para saber as informações de cada fazenda
 SELECT
 	nome,
 	COUNT(id_bateria) AS qtd_silos,
@@ -993,7 +994,22 @@ FROM (
 	JOIN historico_sensor AS hs ON hs.fk_sensor = sr.id_sensor
 	JOIN alerta AS a ON a.fk_historico_sensor = hs.id_historico_sensor
 ) AS qtd_situacoes
-WHERE id_fazenda = 1 -- Onclick Função
 GROUP BY nome;
+
+-- Para saber o responsável de cada fazenda
+SELECT
+	f.id_fazenda AS id_fazenda,
+    f.nome_fazenda AS fazenda,
+	u.nome_usuario AS responsavel,
+    u.telefone AS contato,
+    CONCAT(e.cidade_fazenda, '/', e.uf_fazenda) AS endereco
+FROM usuario AS u
+JOIN permissao AS p
+ON p.fk_usuario = u.id_usuario
+JOIN fazenda AS f
+ON p.fk_fazenda = f.id_fazenda
+JOIN endereco AS e
+ON f.fk_endereco = e.id_endereco
+WHERE p.tipo_permissao = 'Responsável';
 
 -- FIM SELECT -------------------------------------------------------------------------
