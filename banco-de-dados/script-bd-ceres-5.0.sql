@@ -926,7 +926,44 @@ TRUNCATE(AVG(preenchimento), 2)
 FROM volume_preenchido_bateria
 GROUP BY id, bateria;
 
+CREATE VIEW media_preenchimento_mensal_por_bateria AS
+SELECT 
+    bat.id_bateria_silo AS bateria,
+    MONTH(ultima_leitura.dt_hora_leitura) AS mes,
+    TRUNCATE(AVG(
+        ROUND((
+            (PI() * POW(silo_i.diametro_silo/2, 2) * silo_i.altura_silo * 0.80)
+            + 
+            ((PI() * POW(silo_i.diametro_silo/2, 2) * silo_i.altura_silo * 0.20)/3)
+            -
+            (PI() * POW(silo_i.diametro_silo/2, 2) * ultima_leitura.media_distancia)
+        ), 2)), 2)
+     AS preenchimento_bateria
 
+FROM silo_individual silo_i
+JOIN bateria_silo bat
+    ON bat.id_bateria_silo = silo_i.fk_bateria_silo
+JOIN gp_sensores gp 
+    ON gp.fk_silo = silo_i.id_silo_individual
+JOIN sensor s 
+    ON s.fk_gp_sensores = gp.id_gp_sensores
+JOIN 
+    (SELECT 
+        hs1.fk_sensor,
+        hs1.dt_hora_leitura,
+        AVG(hs1.distancia_captada) AS media_distancia -- AVG fica aqui dentro
+     FROM historico_sensor hs1
+     WHERE hs1.id_historico_sensor = (
+         SELECT MAX(hs2.id_historico_sensor) 
+         FROM historico_sensor hs2 
+         WHERE hs1.fk_sensor = hs2.fk_sensor)
+     GROUP BY hs1.fk_sensor, hs1.dt_hora_leitura
+    ) ultima_leitura 
+    ON ultima_leitura.fk_sensor = s.id_sensor
+    GROUP BY mes, bateria
+    ORDER BY bateria;
+
+SELECT * FROM media_preenchimento_mensal_por_bateria WHERE bateria = 1;
 
 --------------------------	
 -- CRUD FAZENDAS --
