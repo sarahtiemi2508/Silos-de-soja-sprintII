@@ -21,6 +21,7 @@ var alertasRouter = require("./src/routes/alertas");
 var medidasRouter = require("./src/routes/medidas");
 var fazendasRouter = require("./src/routes/fazendas");
 var empresasRouter = require("./src/routes/empresas");
+var dashBateriaRouter = require("./src/routes/dashBateria")
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -34,6 +35,7 @@ app.use("/alertas", alertasRouter);
 app.use("/medidas", medidasRouter);
 app.use("/fazendas", fazendasRouter);
 app.use("/empresas", empresasRouter);
+app.use("/dashBateria", dashBateriaRouter)
 
 app.listen(PORTA_APP, function () {
     console.log(`
