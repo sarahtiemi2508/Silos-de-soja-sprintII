@@ -1,5 +1,6 @@
 CREATE DATABASE ceres;
 USE ceres;
+-- DROP DATABASE ceres;
 
 CREATE TABLE empresa (
 id_empresa INT PRIMARY KEY AUTO_INCREMENT,
@@ -134,7 +135,7 @@ dt_registro DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
 situacao VARCHAR(45) NOT NULL,
 CONSTRAINT ct_situacao_alerta
-CHECK (situacao IN ('normal', 'crítico', 'urgente', 'moderado')),
+CHECK (situacao IN ('Crítico', 'Moderado', 'Estável')),
 
 fk_historico_sensor INT,
 CONSTRAINT ctfkHistorico_sensor
@@ -414,16 +415,19 @@ INSERT INTO historico_sensor (distancia_captada, fk_sensor) VALUES
 (6,3); -- direita
 
 SELECT * FROM historico_sensor;
+
 INSERT INTO historico_sensor (distancia_captada, fk_sensor) VALUES
 (8,4),
 (7,5),
 (9,6);
+
 INSERT INTO historico_sensor (distancia_captada, fk_sensor) VALUES
 (12,7),
 (13,8),
 (14,9);
 
 INSERT INTO historico_sensor (distancia_captada, fk_sensor) VALUES
+
 -- Silo 01 (80% ocupado)
 (4, 2),
 
@@ -455,9 +459,242 @@ INSERT INTO historico_sensor (distancia_captada, fk_sensor, dt_hora_leitura) VAL
 -- Silo 002 (50% ocupado)
 (3, 1, '2026-04-06 10:00:00');
 
+-- SELECT * FROM volume_total;
+ 
+/* SELECT 
+	silo_i.id_silo_individual AS id_silo_indiv,
+	silo_i.modelo_silo AS modelo_silo_indiv,
+    bat.id_bateria_silo AS id,
+	bat.bateria_grupo AS bateria,
+	silo_i.altura_silo AS altura
+FROM 
+silo_individual silo_i
+JOIN bateria_silo bat
+ ON bat.id_bateria_silo = silo_i.fk_bateria_silo; */
+
+INSERT INTO historico_sensor (fk_sensor, distancia_captada, dt_hora_leitura) VALUES
+
+-- Silos da Bateria A 01 Scheffer (Altura: 20m)
+-- Crítico
+(1, 18.00, '2026-01-31 10:00:00'), -- Sensor 1 silo 1
+(2, 18.00, '2026-01-31 10:00:00'), -- Sensor 2 silo 1
+(3, 18.00, '2026-01-31 10:00:00'), -- Sensor 3 silo 1
+
+-- Estável
+(4, 10.00, '2026-01-31 10:00:00'), -- Sensor 1 silo 2
+(5, 10.00, '2026-01-31 10:00:00'), -- Sensor 2 silo 2
+(6, 10.00, '2026-01-31 10:00:00'), -- Sensor 3 silo 2
+
+-- Moderado
+(7, 16.00, '2026-01-31 10:00:00'), -- Sensor 1 silo 3
+(8, 16.00, '2026-01-31 10:00:00'), -- Sensor 2 silo 3
+(9, 16.00, '2026-01-31 10:00:00'), -- Sensor 3 silo 3
+
+
+-- Silos da BTR 1 10 Scheffer (Altura: 30m)
+-- Crítico
+(10, 27, '2026-01-31 10:00:00'), -- Sensor 1 silo 1
+(11, 27, '2026-01-31 10:00:00'), -- Sensor 2 silo 1
+(12, 27, '2026-01-31 10:00:00'), -- Sensor 3 silo 1
+
+-- Crítico
+(13, 27, '2026-01-31 10:00:00'), -- Sensor 1 silo 2
+(14, 27, '2026-01-31 10:00:00'), -- Sensor 2 silo 2
+(15, 27, '2026-01-31 10:00:00'), -- Sensor 3 silo 2
+
+-- Crítico
+(16, 27, '2026-01-31 10:00:00'), -- Sensor 1 silo 3
+(17, 27, '2026-01-31 10:00:00'), -- Sensor 2 silo 3
+(18, 27, '2026-01-31 10:00:00'), -- Sensor 3 silo 3
+
+
+-- Silos da BTR 2 20 Scheffer (Altura: 10m)
+-- Estável
+(19, 5, '2026-01-31 10:00:00'), -- Sensor 1 silo 1
+(20, 5, '2026-01-31 10:00:00'), -- Sensor 2 silo 1
+(21, 5, '2026-01-31 10:00:00'), -- Sensor 3 silo 1
+
+-- Estável
+(22, 5, '2026-01-31 10:00:00'), -- Sensor 1 silo 2
+(23, 5, '2026-01-31 10:00:00'), -- Sensor 2 silo 2
+(24, 5, '2026-01-31 10:00:00'), -- Sensor 3 silo 2
+
+-- Estável
+(25, 5, '2026-01-31 10:00:00'), -- Sensor 1 silo 3
+(26, 5, '2026-01-31 10:00:00'), -- Sensor 2 silo 3
+(27, 5, '2026-01-31 10:00:00'), -- Sensor 3 silo 3
+
+
+-- Silos da 101 - Bateria Sementec (Altura: 15m)
+-- Moderado
+(28, 12, '2026-01-31 10:00:00'), -- Sensor 1 silo 1
+(29, 12, '2026-01-31 10:00:00'), -- Sensor 2 silo 1
+(30, 12, '2026-01-31 10:00:00'), -- Sensor 3 silo 1
+
+-- Moderado
+(31, 12, '2026-01-31 10:00:00'), -- Sensor 1 silo 2
+(32, 12, '2026-01-31 10:00:00'), -- Sensor 2 silo 2
+(33, 12, '2026-01-31 10:00:00'), -- Sensor 3 silo 2
+
+-- Moderado
+(34, 12, '2026-01-31 10:00:00'), -- Sensor 1 silo 3
+(35, 12, '2026-01-31 10:00:00'), -- Sensor 2 silo 3
+(36, 12, '2026-01-31 10:00:00'), -- Sensor 3 silo 3
+
+
+-- Silos da 102 - Bateria Sementec (Altura: 25m)
+-- Crítico
+(37, 22, '2026-01-31 10:00:00'), -- Sensor 1 silo 1
+(38, 22, '2026-01-31 10:00:00'), -- Sensor 2 silo 1
+(39, 22, '2026-01-31 10:00:00'), -- Sensor 3 silo 1
+
+-- Crítico
+(40, 22, '2026-01-31 10:00:00'), -- Sensor 1 silo 2
+(41, 22, '2026-01-31 10:00:00'), -- Sensor 2 silo 2
+(42, 22, '2026-01-31 10:00:00'), -- Sensor 3 silo 2
+
+-- Estável
+(43, 12, '2026-01-31 10:00:00'), -- Sensor 1 silo 3
+(44, 12, '2026-01-31 10:00:00'), -- Sensor 2 silo 3
+(45, 12, '2026-01-31 10:00:00'), -- Sensor 3 silo 3
+
+
+-- Silos da 1000 01 Sementec (Altura: 12m)
+-- Crítico
+(46, 10, '2026-01-31 10:00:00'), -- Sensor 1 silo 1
+(47, 10, '2026-01-31 10:00:00'), -- Sensor 2 silo 1
+(48, 10, '2026-01-31 10:00:00'), -- Sensor 3 silo 1
+
+-- Moderado
+(49, 9, '2026-01-31 10:00:00'), -- Sensor 1 silo 2
+(50, 9, '2026-01-31 10:00:00'), -- Sensor 2 silo 2
+(51, 9, '2026-01-31 10:00:00'), -- Sensor 3 silo 2
+
+-- Moderado
+(52, 9, '2026-01-31 10:00:00'), -- Sensor 1 silo 3
+(53, 9, '2026-01-31 10:00:00'), -- Sensor 2 silo 3
+(54, 9, '2026-01-31 10:00:00'), -- Sensor 3 silo 3
+
+
+-- Silos da 1000 02 Sementec (Altura: 32m)
+-- Moderado
+(55, 25, '2026-01-31 10:00:00'), -- Sensor 1 silo 1
+(56, 25, '2026-01-31 10:00:00'), -- Sensor 2 silo 1
+(57, 25, '2026-01-31 10:00:00'), -- Sensor 3 silo 1
+
+-- Estável
+(58, 16, '2026-01-31 10:00:00'), -- Sensor 1 silo 2
+(59, 16, '2026-01-31 10:00:00'), -- Sensor 2 silo 2
+(60, 16, '2026-01-31 10:00:00'), -- Sensor 3 silo 2
+
+-- Estável
+(61, 16, '2026-01-31 10:00:00'), -- Sensor 1 silo 3
+(62, 16, '2026-01-31 10:00:00'), -- Sensor 2 silo 3
+(63, 16, '2026-01-31 10:00:00'), -- Sensor 3 silo 3
+
+
+-- Silos da 1000 03 Sementec (Altura: 10m)
+-- Estável
+(64, 5, '2026-01-31 10:00:00'), -- Sensor 1 silo 1
+(65, 5, '2026-01-31 10:00:00'), -- Sensor 2 silo 1
+(66, 5, '2026-01-31 10:00:00'), -- Sensor 3 silo 1
+
+-- Moderado
+(67, 8, '2026-01-31 10:00:00'), -- Sensor 1 silo 2
+(68, 8, '2026-01-31 10:00:00'), -- Sensor 2 silo 2
+(69, 8, '2026-01-31 10:00:00'), -- Sensor 3 silo 2
+
+-- Moderado
+(70, 8, '2026-01-31 10:00:00'), -- Sensor 1 silo 3
+(71, 8, '2026-01-31 10:00:00'), -- Sensor 2 silo 3
+(72, 8, '2026-01-31 10:00:00'), -- Sensor 3 silo 3
+
+
+-- Silos da A45 - BTR ContSoja (Altura: 32m)
+-- Crítico
+(73, 28, '2026-01-31 10:00:00'), -- Sensor 1 silo 1
+(74, 28, '2026-01-31 10:00:00'), -- Sensor 2 silo 1
+(75, 28, '2026-01-31 10:00:00'), -- Sensor 3 silo 1
+
+-- Moderado
+(76, 25, '2026-01-31 10:00:00'), -- Sensor 1 silo 2
+(77, 25, '2026-01-31 10:00:00'), -- Sensor 2 silo 2
+(78, 25, '2026-01-31 10:00:00'), -- Sensor 3 silo 2
+
+-- Crítico
+(79, 28, '2026-01-31 10:00:00'), -- Sensor 1 silo 3
+(80, 28, '2026-01-31 10:00:00'), -- Sensor 2 silo 3
+(81, 28, '2026-01-31 10:00:00'), -- Sensor 3 silo 3
+
+
+-- Silos da B45 - BTR ContSoja (Altura: 24m)
+-- Moderado
+(82, 19, '2026-01-31 10:00:00'), -- Sensor 1 silo 1
+(83, 19, '2026-01-31 10:00:00'), -- Sensor 2 silo 1
+(84, 19, '2026-01-31 10:00:00'), -- Sensor 3 silo 1
+
+-- Estável
+(85, 12, '2026-01-31 10:00:00'), -- Sensor 1 silo 2
+(86, 12, '2026-01-31 10:00:00'), -- Sensor 2 silo 2
+(87, 12, '2026-01-31 10:00:00'), -- Sensor 3 silo 2
+
+-- Crítico
+(88, 21, '2026-01-31 10:00:00'), -- Sensor 1 silo 3
+(89, 21, '2026-01-31 10:00:00'), -- Sensor 2 silo 3
+(90, 21, '2026-01-31 10:00:00'); -- Sensor 3 silo 3
+
+INSERT INTO alerta (prioridade, situacao, dt_registro, fk_historico_sensor) VALUES
+-- Alerta dos sensores do gp de sensores silo 1 Scheffer
+(1, 'Crítico', '2026-04-06', 1), (1, 'Crítico', '2026-04-06', 2), (1, 'Crítico', '2026-04-06', 3), -- Sensores GP1
+(5, 'Estável', '2026-04-06', 4), (5, 'Estável', '2026-04-06', 5), (5, 'Estável', '2026-04-06', 6), -- Sensores GP2
+(3, 'Moderado', '2026-04-06', 7), (3, 'Moderado', '2026-04-06', 8), (3, 'Moderado', '2026-04-06', 9), -- Sensores GP3
+
+-- Alerta dos sensores gp sensores do silo 2 Scheffer
+(2, 'Crítico', '2026-04-06', 10), (2, 'Crítico', '2026-04-06', 11), (2, 'Crítico', '2026-04-06', 12), -- Sensores GP4
+(1, 'Crítico', '2026-04-06', 13), (1, 'Crítico', '2026-04-06', 14), (1, 'Crítico', '2026-04-06', 15), -- Sensores GP5
+(2, 'Crítico', '2026-04-06', 16), (2, 'Crítico', '2026-04-06', 17), (2, 'Crítico', '2026-04-06', 18), -- Sensores GP6
+
+-- Alerta dos sensores gp sensores do silo 3 Scheffer
+(5, 'Estável', '2026-04-06', 19), (5, 'Estável', '2026-04-06', 20), (5, 'Estável', '2026-04-06', 21), -- Sensores GP7
+(5, 'Estável', '2026-04-06', 22), (5, 'Estável', '2026-04-06', 23), (5, 'Estável', '2026-04-06', 24), -- Sensores GP8
+(5, 'Estável', '2026-04-06', 25), (5, 'Estável', '2026-04-06', 26), (5, 'Estável', '2026-04-06', 27), -- Sensores GP9
+
+-- Alerta dos sensores gp sensores do silo 1 Sementec
+(4, 'Moderado', '2026-04-06', 28), (4, 'Moderado', '2026-04-06', 29), (4, 'Moderado', '2026-04-06', 30), -- Sensores GP10
+(3, 'Moderado', '2026-04-06', 31), (3, 'Moderado', '2026-04-06', 32), (3, 'Moderado', '2026-04-06', 33), -- Sensores GP11
+(4, 'Moderado', '2026-04-06', 34), (4, 'Moderado', '2026-04-06', 35), (4, 'Moderado', '2026-04-06', 36), -- Sensores GP12
+
+-- Alerta dos sensores gp sensores do silo 2 Sementec
+(1, 'Crítico', '2026-04-06', 37), (1, 'Crítico', '2026-04-06', 38), (1, 'Crítico', '2026-04-06', 39), -- Sensores GP13
+(2, 'Crítico', '2026-04-06', 40), (2, 'Crítico', '2026-04-06', 41), (2, 'Crítico', '2026-04-06', 42), -- Sensores GP14
+(5, 'Estável', '2026-04-06', 43), (5, 'Estável', '2026-04-06', 44), (5, 'Estável', '2026-04-06', 45), -- Sensores GP15
+
+-- Alerta dos sensores gp sensores do silo 3 Sementec
+(1, 'Crítico', '2026-04-06', 46), (1, 'Crítico', '2026-04-06', 47), (1, 'Crítico', '2026-04-06', 48), -- Sensores GP16
+(3, 'Moderado', '2026-04-06', 49), (3, 'Moderado', '2026-04-06', 50), (3, 'Moderado', '2026-04-06', 51), -- Sensores GP17
+(4, 'Moderado', '2026-04-06', 52), (4, 'Moderado', '2026-04-06', 53), (4, 'Moderado', '2026-04-06', 54), -- Sensores GP18
+
+-- Alerta dos sensores gp sensores do silo 4 Sementec
+(3, 'Moderado', '2026-04-06', 55), (3, 'Moderado', '2026-04-06', 56), (3, 'Moderado', '2026-04-06', 57), -- Sensores GP19
+(5, 'Estável', '2026-04-06', 58), (5, 'Estável', '2026-04-06', 59), (5, 'Estável', '2026-04-06', 60), -- Sensores GP20
+(5, 'Estável', '2026-04-06', 61), (5, 'Estável', '2026-04-06', 62), (5, 'Estável', '2026-04-06', 63), -- Sensores GP21
+
+-- Alerta dos sensores gp sensores do silo 5 Sementec
+(5, 'Estável', '2026-04-06', 64), (5, 'Estável', '2026-04-06', 65), (5, 'Estável', '2026-04-06', 66), -- Sensores GP22
+(4, 'Moderado', '2026-04-06', 67), (4, 'Moderado', '2026-04-06', 68), (4, 'Moderado', '2026-04-06', 69), -- Sensores GP23
+(3, 'Moderado', '2026-04-06', 70), (3, 'Moderado', '2026-04-06', 71), (3, 'Moderado', '2026-04-06', 72), -- Sensores GP24
+
+-- Alerta dos sensores gp sensores do silo 1 ContSoja
+(2, 'Crítico', '2026-04-06', 73), (2, 'Crítico', '2026-04-06', 74), (2, 'Crítico', '2026-04-06', 75), -- Sensores GP25
+(4, 'Moderado', '2026-04-06', 76), (4, 'Moderado', '2026-04-06', 77), (4, 'Moderado', '2026-04-06', 78), -- Sensores GP26
+(1, 'Crítico', '2026-04-06', 79), (1, 'Crítico', '2026-04-06', 80), (1, 'Crítico', '2026-04-06', 81), -- Sensores GP27
+
+-- Alerta dos sensores gp sensores do silo 2 ContSoja
+(3, 'Moderado', '2026-04-06', 82), (3, 'Moderado', '2026-04-06', 83), (3, 'Moderado', '2026-04-06', 84), -- Sensores GP28
+(5, 'Estável', '2026-04-06', 85), (5, 'Estável', '2026-04-06', 86), (5, 'Estável', '2026-04-06', 87), -- Sensores GP29
+(2, 'Crítico', '2026-04-06', 88), (2, 'Crítico', '2026-04-06', 89), (2, 'Crítico', '2026-04-06', 90); -- Sensores GP30
+
 -- FIM INSERTS ------------------------------------------------------------------------
-
-
 
 -- SELECT -----------------------------------------------------------------------------
 -- USE ceres;
@@ -586,7 +823,7 @@ ORDER BY e.nome_fantasia, f.nome_fazenda;
 
 -- SELECIONANDO O VOLUME TOTAL DO SILO
 CREATE VIEW volume_total AS
- SELECT 
+SELECT 
 	silo_i.id_silo_individual AS id_silo_indiv,
 	silo_i.modelo_silo AS modelo_silo_indiv,
     bat.id_bateria_silo AS id,
@@ -645,7 +882,7 @@ silo_i.modelo_silo;
 
 SELECT * FROM volume_preenchido_bateria;
 
--- SELECIONANDO VOLUME  DE UM SILO INDIVIDUAL ESPECÍFICO
+-- SELECIONANDO VOLUME DE UM SILO INDIVIDUAL ESPECÍFICO
 SELECT
 id_silo_individual as id_silo,
 modelo_silo_indiv as modelo,
@@ -680,4 +917,33 @@ bateria,
 TRUNCATE(AVG(preenchimento), 2)
 FROM volume_preenchido_bateria
 GROUP BY id, bateria;
+
+
+
+--------------------------	
+-- CRUD FAZENDAS --
+--------------------------
+SELECT
+	nome,
+	COUNT(id_bateria) AS qtd_silos,
+    COUNT(DISTINCT id_bateria) AS qtd_bateria
+FROM (
+SELECT
+	f.id_fazenda AS id_fazenda,
+	f.nome_fazenda AS nome,
+	b.id_bateria_silo AS id_bateria,
+	b.bateria_grupo AS bateria,
+	s.id_silo_individual AS id_silo,
+	s.modelo_silo AS silo
+FROM fazenda AS f
+JOIN bateria_silo AS b
+ON b.fk_fazenda = f.id_fazenda
+JOIN silo_individual AS s
+ON s.fk_bateria_silo = b.id_bateria_silo
+)
+AS infos_fazenda
+WHERE id_fazenda = 4;
+
+
+
 -- FIM SELECT -------------------------------------------------------------------------
