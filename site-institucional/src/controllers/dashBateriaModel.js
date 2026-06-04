@@ -3,7 +3,7 @@ var database = require("../database/config")
 function selectVolumeTotal(idBateria) {
   var instrucaoSql = `SELECT 
  bateria,
- SUM(total)
+ SUM(total) AS total
  FROM volume_total
  WHERE id=${idBateria}
  GROUP BY id, bateria;`;

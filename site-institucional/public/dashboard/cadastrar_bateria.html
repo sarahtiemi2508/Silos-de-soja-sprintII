@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro de Bateria</title>
+    <link rel="stylesheet" href="../css/cadBateria.css">
+</head>
+
+<body>
+    <div class="imgFundo">
+        <div class="blur">
+            <div class="header"></div>
+            <div class="divTitulo">
+                <img class="imgTitulo" src="../assets/imgs/fazenda.png" width="38px">
+                <h1 class="titulo">
+                    ADICIONAR BATERIA
+                </h1>
+            </div>
+            <div class="divInfoBateria">
+                <div class="boxInfoBateria">
+                    <h3 class="tituloInfoBateria">INFORMAÇÕES DA BATERIA</h3>
+                    <div class="divInput" id="divIptNome">
+                        <label class="labelInput">NOME:</label>
+                        <input class="inputGrande" id="iptNome" type="text" placeholder="Ex:XPTO">
+                    </div>
+                    <div class="parte2">
+                        <div class="divInput" id="divIptQtdSilos">
+                            <label class="labelInput">QTD DE SILOS:</label>
+                            <input class="inputPequeno" id="iptQtdSilos" type="text" placeholder="Ex:8">
+                        </div>
+                        <div class="divInput" id="divIptAltura">
+                            <label class="labelInput">ALTURA:</label>
+                            <input class="inputPequeno" id="iptAltura" type="text" placeholder="Ex:12m">
+                        </div>
+                        <div class="divInput" id="divIptDiametro">
+                            <label class="labelInput">DIÂMETRO:</label>
+                            <input class="inputPequeno" id="iptDiametro" type="text" placeholder="Ex:5m">
+                        </div>
+                    </div>
+                    <button class="botao" onclick="cadastrarBateria()">ADICIONAR</button>
+                </div>
+                <div class="cardErro" id="cardErro">
+                    <div class="boxErro">
+                        <div id="mensagem_erro"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+<script>
+
+    function cadastrarBateria() {
+        let nomeInserido = iptNome.value;
+        let qtdSilosInserido = iptQtdSilos.value;
+        let alturaInserida = iptAltura.value;
+        let diametroInserido = iptDiametro.value;
+
+        fetch("/configBateria/cadastrarBateria", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                nomeBateriaServer: nomeInserido,
+                qtdSilosServer: qtdSilosInserido,
+                alturaSiloServer: alturaInserida,
+                diametroSiloServer: diametroInserido
+            }),
+        })
+            .then(function (resposta) {
+                console.log("resposta: ", resposta);
+
+                if (resposta.ok) {
+                    cardErro.style.display = "block";
+
+                    mensagem_erro.innerHTML =
+                        "Cadastro realizado com sucesso! Redirecionando para tela de baterias...";
+
+                    setTimeout(() => {
+                        window.location.href = ".html";
+                        console.log("Passei detro do redirecionamento");
+
+                    }, "2000");
+
+                    limparFormulario();
+                    finalizarAguardar();
+                } else {
+                    throw "Houve um erro ao tentar realizar o cadastro!";
+                }
+            })
+            .catch(function (resposta) {
+                console.log(`#ERRO: ${resposta}`);
+                finalizarAguardar();
+            });
+
+    }
+
+</script>
+
+</html>
