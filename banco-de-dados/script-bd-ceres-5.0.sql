@@ -413,55 +413,7 @@ INSERT INTO sensor (localizacao, stts_sensor, fk_gp_sensores) VALUES
 ('Esquerda', 1, 29), ('Centro', 1, 29), ('Direita', 1, 29), -- Sensores GP29
 ('Esquerda', 1, 30), ('Centro', 1, 30), ('Direita', 1, 30); -- Sensores GP30
 
-INSERT INTO historico_sensor (distancia_captada, fk_sensor) VALUES
-(4,1), -- esquerda
-(5,2), -- centro
-(6,3); -- direita
-
 SELECT * FROM historico_sensor;
-
-INSERT INTO historico_sensor (distancia_captada, fk_sensor) VALUES
-(8,4),
-(7,5),
-(9,6);
-
-INSERT INTO historico_sensor (distancia_captada, fk_sensor) VALUES
-(12,7),
-(13,8),
-(14,9);
-
-INSERT INTO historico_sensor (distancia_captada, fk_sensor) VALUES
-
--- Silo 01 (80% ocupado)
-(4, 2),
-
--- Silo 02 (60% ocupado)
-(8, 5),
-
--- Silo 03 (35% ocupado)
-(13, 8),
-
--- Silo 001 (90% ocupado)
-(3, 11),
-
--- Silo 002 (50% ocupado)
-(15, 14);
-
-INSERT INTO historico_sensor (distancia_captada, fk_sensor, dt_hora_leitura) VALUES
--- Silo 01 (80% ocupado)
-(4, 2, '2026-04-06 10:00:00'),
-
--- Silo 02 (60% ocupado)
-(2, 5, '2026-04-06 10:00:00'),
-
--- Silo 03 (35% ocupado)
-(14, 8, '2026-04-06 10:00:00'),
-
--- Silo 001 (90% ocupado)
-(10, 11, '2026-04-06 10:00:00'),
-
--- Silo 002 (50% ocupado)
-(3, 1, '2026-04-06 10:00:00');
 
 -- SELECT * FROM volume_total;
  
@@ -1028,19 +980,47 @@ FROM (
 ) AS qtd_situacoes
 GROUP BY nome, responsavel, contato, endereco, id_fazenda, id_usuario;
 
+SELECT * FROM fazendas_do_usuario;
+
+	SELECT
+		rf.id_usuario AS id_usuario,
+		rf.responsavel AS responsavel,
+		rf.contato AS contato,
+		rf.endereco AS endereco,
+		f.id_fazenda AS id_fazenda,
+		f.nome_fazenda AS nome,
+		b.id_bateria_silo AS id_bateria,
+		b.bateria_grupo AS bateria,
+		s.id_silo_individual AS id_silo,
+		s.modelo_silo AS silo,
+		a.situacao AS situacao_silo
+	FROM fazenda AS f
+	JOIN bateria_silo AS b ON b.fk_fazenda = f.id_fazenda
+	JOIN silo_individual AS s ON s.fk_bateria_silo = b.id_bateria_silo
+	JOIN gp_sensores AS gs ON gs.fk_silo = s.id_silo_individual
+	JOIN sensor AS sr ON sr.fk_gp_sensores = gs.id_gp_sensores
+	JOIN historico_sensor AS hs ON hs.fk_sensor = sr.id_sensor
+	JOIN alerta AS a ON a.fk_historico_sensor = hs.id_historico_sensor
+    JOIN responsavel_fazenda AS rf ON rf.id_fazenda = f.id_fazenda
+	GROUP BY gs.id_gp_sensores, rf.id_usuario, a.situacao, id_silo, id_bateria;
+
 SELECT 
-	id_usuario,
-	id_fazenda,
-	responsavel,
-    contato,
-    endereco,
-	nome,
-	qtd_silos,
-	qtd_bateria,
-	estaveis,
-	moderados,
-	criticos
-FROM fazendas_do_usuario
-WHERE id_usuario = 2;
+	fu.id_usuario AS id_usuario,
+	fu.id_fazenda AS id_fazenda,
+	fu.responsavel AS responsavel,
+    fu.contato AS contato,
+    fu.endereco AS endereco,
+	fu.nome AS nome,
+	fu.qtd_silos AS qtd_silos,
+	fu.qtd_bateria AS qtd_baterias,
+	fu.estaveis AS estaveis,
+	fu.moderados AS moderados,
+	fu.criticos AS criticos
+FROM permissao AS p
+JOIN usuario AS u
+ON u.id_usuario = p.fk_usuario
+JOIN fazendas_do_usuario AS fu
+ON fu.id_fazenda = p.fk_fazenda
+WHERE u.id_usuario = 2;
 
 -- FIM SELECT -------------------------------------------------------------------------
