@@ -1026,8 +1026,7 @@ FROM (
 	JOIN alerta AS a ON a.fk_historico_sensor = hs.id_historico_sensor
     JOIN responsavel_fazenda AS rf ON rf.id_fazenda = f.id_fazenda
 ) AS qtd_situacoes
-WHERE id_usuario = 2
-GROUP BY nome, responsavel, contato, endereco, id_fazenda;
+GROUP BY nome, responsavel, contato, endereco, id_fazenda, id_usuario;
 
 SELECT 
 	id_usuario,
@@ -1041,6 +1040,7 @@ SELECT
 	estaveis,
 	moderados,
 	criticos
-FROM fazendas_do_usuario;
+FROM fazendas_do_usuario
+WHERE id_usuario = 2;
 
 -- FIM SELECT -------------------------------------------------------------------------
