@@ -9,7 +9,7 @@
     <script src="../js/menu.js"></script>
 </head>
 
-<body>
+<body onload="listarFazendas()">
     <div id="imgFundo">
         <div class="blur">
 
@@ -23,98 +23,6 @@
                 </div>
         
                 <div id="boxes">
-
-
-
-                    <div class="box-fazenda"> <!-- colunm -->
-                        <div class="tituloFazenda">Fazenda XPTO</div>
-                        <div class="content-infos">  <!-- row -->
-                            <div class="infos-fazenda">  <!-- colunm -->
-                                <div class="situacoes">  <!-- colunm -->
-                                    <h3>situações</h3>
-                                    <div class="box-situacoes">  <!-- row -->
-                                        <div class="box-sit sit-estavel" id="qtd_estavel">67</div>
-                                        <div class="box-sit sit-moderada" id="qtd_moderado">10</div>
-                                        <div class="box-sit sit-critica" id="qtd_critico">3</div>
-                                    </div>
-                                </div>
-                                <div class="totais">
-                                    <b>total de silos:</b>
-                                    <span id="qtd_silos">80</span>
-                                </div>
-                                <div class="totais">
-                                    <b>total de baterias:</b>
-                                    <span id="qtd_baterias">10</span>
-                                </div>
-                            </div>
-                            <hr>
-                            <div class="infos-responsavel">  <!-- colunm -->
-                                <div class="info">  <!-- colunm -->
-                                    <h3>responsavel: </h3>
-                                    <p id="id_responsavel">Fulano de Tal da Silva</p>
-                                </div>
-                                <div class="info">  <!-- colunm -->
-                                    <h3>contato: </h3>
-                                    <p id="id_resp_contato">+55 (11) 99999-0000</p>
-                                </div>
-                                <div class="info">  <!-- colunm -->
-                                    <h3>cidade e uf: </h3>
-                                    <p id="id_cidade_uf">Galiléia/MG</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="boxBotoes">  <!-- row -->
-                            <a class="styleBotao vizu" href="#">visualizar -></a>
-                            <a class="styleBotao conf" href="#"></a>
-                        </div>
-                    </div>
-
-
-
-                    <div class="box-fazenda"> <!-- colunm -->
-                        <div class="tituloFazenda">Fazenda XPTO</div>
-                        <div class="content-infos">  <!-- row -->
-                            <div class="infos-fazenda">  <!-- colunm -->
-                                <div class="situacoes">  <!-- colunm -->
-                                    <h3>situações</h3>
-                                    <div class="box-situacoes">  <!-- row -->
-                                        <div class="box-sit sit-estavel" id="qtd_estavel">67</div>
-                                        <div class="box-sit sit-moderada" id="qtd_moderado">10</div>
-                                        <div class="box-sit sit-critica" id="qtd_critico">3</div>
-                                    </div>
-                                </div>
-                                <div class="totais">
-                                    <b>total de silos:</b>
-                                    <span id="qtd_silos">80</span>
-                                </div>
-                                <div class="totais">
-                                    <b>total de baterias:</b>
-                                    <span id="qtd_baterias">10</span>
-                                </div>
-                            </div>
-                            <hr>
-                            <div class="infos-responsavel">  <!-- colunm -->
-                                <div class="info">  <!-- colunm -->
-                                    <h3>responsavel: </h3>
-                                    <p id="id_responsavel">Fulano de Tal da Silva</p>
-                                </div>
-                                <div class="info">  <!-- colunm -->
-                                    <h3>contato: </h3>
-                                    <p id="id_resp_contato">+55 (11) 99999-0000</p>
-                                </div>
-                                <div class="info">  <!-- colunm -->
-                                    <h3>cidade e uf: </h3>
-                                    <p id="id_cidade_uf">Galiléia/MG</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="boxBotoes">  <!-- row -->
-                            <a class="styleBotao vizu" href="#">visualizar -></a>
-                            <a class="styleBotao conf" href="#"></a>
-                        </div>
-                    </div>
-
-
 
                     <div class="box-fazenda cadastrar">
                         <div id="circuloAmarelo">
@@ -138,7 +46,84 @@
     });
 </script>
 <script>
-    
+
+    var id_usuario = sessionStorage.ID_USUARIO;
+
+    async function listarFazendas() {
+
+        const retornoFazendas = await fetch(`../fazenda/listarFazendas/${id_usuario}`);
+        const retornoFazendasConvertido = await retornoFazendas.json();
+        const fazendas = retornoFazendasConvertido;
+
+        console.log(fazendas);
+
+        exibirFazendas(fazendas);
+        
+    }
+
+    async function exibirFazendas(fazendas) {
+
+        for (let i = 0; i < fazendas.length; i++) {
+
+            let nome_fazenda = fazendas[i].nome;
+            let qtd_silos = fazendas[i].qtd_silos;
+            let qtd_bateria = fazendas[i].qtd_bateria;
+            let estaveis = fazendas[i].estaveis;
+            let moderados = fazendas[i].moderados;
+            let criticos = fazendas[i].criticos;
+            let responsavel = fazendas[i].responsavel;
+            let contato = fazendas[i].contato;
+            let endereco = fazendas[i].endereco;
+            
+            boxes.innerHTML += `
+                <div class="box-fazenda">
+                    <div class="tituloFazenda">${nome_fazenda}</div>
+                    <div class="content-infos">
+                        <div class="infos-fazenda">
+                            <div class="situacoes">
+                                <h3>situações</h3>
+                                <div class="box-situacoes">
+                                    <div class="box-sit sit-estavel" id="qtd_estavel">${estaveis}</div>
+                                    <div class="box-sit sit-moderada" id="qtd_moderado">${moderados}</div>
+                                    <div class="box-sit sit-critica" id="qtd_critico">${criticos}</div>
+                                </div>
+                            </div>
+                            <div class="totais">
+                                <b>total de silos:</b>
+                                <span id="qtd_silos">${qtd_silos}</span>
+                            </div>
+                            <div class="totais">
+                                <b>total de baterias:</b>
+                                <span id="qtd_baterias">${qtd_bateria}</span>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="infos-responsavel">
+                            <div class="info">
+                                <h3>responsavel: </h3>
+                                <p id="id_responsavel">${responsavel}</p>
+                            </div>
+                            <div class="info">
+                                <h3>contato: </h3>
+                                <p id="id_resp_contato">${contato}</p>
+                            </div>
+                            <div class="info">
+                                <h3>cidade e uf: </h3>
+                                <p id="id_cidade_uf">${endereco}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="boxBotoes">
+                        <a class="styleBotao vizu" href="#">visualizar -></a>
+                        <a class="styleBotao conf" href="#"></a>
+                    </div>
+                </div>
+            `;
+            
+        }
+
+    }
+
 </script>
 
 </html>
