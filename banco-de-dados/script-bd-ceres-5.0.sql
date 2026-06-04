@@ -970,8 +970,34 @@ SELECT * FROM media_preenchimento_mensal_por_bateria WHERE bateria = 1;
 -- CRUD FAZENDAS --
 --------------------------
 
--- Para saber as informações de cada fazenda
+-- Para saber o responsável de cada fazenda
+CREATE VIEW responsavel_fazenda AS
 SELECT
+	f.id_fazenda AS id_fazenda,
+    f.nome_fazenda AS fazenda,
+    u.id_usuario AS id_usuario,
+	u.nome_usuario AS responsavel,
+    u.telefone AS contato,
+    CONCAT(e.cidade_fazenda, '/', e.uf_fazenda) AS endereco
+FROM usuario AS u
+JOIN permissao AS p
+ON p.fk_usuario = u.id_usuario
+JOIN fazenda AS f
+ON p.fk_fazenda = f.id_fazenda
+JOIN endereco AS e
+ON f.fk_endereco = e.id_endereco
+WHERE p.tipo_permissao = 'Responsável';
+
+SELECT * FROM responsavel_fazenda;
+
+-- Para saber as informações de cada fazenda
+CREATE VIEW fazendas_do_usuario AS
+SELECT
+	id_usuario,
+	id_fazenda,
+	responsavel,
+    contato,
+    endereco,
 	nome,
 	COUNT(DISTINCT id_silo) AS qtd_silos,
 	COUNT(DISTINCT id_bateria) AS qtd_bateria,
@@ -980,6 +1006,10 @@ SELECT
 	SUM(CASE WHEN situacao_silo = 'Crítico' THEN 1 ELSE 0 END) AS criticos
 FROM (
 	SELECT
+		rf.id_usuario AS id_usuario,
+		rf.responsavel AS responsavel,
+		rf.contato AS contato,
+		rf.endereco AS endereco,
 		f.id_fazenda AS id_fazenda,
 		f.nome_fazenda AS nome,
 		b.id_bateria_silo AS id_bateria,
@@ -994,23 +1024,23 @@ FROM (
 	JOIN sensor AS sr ON sr.fk_gp_sensores = gs.id_gp_sensores
 	JOIN historico_sensor AS hs ON hs.fk_sensor = sr.id_sensor
 	JOIN alerta AS a ON a.fk_historico_sensor = hs.id_historico_sensor
+    JOIN responsavel_fazenda AS rf ON rf.id_fazenda = f.id_fazenda
 ) AS qtd_situacoes
-GROUP BY nome;
+WHERE id_usuario = 2
+GROUP BY nome, responsavel, contato, endereco, id_fazenda;
 
--- Para saber o responsável de cada fazenda
-SELECT
-	f.id_fazenda AS id_fazenda,
-    f.nome_fazenda AS fazenda,
-	u.nome_usuario AS responsavel,
-    u.telefone AS contato,
-    CONCAT(e.cidade_fazenda, '/', e.uf_fazenda) AS endereco
-FROM usuario AS u
-JOIN permissao AS p
-ON p.fk_usuario = u.id_usuario
-JOIN fazenda AS f
-ON p.fk_fazenda = f.id_fazenda
-JOIN endereco AS e
-ON f.fk_endereco = e.id_endereco
-WHERE p.tipo_permissao = 'Responsável';
+SELECT 
+	id_usuario,
+	id_fazenda,
+	responsavel,
+    contato,
+    endereco,
+	nome,
+	qtd_silos,
+	qtd_bateria,
+	estaveis,
+	moderados,
+	criticos
+FROM fazendas_do_usuario;
 
 -- FIM SELECT -------------------------------------------------------------------------
