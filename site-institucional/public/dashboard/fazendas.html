@@ -9,7 +9,7 @@
     <script src="../js/menu.js"></script>
 </head>
 
-<body onload="listarFazendas()">
+<body onload="listarUsuario()">
     <div id="imgFundo">
         <div class="blur">
 
@@ -48,6 +48,35 @@
 <script>
 
     var id_usuario = sessionStorage.ID_USUARIO;
+    var id_empresa = sessionStorage.ID_EMPRESA;
+
+    async function listarUsuario() {
+
+        const retornoUsuario = await fetch(`../fazenda/listarTipoUsuario/${id_usuario}`);
+        const retornoUsuarioConvertido = await retornoUsuario.json();
+        const usuario = retornoUsuarioConvertido;
+
+        console.log(usuario);
+
+        if (usuario[0].tipo_usuario == 'ADMEmpresa') {
+            listarFazendasEmpresa();
+        } else {
+            listarFazendas();
+        }
+
+    }
+
+    async function listarFazendasEmpresa() {
+
+        const retornoFazendasEmpresa = await fetch(`../fazenda/listarFazendasEmpresa/${id_empresa}`);
+        const retornoFazendasEmpresaConvertido = await retornoFazendasEmpresa.json();
+        const fazendasE = retornoFazendasEmpresaConvertido;
+
+        console.log(fazendasE);
+
+        exibirFazendas(fazendasE);
+        
+    }
 
     async function listarFazendas() {
 
