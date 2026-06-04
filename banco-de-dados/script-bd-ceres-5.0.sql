@@ -973,7 +973,7 @@ SELECT * FROM media_preenchimento_mensal_por_bateria WHERE bateria = 1;
 -- Para saber as informações de cada fazenda
 SELECT
 	nome,
-	COUNT(id_bateria) AS qtd_silos,
+	COUNT(DISTINCT id_silo) AS qtd_silos,
 	COUNT(DISTINCT id_bateria) AS qtd_bateria,
 	SUM(CASE WHEN situacao_silo = 'Estável' THEN 1 ELSE 0 END) AS estaveis,
 	SUM(CASE WHEN situacao_silo = 'Moderado' THEN 1 ELSE 0 END) AS moderados,
