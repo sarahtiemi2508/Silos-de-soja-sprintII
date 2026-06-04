@@ -9,7 +9,7 @@ function listarFazendas(req, res) {
         console.log("Puxei as fazendas" + resultado)
         res.status(200).json(resultado);
     }).catch(function(erro){
-        console.erro("Erro ao listarFazendas: ", erro)
+        console.error("Erro ao listarFazendas: ", erro)
         res.status(500).json(erro.sqlMessage);
     })
 
@@ -22,7 +22,7 @@ function listarFazendasEmpresa(req, res) {
         console.log("Puxei as fazendas" + resultado)
         res.status(200).json(resultado);
     }).catch(function(erro){
-        console.erro("Erro ao listarFazendas: ", erro)
+        console.error("Erro ao listarFazendas: ", erro)
         res.status(500).json(erro.sqlMessage);
     })
 }
@@ -35,7 +35,7 @@ function listarTipoUsuario(req, res) {
         console.log("Puxei as fazendas" + resultado)
         res.status(200).json(resultado);
     }).catch(function(erro){
-        console.erro("Erro ao listarFazendas: ", erro)
+        console.error("Erro ao listarFazendas: ", erro)
         res.status(500).json(erro.sqlMessage);
     })
 }
