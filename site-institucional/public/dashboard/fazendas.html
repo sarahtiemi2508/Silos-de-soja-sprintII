@@ -48,7 +48,7 @@
 <script>
 
     var id_usuario = sessionStorage.ID_USUARIO;
-    var id_empresa = sessionStorage.ID_EMPRESA;
+    var id_empresa = sessionStorage.ID_EMPRESA;    
 
     async function listarUsuario() {
 
@@ -58,7 +58,7 @@
 
         console.log(usuario);
 
-        if (usuario[0].tipo_usuario == 'ADMEmpresa') {
+        if (usuario[0].tipo_usuario === "AdmEmpresa") {
             listarFazendasEmpresa();
         } else {
             listarFazendas();

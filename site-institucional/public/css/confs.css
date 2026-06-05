@@ -1,0 +1,286 @@
+@import url(gerais.css);
+
+
+/* ESTILIZAÇÃO CONFIGURAÇÕES DO USUÁRIO */
+a{
+    cursor: pointer;
+    text-decoration: none;
+}
+
+button{
+    cursor: pointer;
+}
+
+body{
+    font-family: var(--paragrafo);
+    width: 100%;
+    height: 100vh;
+}
+
+#imgFundo{
+    display: flex;
+    background-image: 
+        linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), 
+        url(../assets/imgs/img_fundo_alerta.png)
+    ;
+    position: absolute;
+    width: 100%;
+    height: 100vh;
+    display: flex;
+}
+
+.blur {
+    backdrop-filter: blur(5px);
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+}
+
+main {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    width: 85%;
+    height: 90vh;
+}
+
+#titulo{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 5%;
+    padding: 5% 0px;
+}
+
+#titulo h1 {
+    font-family: var(--titulo);
+    text-transform: uppercase;
+    font-size: 40px;
+    color: white;
+    font-weight: 900;
+}
+
+#imgTitulo{
+    width: 13%;
+    height: auto;
+}
+
+/* ESTILIZAÇÃO CADASTRO DE FAZENDAS PARTE 1 */
+
+.main-cadastrar {
+    height: 100vh;
+    width: 100%;
+}
+
+.titulo{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    align-self: center;
+    padding: 2%;
+    gap: 5%;
+}
+
+.titulo h1 {
+    font-family: var(--titulo);
+    text-transform: uppercase;
+    font-size: 40px;
+    color: white;
+    font-weight: 900;
+}
+
+.container-cadastro {
+    display: flex;
+    flex-direction: column;
+    align-self: center;
+    justify-content: center;
+    align-items: center;
+    width: 50%;
+    height: 80%;
+    background-color: white;
+    border-radius: 35px;
+    padding: 5%;
+    gap: 20%;
+}
+
+.content-infos-cadastro {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    height: 80%;
+}
+
+.sobre-usuario {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    gap: 25px;
+}
+
+.sobre-usuario h1 {
+    font-size: 20px;
+    text-transform: uppercase;
+}
+
+.inputs {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 5px;
+    transition: all ease-in-out 0.3s;
+    width: 100%;
+}
+
+.inputs:hover {
+    transform: scale(1.05);
+}
+
+.inputs label {
+    font-family: var(--titulo);
+    font-size: 14px;
+    text-transform: uppercase;
+    font-weight: 800;
+    font-style: italic;
+    padding-left: 10%;
+}
+
+.inputs input {
+    height: 4vh;
+    border-radius: 50px;
+    border: none;
+    background-color: rgb(235, 243, 250);
+    font-size: 12px;
+    font-family: var(--paragrafo);
+    padding: 0px 20px;
+    transition: all ease-in-out 0.3s;
+}
+
+.inputs input:focus {
+    outline: none;
+    border: 2px solid rgb(152, 174, 196);
+    background-color: white;
+    transform: scale(1.05);
+}
+
+.inputs input::placeholder {
+    color: rgb(85, 98, 110);
+}
+
+.usuario-infos {
+    width: 70%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 10%;
+}
+
+.usuario-infos h3 {
+    text-transform: uppercase;
+    font-size: 16px;
+    font-weight: 800;
+}
+
+.inputs-dupla {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+.nome input {
+    width: 100%;
+}
+
+.nasc {
+    align-items: center;
+    width: 48%;
+}
+
+.nasc input {
+    width: 100%;
+    text-align: center;
+}
+
+.cpf {
+    align-items: center;
+    width: 48%;
+}
+
+.cpf input {
+    width: 100%;
+    text-align: center;
+}
+
+.cpf label, .nasc label {
+    padding-left: 0px;
+}
+
+.email {
+    width: 100%;
+}
+
+.email input {
+    width: 100%;
+}
+
+.senha {
+    width: 100%;
+}
+
+.senha input {
+    width: 100%;
+}
+
+.atualizar, .deletar {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 18vw;
+    height: 4vh;
+    background-color: var(--primary-yellow);
+    color: black;
+    font-family: var(--titulo);
+    text-transform: uppercase;
+    font-weight: 800;
+    font-size: 16px;
+    border: none;
+    border-radius: 50px;
+    transition: all ease-in-out 0.3s;
+}
+
+.atualizar:hover, .deletar:hover  {
+    transform: scale(1.05);
+    color: black;
+    border: 2px solid black;
+    background-color: white;
+}
+
+.botoes {
+    display: flex;
+    flex-direction: row;
+    gap: 50px;
+}
+
+.deletar {
+    background-color: rgb(245, 67, 67);
+    color: white;
+    width: 10vw;
+}
+
+.deletar:hover {
+    border: 2px solid rgb(245, 67, 67);
+    color: rgb(245, 67, 67);
+    background-color: white;
+}
