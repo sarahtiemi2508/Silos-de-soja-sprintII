@@ -1,6 +1,6 @@
 var database = require("../database/config")
 
-function cadastrar(nomeBateria, qtdSilos, alturaSilos, diametroSilos) {
+function cadastrarBateria(nomeBateria, qtdSilos, alturaSilos, diametroSilos) {
     console.log("ACESSEI O USUARIO MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function cadastrar():", nome,  email, cpf, senha, grupo);
     
     var instrucaoSql = `
@@ -13,13 +13,15 @@ function cadastrar(nomeBateria, qtdSilos, alturaSilos, diametroSilos) {
 function buscarDadosBateria(){
     console.log("ACESSEI O USUARIO MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function entrar(): ", email, senha)
     var instrucaoSql = `
-        UPDATE ;
+        SELECT id_silo_individual AS idSilo,
+        bateria_grupo AS nome,
+         ;
     `;
     console.log("Executando a instrução SQL: \n" + instrucaoSql);
     return database.executar(instrucaoSql);
 }
 
-function atualizar(email, senha) {
+function atualizarBateria(email, senha) {
     console.log("ACESSEI O USUARIO MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function entrar(): ", email, senha)
     var instrucaoSql = `
         UPDATE ;

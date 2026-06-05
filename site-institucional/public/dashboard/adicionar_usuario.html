@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Chart JS -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="../css/adicionar_usuario.css">
+    <link rel="stylesheet" href="../css/menu.css">
+
+    <!-- Icons -->
+    <link rel="shortcut icon" href="../assets/icon/favicon-dark.ico" media="(prefers-color-scheme: dark)">
+    <link rel="shortcut icon" href="../assets/icon/favicon-light.ico" media="(prefers-color-scheme: light)">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"
+        rel="stylesheet" />
+
+    <script src="../js/menu.js"></script>
+
+    <title>Dashboard</title>
+</head>
+
+
+<body>
+    <div id="menu_hamburger"></div>
+    <script>
+        fetch("../includes/menu.html")
+            .then(resposta => resposta.text())
+            .then(dados => {
+                document.getElementById("menu_hamburger").innerHTML = dados;
+            });
+    </script>
+
+
+
+    <div class="fundo_geral_tela">
+        <div class="titulo">
+            <img src="../assets/imgs/icon_fazenda.png" alt="">
+            <p>ADICIONAR FUNCIONÁRIO</p>
+        </div>
+
+        <div class="div_geral_adicionar_user">
+            <p>INFORMAÇÕES DO NOVO FUNCIONÁRIO</p>
+
+            <div class="div_geral_input">
+                <div class="label_input">
+                    <label for="">NOME:</label>
+                    <input type="text" id="nome_input" placeholder="Digite o nome do novo funcionário...">
+                </div>
+                <div class="label_input">
+                    <label for="">EMAIL:</label>
+                    <input type="text" id="email_input" placeholder="Digite o email do novo funcionário...">
+                </div>
+                <div class="label_input">
+                    <label for="">CPF:</label>
+                    <input type="text" id="cpf_input" placeholder="Digite o email do novo funcionário...">
+                </div>
+                <div class="label_input">
+                    <label for="">SENHA:</label>
+                    <input type="text" id="senha_input" placeholder="Crie uma senha temporária para o funcionário...">
+                </div>
+                <div class="label_input">
+                    <label for="">CONFIRMAR SENHA:</label>
+                    <input type="text" id="confirmar_senha_input" placeholder="Digite a senha novamente...">
+                </div>
+            </div>
+
+
+
+            <button class="btn_adicionar" onclick="cadastrar_user()">ADICIONAR</button>
+            <div class="card_erro" id="cardErro">
+                <span id="mensagem_erro"></span>
+            </div>
+        </div>
+    </div>
+</body>
+
+
+<script>
+
+
+    function mostrarErro(msg) {
+        cardErro.style.display = "block";
+        mensagem_erro.innerHTML = msg;
+
+        
+        setTimeout(sumirMensagem, 3000);
+        return false;
+    }
+
+    function sumirMensagem() {
+        cardErro.style.display = "none";
+    }
+   
+
+    function cadastrar_user() {
+        let nome = nome_input.value.trim();
+        let email = email_input.value.trim();
+        let cpf = cpf_input.value.trim();
+        let senha = senha_input.value.trim();
+        let confirmar_senha = confirmar_senha_input.value.trim();
+
+        // Verificando se há algum campo em branco
+        if (
+            nome == "" ||
+            email == "" ||
+            cpf == "" ||
+            senha == "" ||
+            confirmar_senha == ""
+        ) {
+            return mostrarErro("Preencha todos os campos")
+        }
+
+        if (senha != confirmar_senha){
+             return mostrarErro("Digite senhas iguais")
+        }
+
+
+console.log(sessionStorage.ID_EMPRESA);
+console.log(sessionStorage.ID_FAZENDA);
+
+        fetch("/usuario/cadastrar", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        // crie um atributo que recebe o valor recuperado aqui
+        // Agora vá para o arquivo routes/usuario.js
+        nomeServer: nome,
+        emailServer: email,
+        cpfServer: cpf,
+        senhaServer: senha,
+        idEmpresa: sessionStorage.ID_EMPRESA,
+        idFazenda: 1 // mudar depois
+
+      }),
+    })
+      .then(function (resposta) {
+        console.log("resposta: ", resposta);
+
+        if (resposta.ok) {
+          cardErro.style.display = "block";
+
+          mensagem_erro.innerHTML =
+            "Cadastro realizado com sucesso!";
+
+          // setTimeout(() => {
+           // window.location = "login.html";
+          //}, "2000");
+
+        } else {
+          throw "Houve um erro ao tentar realizar o cadastro!";
+        }
+      })
+      .catch(function (resposta) {
+        console.log(`#ERRO: ${resposta}`);
+      });
+
+    return false;
+  
+    }
+
+
+
+
+
+</script>
+
+</html>
