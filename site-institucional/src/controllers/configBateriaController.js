@@ -53,8 +53,10 @@ console.log("idUsuario recebido:", idUsuario);
 
 
 function atualizar(req, res) {
-    var email = req.body.emailServer;
-    var senha = req.body.senhaServer;
+    var nomeSilos = req.body.nomeBateriaServer;
+    var qtdSilos = req.body.qtdSilosServer;
+    var alturaSilos = req.body.alturaSiloServer;
+    var diametroSilos = req.body.diametroSiloServer
 
     if (email == undefined) {
         res.status(400).send("Seu email está undefined!");
