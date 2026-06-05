@@ -1023,4 +1023,21 @@ JOIN fazendas_do_usuario AS fu
 ON fu.id_fazenda = p.fk_fazenda
 WHERE u.id_usuario = 2;
 
+
+--------------------------	
+-- ALERTAS --
+--------------------------
+
+SELECT
+	f.nome_fazenda,
+    rf.responsavel,
+    rf.contato
+FROM fazenda AS f
+JOIN responsavel_fazenda AS rf ON rf.id_fazenda = f.id_fazenda
+JOIN bateria_silo AS b ON b.fk_fazenda = f.id_fazenda
+JOIN silo_individual AS s ON s.fk_bateria_silo = b.id_bateria_silo
+JOIN gp_sensores AS gs ON gs.fk_silo = s.id_silo_individual
+JOIN sensor AS sr ON sr.fk_gp_sensores = gs.id_gp_sensores
+JOIN historico_sensor;
+
 -- FIM SELECT -------------------------------------------------------------------------

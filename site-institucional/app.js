@@ -17,11 +17,11 @@ var app = express();
 
 var indexRouter = require("./src/routes/home");
 var usuarioRouter = require("./src/routes/usuarios");
-var alertasRouter = require("./src/routes/alertas");
 var medidasRouter = require("./src/routes/medidas");
 var empresasRouter = require("./src/routes/empresas");
 var fazendaRouter = require("./src/routes/fazenda");
 var addUserRouter = require("./src/routes/addUser");
+var alertaRouter = require("./src/routes/alerta");
 
 // Rotas da bateria da Sarah
 // var dashBateriaRouter = require("./src/routes/dashBateria");
@@ -35,11 +35,11 @@ app.use(cors());
 
 app.use("/", indexRouter);
 app.use("/usuarios", usuarioRouter);
-app.use("/alertas", alertasRouter);
 app.use("/medidas", medidasRouter);
 app.use("/empresas", empresasRouter);
 app.use("/fazenda", fazendaRouter);
 app.use("/usuario", addUserRouter);
+app.use("/alerta", alertaRouter);
 
 // Rotas da bateria da Sarah
 // app.use("/dashBateria", dashBateriaRouter);

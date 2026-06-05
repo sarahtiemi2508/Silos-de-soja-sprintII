@@ -78,13 +78,14 @@
       flex-direction: column;
       display: flex;
       flex: 3;
-      min-height: 30vh;
+      max-height: 70vh;
       background-color: white;
       color: #000000;
       justify-content: space-between;
       padding: 5vh 3vh;
       border-radius: 3vh;
       gap: 4vh;
+      overflow-y: scroll;
   }
 
 
