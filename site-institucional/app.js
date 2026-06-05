@@ -21,6 +21,8 @@ var alertasRouter = require("./src/routes/alertas");
 var medidasRouter = require("./src/routes/medidas");
 var empresasRouter = require("./src/routes/empresas");
 var fazendaRouter = require("./src/routes/fazenda");
+var addUserRouter = require("./src/routes/addUser");
+
 // Rotas da bateria da Sarah
 // var dashBateriaRouter = require("./src/routes/dashBateria");
 // var configBateriaRouter = require("./src/routes/configBateria");
@@ -37,6 +39,8 @@ app.use("/alertas", alertasRouter);
 app.use("/medidas", medidasRouter);
 app.use("/empresas", empresasRouter);
 app.use("/fazenda", fazendaRouter);
+app.use("/usuario", addUserRouter);
+
 // Rotas da bateria da Sarah
 // app.use("/dashBateria", dashBateriaRouter);
 // app.use("/configBateria", configBateriaRouter)
