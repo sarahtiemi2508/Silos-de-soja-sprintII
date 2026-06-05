@@ -663,8 +663,6 @@ FROM
 silo_individual silo_i
 JOIN bateria_silo bat
  ON bat.id_bateria_silo = silo_i.fk_bateria_silo;
- 
- SELECT * FROM volume_total;
 
   -- CALCULANDO O QUÃO CHEIO ESTÁ OS SILOS DA BATERIA
  CREATE VIEW volume_preenchido_bateria AS
@@ -759,8 +757,6 @@ ON p.fk_fazenda = f.id_fazenda
 JOIN endereco AS e
 ON f.fk_endereco = e.id_endereco
 WHERE p.tipo_permissao = 'Responsável';
-
-SELECT * FROM responsavel_fazenda;
 
 -- Para saber as informações de cada fazenda
 CREATE VIEW fazendas_do_usuario AS
