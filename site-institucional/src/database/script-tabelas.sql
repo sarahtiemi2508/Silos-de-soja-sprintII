@@ -1,5 +1,6 @@
 CREATE DATABASE ceres;
 USE ceres;
+-- DROP DATABASE ceres;
 
 CREATE TABLE empresa (
 id_empresa INT PRIMARY KEY AUTO_INCREMENT,
@@ -61,7 +62,11 @@ REFERENCES usuario (id_usuario),
 fk_fazenda INT,
 CONSTRAINT ctfk_fazenda_permissao
 FOREIGN KEY (fk_fazenda)
-REFERENCES fazenda (id_fazenda)
+REFERENCES fazenda (id_fazenda),
+
+tipo_permissao VARCHAR(45),
+CONSTRAINT ct_tipo_permissao
+CHECK (tipo_permissao IN ('Empresa', 'Responsável', 'Outros'))
 );
 
 CREATE TABLE bateria_silo (
@@ -134,7 +139,7 @@ dt_registro DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
 situacao VARCHAR(45) NOT NULL,
 CONSTRAINT ct_situacao_alerta
-CHECK (situacao IN ('normal', 'crítico', 'urgente', 'moderado')),
+CHECK (situacao IN ('Crítico', 'Moderado', 'Estável')),
 
 fk_historico_sensor INT,
 CONSTRAINT ctfkHistorico_sensor
@@ -194,7 +199,7 @@ INSERT INTO usuario (nome_usuario, cpf, dt_nascimento, senha, email, telefone, t
 -- 5 Usuários da empresa ContSoja fk empresa 3
 ('Tomás Azevedo', '99985232143', '2002-02-07', 'Tomas@123', 'tomas.azevedo@email.com', '(11) 8064-7075', 'AdmEmpresa', 3),
 ('Guilherme Ribeiro', '70772010820', '1977-11-09', 'Guilherme@123', 'guilherme.ribeiro@email.com', '(11) 4489-7507', 'AdmFazenda', 3),
-('Sarah Lima', '90576221490', '1988-03-28', 'Sarah@123', 'sarah.lima@email.com', '(41) 5308-6787', 'AdmFazenda', 3),
+('Sarah Lima', '90576221490', '1988-03-28', 'Sarah@123', 'sarah.lima@email.com', '(41) 5308-6787', 'Colaborador', 3),
 ('Brenda Melo', '81535689579', '1992-10-28', 'Brenda@123', 'brenda.melo@email.com', '(11) 5213-2368', 'Colaborador', 3),
 ('Emily Correia', '65261626650', '2005-03-31', 'Emily@123', 'emily.correia@email.com', '(18) 2960-5857', 'Colaborador', 3);
 
@@ -212,22 +217,22 @@ INSERT INTO fazenda (nome_fazenda, fk_endereco, fk_empresa) VALUES
 ('Silo Soja Prime', 5, 3);
 
 
-INSERT INTO permissao (fk_usuario, fk_fazenda) VALUES
+INSERT INTO permissao (fk_usuario, fk_fazenda, tipo_permissao) VALUES
 -- Permissoes usuários da empresa Scheffer
-(2, 1), -- Jonas tem permissão da fazenda 1
-(2, 2), -- Jonas tem permissão da fazenda 2
-(3, 1), -- Mariana tem permissão da fazenda 1
+(2, 1, 'Responsável'), -- Jonas tem permissão da fazenda 1
+(2, 2, 'Responsável'), -- Jonas tem permissão da fazenda 2
+(3, 1, 'Outros'), -- Mariana tem permissão da fazenda 1
 
 -- Permissoes usuários da empresa Sementec
-(5, 4), -- Giovanna tem permissão da fazenda 4
-(6, 3), -- Anna tem permissão da fazenda 3
-(7, 4), -- Daniel tem permissão da fazenda 4
+(5, 4, 'Responsável'), -- Giovanna tem permissão da fazenda 4
+(6, 3, 'Responsável'), -- Anna tem permissão da fazenda 3
+(7, 4, 'Outros'), -- Daniel tem permissão da fazenda 4
 
 -- Permissoes usuários da empresa ContSoja
-(9, 5), -- Guilherme tem permissão da fazenda 5
-(10, 5), -- Sarah tem permissão da fazenda 5
-(11, 5), -- Brenda tem permissão da fazenda 5
-(12, 5); -- Emily tem permissão da fazenda 5
+(9, 5, 'Responsável'), -- Guilherme tem permissão da fazenda 5
+(10, 5, 'Outros'), -- Sarah tem permissão da fazenda 5
+(11, 5, 'Outros'), -- Brenda tem permissão da fazenda 5
+(12, 5, 'Outros'); -- Emily tem permissão da fazenda 5
 
 
 INSERT INTO  bateria_silo (bateria_grupo, fk_fazenda) VALUES
@@ -408,129 +413,390 @@ INSERT INTO sensor (localizacao, stts_sensor, fk_gp_sensores) VALUES
 ('Esquerda', 1, 29), ('Centro', 1, 29), ('Direita', 1, 29), -- Sensores GP29
 ('Esquerda', 1, 30), ('Centro', 1, 30), ('Direita', 1, 30); -- Sensores GP30
 
--- FIM INSERTS ------------------------------------------------------------------------
-
-
-
--- SELECT -----------------------------------------------------------------------------
--- USE ceres;
-
--- Individuais --------
-SELECT * FROM empresa;
-SELECT * FROM usuario;
-SELECT * FROM fazenda;
-SELECT * FROM endereco;
-SELECT * FROM bateria_silo;
-SELECT * FROM silo_individual;
-SELECT * FROM gp_sensores;
-SELECT * FROM sensor;
 SELECT * FROM historico_sensor;
 
--- Select para ver os registros do arduino
-SELECT
-h.distancia_captada,
-s.localizacao,
-h.dt_hora_leitura
-FROM historico_sensor AS h
-JOIN sensor AS s
-ON s.id_sensor = h.fk_sensor
-JOIN gp_sensores AS gp
-ON gp.id_gp_sensores = s.fk_gp_sensores
-WHERE gp.id_gp_sensores = 1 ORDER BY h.dt_hora_leitura DESC;
+-- SELECT * FROM volume_total;
+ 
+/* SELECT 
+	silo_i.id_silo_individual AS id_silo_indiv,
+	silo_i.modelo_silo AS modelo_silo_indiv,
+    bat.id_bateria_silo AS id,
+	bat.bateria_grupo AS bateria,
+	silo_i.altura_silo AS altura
+FROM 
+silo_individual silo_i
+JOIN bateria_silo bat
+ ON bat.id_bateria_silo = silo_i.fk_bateria_silo; */
 
--- Para consultar os Usuários e suas respectivas empresas
-SELECT
-e.nome_fantasia AS 'Nome Empresa',
-e.cnpj_empresa AS 'CNPJ',
-u.nome_usuario AS 'Nome Funcionário',
-u.telefone AS 'Telefone',
-u.email AS 'E-mail'
-FROM empresa AS e
-JOIN usuario AS u
-ON e.id_empresa = u.fk_empresa;
+INSERT INTO historico_sensor (fk_sensor, distancia_captada, dt_hora_leitura) VALUES
 
--- Para consultar os Usuários de uma empresa específica
-SELECT
-e.nome_fantasia AS 'Nome Empresa',
-e.cnpj_empresa AS 'CNPJ',
-u.nome_usuario AS 'Nome Funcionário',
-u.telefone AS 'Telefone',
-u.email AS 'E-mail'
-FROM empresa AS e
-JOIN usuario AS u
-ON e.id_empresa = u.fk_empresa
-WHERE e.id_empresa = 2; -- Trocar o ID de acordo com a empresa desejada
--- id 1 - Scheffer || id 2 = Sementec || id 3 = ContSoja
+-- Silos da Bateria A 01 Scheffer (Altura: 20m)
+-- Crítico
+(1, 18.00, '2026-01-31 10:00:00'), -- Sensor 1 silo 1
+(2, 18.00, '2026-01-31 10:00:00'), -- Sensor 2 silo 1
+(3, 18.00, '2026-01-31 10:00:00'), -- Sensor 3 silo 1
 
--- Para consultar as fazendas suas empresas e endereços
-SELECT
-e.nome_fantasia AS 'Nome Empresa',
-e.cnpj_empresa AS 'CNPJ',
-f.nome_fazenda AS 'Nome Fazenda',
-CONCAT(logradouro_fazenda, ', ', num_logradouro, ', ', cidade_fazenda, ', ', uf_fazenda, '.') AS 'Endereço'
-FROM empresa AS e
-JOIN fazenda AS f
-ON e.id_empresa = f.fk_empresa
-JOIN endereco AS ende
-ON ende.id_endereco = f.fk_endereco;
+-- Estável
+(4, 10.00, '2026-01-31 10:00:00'), -- Sensor 1 silo 2
+(5, 10.00, '2026-01-31 10:00:00'), -- Sensor 2 silo 2
+(6, 10.00, '2026-01-31 10:00:00'), -- Sensor 3 silo 2
 
--- Para saber as fazendas e endereços de determinada empresa
-SELECT
-e.nome_fantasia AS 'Nome Empresa',
-e.cnpj_empresa AS 'CNPJ',
-f.nome_fazenda AS 'Nome Fazenda',
-CONCAT(logradouro_fazenda, ', ', num_logradouro, ', ', cidade_fazenda, ', ', uf_fazenda, '.') AS 'Endereço'
-FROM empresa AS e
-JOIN fazenda AS f
-ON e.id_empresa = f.fk_empresa
-JOIN endereco AS ende
-ON ende.id_endereco = f.fk_endereco
-WHERE e.id_empresa = 3; -- Trocar o ID de acordo com a empresa desejada
--- id 1 - Scheffer || id 2 = Sementec || id 3 = ContSoja
+-- Moderado
+(7, 16.00, '2026-01-31 10:00:00'), -- Sensor 1 silo 3
+(8, 16.00, '2026-01-31 10:00:00'), -- Sensor 2 silo 3
+(9, 16.00, '2026-01-31 10:00:00'), -- Sensor 3 silo 3
 
--- Para saber as fazendas que cada usuário pode acessar
-SELECT
-u.nome_usuario AS 'Nome',
-u.cpf AS 'CPF',
-f.nome_fazenda AS 'Pode acessar:'
-FROM usuario AS u
-JOIN permissao AS p
-ON u.id_usuario = p.fk_usuario
-JOIN fazenda AS f
-ON f.id_fazenda = p.fk_fazenda;
 
--- Para saber as fazendas que cada usuario de tal empresa pode acessar
-SELECT
-e.nome_fantasia AS 'Nome empresa',
-e.cnpj_empresa AS 'CNPJ',
-u.nome_usuario AS 'Nome',
-u.cpf AS 'CPF',
-f.nome_fazenda AS 'Pode acessar:'
-FROM usuario AS u
-JOIN permissao AS p
-ON u.id_usuario = p.fk_usuario
-JOIN fazenda AS f
-ON f.id_fazenda = p.fk_fazenda
-JOIN empresa AS e
-ON e.id_empresa = u.fk_empresa;
--- WHERE e.id_empresa = 1; -- Para uma empresa específica
--- WHERE f.id_fazenda = 1; -- Para uma fazenda específica
--- WHERE u.nome_usuario = 'Patrício Scheffer'; -- Para um usuário específico
+-- Silos da BTR 1 10 Scheffer (Altura: 30m)
+-- Crítico
+(10, 27, '2026-01-31 10:00:00'), -- Sensor 1 silo 1
+(11, 27, '2026-01-31 10:00:00'), -- Sensor 2 silo 1
+(12, 27, '2026-01-31 10:00:00'), -- Sensor 3 silo 1
 
--- Usuários e suas permissões
+-- Crítico
+(13, 27, '2026-01-31 10:00:00'), -- Sensor 1 silo 2
+(14, 27, '2026-01-31 10:00:00'), -- Sensor 2 silo 2
+(15, 27, '2026-01-31 10:00:00'), -- Sensor 3 silo 2
+
+-- Crítico
+(16, 27, '2026-01-31 10:00:00'), -- Sensor 1 silo 3
+(17, 27, '2026-01-31 10:00:00'), -- Sensor 2 silo 3
+(18, 27, '2026-01-31 10:00:00'), -- Sensor 3 silo 3
+
+
+-- Silos da BTR 2 20 Scheffer (Altura: 10m)
+-- Estável
+(19, 5, '2026-01-31 10:00:00'), -- Sensor 1 silo 1
+(20, 5, '2026-01-31 10:00:00'), -- Sensor 2 silo 1
+(21, 5, '2026-01-31 10:00:00'), -- Sensor 3 silo 1
+
+-- Estável
+(22, 5, '2026-01-31 10:00:00'), -- Sensor 1 silo 2
+(23, 5, '2026-01-31 10:00:00'), -- Sensor 2 silo 2
+(24, 5, '2026-01-31 10:00:00'), -- Sensor 3 silo 2
+
+-- Estável
+(25, 5, '2026-01-31 10:00:00'), -- Sensor 1 silo 3
+(26, 5, '2026-01-31 10:00:00'), -- Sensor 2 silo 3
+(27, 5, '2026-01-31 10:00:00'), -- Sensor 3 silo 3
+
+
+-- Silos da 101 - Bateria Sementec (Altura: 15m)
+-- Moderado
+(28, 12, '2026-01-31 10:00:00'), -- Sensor 1 silo 1
+(29, 12, '2026-01-31 10:00:00'), -- Sensor 2 silo 1
+(30, 12, '2026-01-31 10:00:00'), -- Sensor 3 silo 1
+
+-- Moderado
+(31, 12, '2026-01-31 10:00:00'), -- Sensor 1 silo 2
+(32, 12, '2026-01-31 10:00:00'), -- Sensor 2 silo 2
+(33, 12, '2026-01-31 10:00:00'), -- Sensor 3 silo 2
+
+-- Moderado
+(34, 12, '2026-01-31 10:00:00'), -- Sensor 1 silo 3
+(35, 12, '2026-01-31 10:00:00'), -- Sensor 2 silo 3
+(36, 12, '2026-01-31 10:00:00'), -- Sensor 3 silo 3
+
+
+-- Silos da 102 - Bateria Sementec (Altura: 25m)
+-- Crítico
+(37, 22, '2026-01-31 10:00:00'), -- Sensor 1 silo 1
+(38, 22, '2026-01-31 10:00:00'), -- Sensor 2 silo 1
+(39, 22, '2026-01-31 10:00:00'), -- Sensor 3 silo 1
+
+-- Crítico
+(40, 22, '2026-01-31 10:00:00'), -- Sensor 1 silo 2
+(41, 22, '2026-01-31 10:00:00'), -- Sensor 2 silo 2
+(42, 22, '2026-01-31 10:00:00'), -- Sensor 3 silo 2
+
+-- Estável
+(43, 12, '2026-01-31 10:00:00'), -- Sensor 1 silo 3
+(44, 12, '2026-01-31 10:00:00'), -- Sensor 2 silo 3
+(45, 12, '2026-01-31 10:00:00'), -- Sensor 3 silo 3
+
+
+-- Silos da 1000 01 Sementec (Altura: 12m)
+-- Crítico
+(46, 10, '2026-01-31 10:00:00'), -- Sensor 1 silo 1
+(47, 10, '2026-01-31 10:00:00'), -- Sensor 2 silo 1
+(48, 10, '2026-01-31 10:00:00'), -- Sensor 3 silo 1
+
+-- Moderado
+(49, 9, '2026-01-31 10:00:00'), -- Sensor 1 silo 2
+(50, 9, '2026-01-31 10:00:00'), -- Sensor 2 silo 2
+(51, 9, '2026-01-31 10:00:00'), -- Sensor 3 silo 2
+
+-- Moderado
+(52, 9, '2026-01-31 10:00:00'), -- Sensor 1 silo 3
+(53, 9, '2026-01-31 10:00:00'), -- Sensor 2 silo 3
+(54, 9, '2026-01-31 10:00:00'), -- Sensor 3 silo 3
+
+
+-- Silos da 1000 02 Sementec (Altura: 32m)
+-- Moderado
+(55, 25, '2026-01-31 10:00:00'), -- Sensor 1 silo 1
+(56, 25, '2026-01-31 10:00:00'), -- Sensor 2 silo 1
+(57, 25, '2026-01-31 10:00:00'), -- Sensor 3 silo 1
+
+-- Estável
+(58, 16, '2026-01-31 10:00:00'), -- Sensor 1 silo 2
+(59, 16, '2026-01-31 10:00:00'), -- Sensor 2 silo 2
+(60, 16, '2026-01-31 10:00:00'), -- Sensor 3 silo 2
+
+-- Estável
+(61, 16, '2026-01-31 10:00:00'), -- Sensor 1 silo 3
+(62, 16, '2026-01-31 10:00:00'), -- Sensor 2 silo 3
+(63, 16, '2026-01-31 10:00:00'), -- Sensor 3 silo 3
+
+
+-- Silos da 1000 03 Sementec (Altura: 10m)
+-- Estável
+(64, 5, '2026-01-31 10:00:00'), -- Sensor 1 silo 1
+(65, 5, '2026-01-31 10:00:00'), -- Sensor 2 silo 1
+(66, 5, '2026-01-31 10:00:00'), -- Sensor 3 silo 1
+
+-- Moderado
+(67, 8, '2026-01-31 10:00:00'), -- Sensor 1 silo 2
+(68, 8, '2026-01-31 10:00:00'), -- Sensor 2 silo 2
+(69, 8, '2026-01-31 10:00:00'), -- Sensor 3 silo 2
+
+-- Moderado
+(70, 8, '2026-01-31 10:00:00'), -- Sensor 1 silo 3
+(71, 8, '2026-01-31 10:00:00'), -- Sensor 2 silo 3
+(72, 8, '2026-01-31 10:00:00'), -- Sensor 3 silo 3
+
+
+-- Silos da A45 - BTR ContSoja (Altura: 32m)
+-- Crítico
+(73, 28, '2026-01-31 10:00:00'), -- Sensor 1 silo 1
+(74, 28, '2026-01-31 10:00:00'), -- Sensor 2 silo 1
+(75, 28, '2026-01-31 10:00:00'), -- Sensor 3 silo 1
+
+-- Moderado
+(76, 25, '2026-01-31 10:00:00'), -- Sensor 1 silo 2
+(77, 25, '2026-01-31 10:00:00'), -- Sensor 2 silo 2
+(78, 25, '2026-01-31 10:00:00'), -- Sensor 3 silo 2
+
+-- Crítico
+(79, 28, '2026-01-31 10:00:00'), -- Sensor 1 silo 3
+(80, 28, '2026-01-31 10:00:00'), -- Sensor 2 silo 3
+(81, 28, '2026-01-31 10:00:00'), -- Sensor 3 silo 3
+
+
+-- Silos da B45 - BTR ContSoja (Altura: 24m)
+-- Moderado
+(82, 19, '2026-01-31 10:00:00'), -- Sensor 1 silo 1
+(83, 19, '2026-01-31 10:00:00'), -- Sensor 2 silo 1
+(84, 19, '2026-01-31 10:00:00'), -- Sensor 3 silo 1
+
+-- Estável
+(85, 12, '2026-01-31 10:00:00'), -- Sensor 1 silo 2
+(86, 12, '2026-01-31 10:00:00'), -- Sensor 2 silo 2
+(87, 12, '2026-01-31 10:00:00'), -- Sensor 3 silo 2
+
+-- Crítico
+(88, 21, '2026-01-31 10:00:00'), -- Sensor 1 silo 3
+(89, 21, '2026-01-31 10:00:00'), -- Sensor 2 silo 3
+(90, 21, '2026-01-31 10:00:00'); -- Sensor 3 silo 3
+
+INSERT INTO alerta (prioridade, situacao, dt_registro, fk_historico_sensor) VALUES
+-- Alerta dos sensores do gp de sensores silo 1 Scheffer
+(1, 'Crítico', '2026-04-06', 1), (1, 'Crítico', '2026-04-06', 2), (1, 'Crítico', '2026-04-06', 3), -- Sensores GP1
+(5, 'Estável', '2026-04-06', 4), (5, 'Estável', '2026-04-06', 5), (5, 'Estável', '2026-04-06', 6), -- Sensores GP2
+(3, 'Moderado', '2026-04-06', 7), (3, 'Moderado', '2026-04-06', 8), (3, 'Moderado', '2026-04-06', 9), -- Sensores GP3
+
+-- Alerta dos sensores gp sensores do silo 2 Scheffer
+(2, 'Crítico', '2026-04-06', 10), (2, 'Crítico', '2026-04-06', 11), (2, 'Crítico', '2026-04-06', 12), -- Sensores GP4
+(1, 'Crítico', '2026-04-06', 13), (1, 'Crítico', '2026-04-06', 14), (1, 'Crítico', '2026-04-06', 15), -- Sensores GP5
+(2, 'Crítico', '2026-04-06', 16), (2, 'Crítico', '2026-04-06', 17), (2, 'Crítico', '2026-04-06', 18), -- Sensores GP6
+
+-- Alerta dos sensores gp sensores do silo 3 Scheffer
+(5, 'Estável', '2026-04-06', 19), (5, 'Estável', '2026-04-06', 20), (5, 'Estável', '2026-04-06', 21), -- Sensores GP7
+(5, 'Estável', '2026-04-06', 22), (5, 'Estável', '2026-04-06', 23), (5, 'Estável', '2026-04-06', 24), -- Sensores GP8
+(5, 'Estável', '2026-04-06', 25), (5, 'Estável', '2026-04-06', 26), (5, 'Estável', '2026-04-06', 27), -- Sensores GP9
+
+-- Alerta dos sensores gp sensores do silo 1 Sementec
+(4, 'Moderado', '2026-04-06', 28), (4, 'Moderado', '2026-04-06', 29), (4, 'Moderado', '2026-04-06', 30), -- Sensores GP10
+(3, 'Moderado', '2026-04-06', 31), (3, 'Moderado', '2026-04-06', 32), (3, 'Moderado', '2026-04-06', 33), -- Sensores GP11
+(4, 'Moderado', '2026-04-06', 34), (4, 'Moderado', '2026-04-06', 35), (4, 'Moderado', '2026-04-06', 36), -- Sensores GP12
+
+-- Alerta dos sensores gp sensores do silo 2 Sementec
+(1, 'Crítico', '2026-04-06', 37), (1, 'Crítico', '2026-04-06', 38), (1, 'Crítico', '2026-04-06', 39), -- Sensores GP13
+(2, 'Crítico', '2026-04-06', 40), (2, 'Crítico', '2026-04-06', 41), (2, 'Crítico', '2026-04-06', 42), -- Sensores GP14
+(5, 'Estável', '2026-04-06', 43), (5, 'Estável', '2026-04-06', 44), (5, 'Estável', '2026-04-06', 45), -- Sensores GP15
+
+-- Alerta dos sensores gp sensores do silo 3 Sementec
+(1, 'Crítico', '2026-04-06', 46), (1, 'Crítico', '2026-04-06', 47), (1, 'Crítico', '2026-04-06', 48), -- Sensores GP16
+(3, 'Moderado', '2026-04-06', 49), (3, 'Moderado', '2026-04-06', 50), (3, 'Moderado', '2026-04-06', 51), -- Sensores GP17
+(4, 'Moderado', '2026-04-06', 52), (4, 'Moderado', '2026-04-06', 53), (4, 'Moderado', '2026-04-06', 54), -- Sensores GP18
+
+-- Alerta dos sensores gp sensores do silo 4 Sementec
+(3, 'Moderado', '2026-04-06', 55), (3, 'Moderado', '2026-04-06', 56), (3, 'Moderado', '2026-04-06', 57), -- Sensores GP19
+(5, 'Estável', '2026-04-06', 58), (5, 'Estável', '2026-04-06', 59), (5, 'Estável', '2026-04-06', 60), -- Sensores GP20
+(5, 'Estável', '2026-04-06', 61), (5, 'Estável', '2026-04-06', 62), (5, 'Estável', '2026-04-06', 63), -- Sensores GP21
+
+-- Alerta dos sensores gp sensores do silo 5 Sementec
+(5, 'Estável', '2026-04-06', 64), (5, 'Estável', '2026-04-06', 65), (5, 'Estável', '2026-04-06', 66), -- Sensores GP22
+(4, 'Moderado', '2026-04-06', 67), (4, 'Moderado', '2026-04-06', 68), (4, 'Moderado', '2026-04-06', 69), -- Sensores GP23
+(3, 'Moderado', '2026-04-06', 70), (3, 'Moderado', '2026-04-06', 71), (3, 'Moderado', '2026-04-06', 72), -- Sensores GP24
+
+-- Alerta dos sensores gp sensores do silo 1 ContSoja
+(2, 'Crítico', '2026-04-06', 73), (2, 'Crítico', '2026-04-06', 74), (2, 'Crítico', '2026-04-06', 75), -- Sensores GP25
+(4, 'Moderado', '2026-04-06', 76), (4, 'Moderado', '2026-04-06', 77), (4, 'Moderado', '2026-04-06', 78), -- Sensores GP26
+(1, 'Crítico', '2026-04-06', 79), (1, 'Crítico', '2026-04-06', 80), (1, 'Crítico', '2026-04-06', 81), -- Sensores GP27
+
+-- Alerta dos sensores gp sensores do silo 2 ContSoja
+(3, 'Moderado', '2026-04-06', 82), (3, 'Moderado', '2026-04-06', 83), (3, 'Moderado', '2026-04-06', 84), -- Sensores GP28
+(5, 'Estável', '2026-04-06', 85), (5, 'Estável', '2026-04-06', 86), (5, 'Estável', '2026-04-06', 87), -- Sensores GP29
+(2, 'Crítico', '2026-04-06', 88), (2, 'Crítico', '2026-04-06', 89), (2, 'Crítico', '2026-04-06', 90); -- Sensores GP30
+
+-- FIM INSERTS ------------------------------------------------------------------------
+
+-- SELECIONANDO O VOLUME TOTAL DO SILO
+CREATE VIEW volume_total AS
 SELECT 
-    e.nome_fantasia AS 'Empresa', 
-    f.nome_fazenda AS 'Fazenda', 
-    GROUP_CONCAT(u.nome_usuario SEPARATOR ', ') AS 'Usuários com acesso'
-FROM empresa AS e
-JOIN fazenda AS f 
-    ON e.id_empresa = f.fk_empresa
-LEFT JOIN permissao AS p 
-    ON p.fk_fazenda = f.id_fazenda
-LEFT JOIN usuario AS u 
-    ON p.fk_usuario = u.id_usuario
-GROUP BY e.id_empresa, f.id_fazenda
-ORDER BY e.nome_fantasia, f.nome_fazenda;
-	
+	silo_i.id_silo_individual AS id_silo_indiv,
+	silo_i.modelo_silo AS modelo_silo_indiv,
+    bat.id_bateria_silo AS id,
+	bat.bateria_grupo AS bateria,
+	ROUND((PI() * POW(silo_i.diametro_silo/2, 2) * silo_i.altura_silo * 0.80) + ((PI() * POW(silo_i.diametro_silo/2, 2) * silo_i.altura_silo * 0.20)/3)) AS total
+FROM 
+silo_individual silo_i
+JOIN bateria_silo bat
+ ON bat.id_bateria_silo = silo_i.fk_bateria_silo;
+ 
+ SELECT * FROM volume_total;
 
--- FIM SELECT -------------------------------------------------------------------------
+  -- CALCULANDO O QUÃO CHEIO ESTÁ OS SILOS DA BATERIA
+ CREATE VIEW volume_preenchido_bateria AS
+ SELECT
+	silo_i.id_silo_individual,
+	silo_i.modelo_silo AS modelo_silo_indiv,
+    bat.id_bateria_silo AS id,
+	bat.bateria_grupo AS bateria,
+	ROUND((PI() * POW(silo_i.diametro_silo/2, 2) * silo_i.altura_silo * 0.80) + ((PI() * POW(silo_i.diametro_silo/2, 2) * silo_i.altura_silo * 0.20)/3)) AS total,
+ ROUND((
+(PI() * POW(silo_i.diametro_silo/2, 2) * silo_i.altura_silo * 0.80)
++ 
+((PI() * POW(silo_i.diametro_silo/2, 2) * silo_i.altura_silo * 0.20)/3)
+-
+(PI() * POW(silo_i.diametro_silo/2, 2) *AVG(ultima_leitura.distancia_captada))
+), 2) AS preenchimento
+
+FROM silo_individual silo_i
+
+JOIN bateria_silo bat
+	ON bat.id_bateria_silo = silo_i.fk_bateria_silo
+JOIN gp_sensores gp 
+	ON gp.fk_silo = silo_i.id_silo_individual
+JOIN sensor s ON s.fk_gp_sensores = gp.id_gp_sensores
+JOIN 
+(SELECT 
+hs1.fk_sensor,
+hs1.distancia_captada
+FROM historico_sensor hs1
+WHERE hs1.id_historico_sensor = (SELECT MAX(hs2.id_historico_sensor) 
+FROM historico_sensor hs2 
+WHERE hs1.fk_sensor = hs2.fk_sensor )
+) ultima_leitura 
+ON ultima_leitura.fk_sensor = s.id_sensor
+GROUP BY
+silo_i.id_silo_individual,
+silo_i.modelo_silo;
+
+CREATE VIEW media_preenchimento_mensal_por_bateria AS
+SELECT 
+    bat.id_bateria_silo AS bateria,
+    MONTH(ultima_leitura.dt_hora_leitura) AS mes,
+    TRUNCATE(AVG(
+        ROUND((
+            (PI() * POW(silo_i.diametro_silo/2, 2) * silo_i.altura_silo * 0.80)
+            + 
+            ((PI() * POW(silo_i.diametro_silo/2, 2) * silo_i.altura_silo * 0.20)/3)
+            -
+            (PI() * POW(silo_i.diametro_silo/2, 2) * ultima_leitura.media_distancia)
+        ), 2)), 2)
+     AS preenchimento_bateria
+
+FROM silo_individual silo_i
+JOIN bateria_silo bat
+    ON bat.id_bateria_silo = silo_i.fk_bateria_silo
+JOIN gp_sensores gp 
+    ON gp.fk_silo = silo_i.id_silo_individual
+JOIN sensor s 
+    ON s.fk_gp_sensores = gp.id_gp_sensores
+JOIN 
+    (SELECT 
+        hs1.fk_sensor,
+        hs1.dt_hora_leitura,
+        AVG(hs1.distancia_captada) AS media_distancia -- AVG fica aqui dentro
+     FROM historico_sensor hs1
+     WHERE hs1.id_historico_sensor = (
+         SELECT MAX(hs2.id_historico_sensor) 
+         FROM historico_sensor hs2 
+         WHERE hs1.fk_sensor = hs2.fk_sensor)
+     GROUP BY hs1.fk_sensor, hs1.dt_hora_leitura
+    ) ultima_leitura 
+    ON ultima_leitura.fk_sensor = s.id_sensor
+    GROUP BY mes, bateria
+    ORDER BY bateria;
+
+-- CRUD FAZENDAS --
+
+-- Para saber o responsável de cada fazenda
+CREATE VIEW responsavel_fazenda AS
+SELECT
+	f.id_fazenda AS id_fazenda,
+    f.nome_fazenda AS fazenda,
+    u.id_usuario AS id_usuario,
+	u.nome_usuario AS responsavel,
+    u.telefone AS contato,
+    CONCAT(e.cidade_fazenda, '/', e.uf_fazenda) AS endereco
+FROM usuario AS u
+JOIN permissao AS p
+ON p.fk_usuario = u.id_usuario
+JOIN fazenda AS f
+ON p.fk_fazenda = f.id_fazenda
+JOIN endereco AS e
+ON f.fk_endereco = e.id_endereco
+WHERE p.tipo_permissao = 'Responsável';
+
+SELECT * FROM responsavel_fazenda;
+
+-- Para saber as informações de cada fazenda
+CREATE VIEW fazendas_do_usuario AS
+SELECT
+	id_usuario,
+	id_fazenda,
+	responsavel,
+    contato,
+    endereco,
+	nome,
+	COUNT(DISTINCT id_silo) AS qtd_silos,
+	COUNT(DISTINCT id_bateria) AS qtd_bateria,
+	SUM(CASE WHEN situacao_silo = 'Estável' THEN 1 ELSE 0 END) AS estaveis,
+	SUM(CASE WHEN situacao_silo = 'Moderado' THEN 1 ELSE 0 END) AS moderados,
+	SUM(CASE WHEN situacao_silo = 'Crítico' THEN 1 ELSE 0 END) AS criticos
+FROM (
+	SELECT
+		rf.id_usuario AS id_usuario,
+		rf.responsavel AS responsavel,
+		rf.contato AS contato,
+		rf.endereco AS endereco,
+		f.id_fazenda AS id_fazenda,
+		f.nome_fazenda AS nome,
+		b.id_bateria_silo AS id_bateria,
+		b.bateria_grupo AS bateria,
+		s.id_silo_individual AS id_silo,
+		s.modelo_silo AS silo,
+		a.situacao AS situacao_silo
+	FROM fazenda AS f
+	JOIN bateria_silo AS b ON b.fk_fazenda = f.id_fazenda
+	JOIN silo_individual AS s ON s.fk_bateria_silo = b.id_bateria_silo
+	JOIN gp_sensores AS gs ON gs.fk_silo = s.id_silo_individual
+	JOIN sensor AS sr ON sr.fk_gp_sensores = gs.id_gp_sensores
+	JOIN historico_sensor AS hs ON hs.fk_sensor = sr.id_sensor
+	JOIN alerta AS a ON a.fk_historico_sensor = hs.id_historico_sensor
+    JOIN responsavel_fazenda AS rf ON rf.id_fazenda = f.id_fazenda
+) AS qtd_situacoes
+GROUP BY nome, responsavel, contato, endereco, id_fazenda, id_usuario;
