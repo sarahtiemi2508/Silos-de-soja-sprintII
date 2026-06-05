@@ -1,6 +1,7 @@
+-- DROP DATABASE ceres;
+DROP DATABASE IF EXISTS ceres;
 CREATE DATABASE ceres;
 USE ceres;
--- DROP DATABASE ceres;
 
 CREATE TABLE empresa (
 id_empresa INT PRIMARY KEY AUTO_INCREMENT,
