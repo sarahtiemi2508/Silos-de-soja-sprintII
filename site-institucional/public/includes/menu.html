@@ -59,7 +59,9 @@
       <div class="bottom-link">
         <a href="#" class="menu-item">
           <img src="../assets/imgs/config.png" alt="Configurações" class="icon" />
-          <span>CONFIGURAÇÕES</span>
+        </a>
+        <a href="#" class="menu-item" onclick="limparSessao()">
+          <img src="../assets/icon/exit.svg" alt="Sair" class="icon"/>
         </a>
       </div>
     </div>
@@ -82,6 +84,11 @@
           overlay.style.visibility = "hidden";
           menuAberto = false;
         }
+      }
+
+      function limparSessao() {
+          sessionStorage.clear();
+          window.location = "../login.html";
       }
     </script>
   </body>
