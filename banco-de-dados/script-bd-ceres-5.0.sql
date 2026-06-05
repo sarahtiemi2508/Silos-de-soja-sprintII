@@ -1081,4 +1081,28 @@ FROM infos_situacao_silo AS iss
 JOIN empresa AS e ON e.id_empresa = iss.id_empresa
 WHERE e.id_empresa = 1;
 
+
+-- ------------------------ --
+-- CONFIGURAÇÕES DO USUÁRIO --
+-- ------------------------ --
+-- Select para puxar os dados do usuário
+SELECT
+	nome_usuario,
+    dt_nascimento,
+    cpf,
+    email,
+    senha
+FROM usuario
+WHERE id_usuario = 1;
+
+-- UPDATE para trocar as informações do usuário
+UPDATE usuario
+SET 
+	nome_usuario = 'Patrício Scheffer',
+	dt_nascimento = '1990-02-18',
+    cpf = '78965323485',
+    email = 'scheffer@email.com',
+    senha = 'Scheffer@123'
+WHERE id_usuario = 1;
+
 -- FIM SELECT -------------------------------------------------------------------------
