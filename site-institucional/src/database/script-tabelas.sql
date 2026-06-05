@@ -414,8 +414,6 @@ INSERT INTO sensor (localizacao, stts_sensor, fk_gp_sensores) VALUES
 ('Esquerda', 1, 29), ('Centro', 1, 29), ('Direita', 1, 29), -- Sensores GP29
 ('Esquerda', 1, 30), ('Centro', 1, 30), ('Direita', 1, 30); -- Sensores GP30
 
-SELECT * FROM historico_sensor;
-
 -- SELECT * FROM volume_total;
  
 /* SELECT 
