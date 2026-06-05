@@ -30,13 +30,14 @@
     <div id="pagina">
         <div class="boxes">
             <div class="box1">
-                <h2 id="titulo1"><i>FICOU INTERESSADO?</i></h2>
-                <p id="p1">Entre em contato com a nossa equipe para poder acessar todos os benefícios da nossa solução
+                <h2 id="titulo1"><i>ESTÁ COM ALGUM PROBLEMA?</i></h2>
+                <p id="p1">Está enfrentando algum problema? Fale com a gente! Nossa equipe está à disposição para te ajudar a resolver isso o mais rápido possível.
+                    Acesse nosso portal Jira!
                 </p>
                 <br>
                 <div id="imgZap_botao">
-                    <img id="imgZap" src="./assets/imgs/whatsapp.svg" alt="imgZap" width="37px">
-                    <button id="botaoZap">ENTRE EM CONTATO!</button>
+                    <img id="imgZap" src="./assets/imgs/jira (1).png" alt="imgZap" width="37px">
+                    <button id="botaoZap" onclick="jira()">ENTRE EM CONTATO!</button>
                 </div>
             </div>
             <div class="box2">
@@ -60,5 +61,9 @@
 
 
 </body>
-
+<script>
+    function jira() {
+        window.location.href = "https://ceres-administracao.atlassian.net/servicedesk/customer/portals";
+    }
+</script>
 </html>
