@@ -115,8 +115,16 @@
     //         })
     // }
 
-let valores=[45, 78, 89, 10, 50, 29]
-let labels=["silo1", "silo2", "silo3", "silo4", "silo5", "silo6"]
+// let valores=[45, 78, 89, 10, 50, 29]
+// let labels=["silo1", "silo2", "silo3", "silo4", "silo5", "silo6"]
+
+let labels=[];
+let valores=[];
+for(let i=0; resposta.length; i++){
+    labels.push(resposta[i].bateria)
+    valores.push(resposta[i].preenchimento)
+}
+
 
     const Criticos = valores.map((v) => {
 
