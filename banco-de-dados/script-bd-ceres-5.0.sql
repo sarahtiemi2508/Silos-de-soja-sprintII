@@ -1028,16 +1028,81 @@ WHERE u.id_usuario = 2;
 -- ALERTAS --
 --------------------------
 
+-- View que indica as informações necessárias para a página de alerta de todas as fazendas
+CREATE VIEW infos_situacao_silo AS 
 SELECT
-	f.nome_fazenda,
-    rf.responsavel,
-    rf.contato
+	rf.id_usuario AS id_responsavel,
+    rf.responsavel AS responsavel,
+    rf.contato AS contato,
+    f.fk_empresa AS id_empresa,
+    f.id_fazenda AS id_fazenda,
+	f.nome_fazenda AS fazenda,
+    b.bateria_grupo AS bateria,
+    ROW_NUMBER() OVER(PARTITION BY b.id_bateria_silo ORDER BY s.id_silo_individual) AS num_silo,
+    a.prioridade AS prioridade,
+    a.situacao AS situacao,
+    a.dt_registro AS dt_registro
 FROM fazenda AS f
 JOIN responsavel_fazenda AS rf ON rf.id_fazenda = f.id_fazenda
 JOIN bateria_silo AS b ON b.fk_fazenda = f.id_fazenda
 JOIN silo_individual AS s ON s.fk_bateria_silo = b.id_bateria_silo
 JOIN gp_sensores AS gs ON gs.fk_silo = s.id_silo_individual
 JOIN sensor AS sr ON sr.fk_gp_sensores = gs.id_gp_sensores
-JOIN historico_sensor;
+JOIN historico_sensor AS hs ON hs.fk_sensor = sr.id_sensor
+JOIN alerta AS a ON a.fk_historico_sensor = hs.id_historico_sensor
+GROUP BY gs.id_gp_sensores, a.dt_registro, a.situacao, rf.id_usuario, rf.contato, a.prioridade
+HAVING a.situacao <> 'Estável';
+
+SELECT * FROM infos_situacao_silo;
+
+-- Select que delimita os alertas de acordo com a permissao do usuário
+-- Para ADMFazenda e Colaboradores
+SELECT
+	iss.situacao,
+    iss.num_silo,
+    iss.fazenda,
+    iss.responsavel,
+    iss.contato
+FROM infos_situacao_silo AS iss
+JOIN permissao AS p ON p.fk_fazenda = iss.id_fazenda
+JOIN usuario AS u ON u.id_usuario = p.fk_usuario
+WHERE u.id_usuario = 2
+ORDER BY iss.prioridade;
+
+-- Select que traz todos os alertas associado a uma empresa
+-- Para ADMEmpresa
+SELECT
+	iss.situacao,
+    iss.num_silo,
+    iss.fazenda,
+    iss.responsavel,
+    iss.contato
+FROM infos_situacao_silo AS iss
+JOIN empresa AS e ON e.id_empresa = iss.id_empresa
+WHERE e.id_empresa = 1;
+
+
+-- ------------------------ --
+-- CONFIGURAÇÕES DO USUÁRIO --
+-- ------------------------ --
+-- Select para puxar os dados do usuário
+SELECT
+	nome_usuario,
+    dt_nascimento,
+    cpf,
+    email,
+    senha
+FROM usuario
+WHERE id_usuario = 1;
+
+-- UPDATE para trocar as informações do usuário
+UPDATE usuario
+SET 
+	nome_usuario = 'Patrício Scheffer',
+	dt_nascimento = '1990-02-18',
+    cpf = '78965323485',
+    email = 'scheffer@email.com',
+    senha = 'Scheffer@123'
+WHERE id_usuario = 1;
 
 -- FIM SELECT -------------------------------------------------------------------------

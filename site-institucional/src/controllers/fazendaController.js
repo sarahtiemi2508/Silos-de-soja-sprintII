@@ -17,7 +17,7 @@ function listarFazendas(req, res) {
 function listarFazendasEmpresa(req, res) {
     let id_empresa = req.params.id_empresa;
 
-    fazendaModel.listarFazendas(id_empresa).then(function(resultado){
+    fazendaModel.listarFazendasEmpresa(id_empresa).then(function(resultado){
 
         console.log("Puxei as fazendas" + resultado)
         res.status(200).json(resultado);
