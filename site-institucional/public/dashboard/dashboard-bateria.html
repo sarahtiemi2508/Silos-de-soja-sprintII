@@ -93,27 +93,27 @@
 
 <script>
 
-    function obterDadosVolumeTotal(){
-    let idBateria = req.params.id
+    function obterDadosVolumeTotal() {
+        let idBateria = req.params.id
 
-    fetch(`/quiz/selectUltimosPontosQuizMusica/${id}`, { cache: 'no-store' })
-    .then(function (response){
-        if(response.ok){
-            response.json().then(function(resposta){
-                nivelTotalBateria.innerHTML=resposta[0].total
-            
-                
-             })   
-             
-            } else{
-                console.log("Nenhum dado encontrado")
-            }
-            
-        }) 
-        .catch( function (error){
-            console.error("Erro na obtenção de dados")
-        })
-}
+        fetch(`/quiz/selectUltimosPontosQuizMusica/${id}`, { cache: 'no-store' })
+            .then(function (response) {
+                if (response.ok) {
+                    response.json().then(function (resposta) {
+                        nivelTotalBateria.innerHTML = resposta[0].total
+
+
+                    })
+
+                } else {
+                    console.log("Nenhum dado encontrado")
+                }
+
+            })
+            .catch(function (error) {
+                console.error("Erro na obtenção de dados")
+            })
+    }
 
 
 
@@ -192,13 +192,37 @@
             },
         },
     };
-</script>
-<script>
-    const myChart = new Chart(document.getElementById("myChart"), config);
-</script>
+    const myChart = new Chart(
+        document.getElementById("myChart"),
+        config);
 
-<script>
-    const labels2 = ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"];
+
+
+        function obterDadosPreenchimentoMensal() {
+        let idBateria = req.params.id
+
+        fetch(`/quiz/selectUltimosPontosQuizMusica/${id}`, { cache: 'no-store' })
+            .then(function (response) {
+                if (response.ok) {
+                    response.json().then(function (resposta) {
+                        nivelTotalBateria.innerHTML = resposta[0].total
+
+                        plotarGraficosPreenchimentoMensal()
+                    })
+
+                } else {
+                    console.log("Nenhum dado encontrado")
+                }
+
+            })
+            .catch(function (error) {
+                console.error("Erro na obtenção de dados")
+            })
+    }
+
+
+    function plotarGraficosPreenchimentoMensal(){
+    const labels2 = [];
 
     const data2 = {
         labels: labels2,
@@ -212,6 +236,46 @@
             },
         ],
     };
+    for (let i = 0; i < resposta.length; i++) {
+        if (resposta[i].mes = 1) {
+            data2.datasets[0].data[0].push(preenchimento_bateria)
+            labels2.push("Janeiro")
+        } else if (resposta[i].mes = 2) {
+            data2.datasets[0].data[0].push(preenchimento_bateria)
+            labels2.push("Fevereiro")
+        } else if (resposta[i].mes = 3) {
+            data2.datasets[0].data[0].push(preenchimento_bateria)
+            labels2.push("Março")
+        } else if (resposta[i].mes = 4) {
+            data2.datasets[0].data[0].push(preenchimento_bateria)
+            labels2.push("Abril")
+        } else if (resposta[i].mes = 5) {
+            data2.datasets[0].data[0].push(preenchimento_bateria)
+            labels2.push("Maio")
+        } else if (resposta[i].mes = 6) {
+            data2.datasets[0].data[0].push(preenchimento_bateria)
+            labels2.push("Junho")
+        } else if (resposta[i].mes = 7) {
+            data2.datasets[0].data[0].push(preenchimento_bateria)
+            labels2.push("Julho")
+        } else if (resposta[i].mes = 8) {
+            data2.datasets[0].data[0].push(preenchimento_bateria)
+            labels2.push("Agosto")
+        } else if (resposta[i].mes = 9) {
+            data2.datasets[0].data[0].push(preenchimento_bateria)
+            labels2.push("Setembro")
+        } else if (resposta[i].mes = 10) {
+            data2.datasets[0].data[0].push(preenchimento_bateria)
+            labels2.push("Outubro")
+        } else if (resposta[i].mes = 11) {
+            data2.datasets[0].data[0].push(preenchimento_bateria)
+            labels2.push("Novembro")
+        } else if (resposta[i].mes = 12) {
+            data2.datasets[0].data[0].push(preenchimento_bateria)
+            labels2.push("Dezembro")
+        }
+    }
+
 
     const config2 = {
         type: "line",
@@ -232,9 +296,10 @@
             },
         },
     };
-</script>
-<script>
-    const myChart2 = new Chart(document.getElementById("myChart2"), config2);
+    const myChart2 = new Chart(
+        document.getElementById("myChart2"),
+        config2);
+    }
 </script>
 
 </html>

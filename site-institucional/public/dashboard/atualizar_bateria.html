@@ -57,16 +57,19 @@
     function obterDadosBateria(){
 let id = sessionStorage.ID_USUARIO
 
-fetch(`/configBateria/buscarDadosBateria/${id}`, { cache: 'no-store' })
+fetch(`/configBateria/buscarDadosBateria`, { cache: 'no-store' })
     .then(function (response){
         if(response.ok){
             response.json().then(function(resposta){
                 
                 for(let i=0; i<resposta.length; i++){
-                    if(resposta[i].nome== iptNome.value){
+                    if(resposta[i].nomeBateria== iptNome.value){
 
                        atualizarBateria() 
 
+                    } else{
+                        cardErro.style.display="block"
+                        mensagem_erro.innerHTML=`Bateria não identificada.<br> Verifique se o nome está correto.`
                     }
                     
                 }
@@ -113,6 +116,9 @@ fetch("/configBateria/atualizarBateria", {
             "Atualização realizada com sucesso! Redirecionando para tela de bateria...";
            
 
+            setTimeout(function () {
+                        window.location.href = "visualizar_bateria_mocado.html";
+                }, 1000);
 
           limparFormulario();
           finalizarAguardar();

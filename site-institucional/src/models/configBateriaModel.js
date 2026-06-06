@@ -1,10 +1,10 @@
 var database = require("../database/config")
 
-function cadastrarBateria(nomeBateria, qtdSilos, alturaSilos, diametroSilos) {
+function inserirDadosBateria(nomeBateria, qtdSilos, alturaSilos, diametroSilos) {
     console.log("ACESSEI O USUARIO MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function cadastrar():", nome,  email, cpf, senha, grupo);
     
     var instrucaoSql = `
-    INSERT INTO usuario (nome, email, cpf,  grupoTaiko, senha) VALUES ('${nome}', '${email}','${cpf}',  '${grupo}', '${senha}');
+    INSERT INTO bateria (bateria_grupo, ${fkFazenda}) VALUES ('${nomeBateria}');
     `;
     console.log("Executando a instrução SQL: \n" + instrucaoSql);
     return database.executar(instrucaoSql);
@@ -13,24 +13,25 @@ function cadastrarBateria(nomeBateria, qtdSilos, alturaSilos, diametroSilos) {
 function buscarDadosBateria(){
     console.log("ACESSEI O USUARIO MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function entrar(): ", email, senha)
     var instrucaoSql = `
-        SELECT id_silo_individual AS idSilo,
-        bateria_grupo AS nome,
-         ;
+        id_bateria_silo AS idBateria,
+        bateria_grupo AS nomeBateria
+        FROM bateria_silo;
     `;
     console.log("Executando a instrução SQL: \n" + instrucaoSql);
     return database.executar(instrucaoSql);
 }
 
-function atualizarBateria(email, senha) {
+function atualizarDadosBateria(alturaSilos, diametroSilos) {
     console.log("ACESSEI O USUARIO MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function entrar(): ", email, senha)
     var instrucaoSql = `
-        UPDATE ;
+        UPDATE silo_individual SET altura_silo=${alturaSilos} AND diametro_silo=${diametroSilos};
     `;
     console.log("Executando a instrução SQL: \n" + instrucaoSql);
     return database.executar(instrucaoSql);
 }
 
 module.exports = {
-    cadastrar,
-    atualizar
+    inserirDadosBateria,
+    buscarDadosBateria,
+    atualizarDadosBateria
 };
