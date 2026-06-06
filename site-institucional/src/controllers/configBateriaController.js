@@ -56,6 +56,7 @@ console.log("idUsuario recebido:", idUsuario);
 }
 
 function atualizarDadosBateria(req, res) {
+    var idBateria = req.body.idBateriaserver;
     var nomeSilos = req.body.nomeBateriaServer;
     var qtdSilos = req.body.qtdSilosServer;
     var alturaSilos = req.body.alturaSiloServer;
