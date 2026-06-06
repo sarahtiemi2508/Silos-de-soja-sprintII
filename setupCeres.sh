@@ -80,9 +80,9 @@ cd "$repo" || exit # O exit é como o break ou return em js. Ele vai tentar entr
 # Acessar pasta do site com a API do web-data-viz
 cd site-institucional || exit
 
-# Instalar dependências
+# Escudo subshell
 echo "Instalando dependências..."
-npm i
+(npm i --no-audit --no-fund) # Precisei criar um comando subshell que é bem parecido com as "promisses". Como se ele executasse esse comando em uma bifurcação e continuasse a execução do script só depois de terminar esse processo "isolado". As tags de no audit e no fund é pra remover a parte de auditoria (que gera o alert vermelho) e os pedidos de doações, se houver 
 
 # Voltar a cor amarela
 echo -e "\e[38;2;252;195;39m"
@@ -160,33 +160,13 @@ app.listen(PORTA_APP, function () {
 
     console.log(`
 ${corDourada}
-    ####################    ########    ####################################
-      ##################  ############  ####################################
-        ##                ########  ####                              ####
-        ####              ##########                                  ##
-          ####              ##########  ##                          ####
-            ##                    ######                          ####
-            ####                    ####          ##              ##
-              ####                    ##      ##########        ####
-                ##                    ####  ############      ####
-                ####                    ######  ########      ##
-                  ####                  ####  ########      ##
-                    ##                  ##  ##########    ####
-                    ####                ##  ######        ##
-                      ####              ##  ##          ##
-                        ##              ##            ####
-                        ####            ##            ##
-                          ####          ##          ##
-                            ##    ##############  ####
-                            ####  ############  ####
-                              ####  ##########  ##
-                                ##    ######  ####
-                                  ##  ####  ####
-                                  ####  ##  ##
-                                    ##    ####
-                                      ######
-                                      ####
-                                        ##
+    ##   ##  ######   #####             ####       ##     ######     ##              ##  ##    ####    ######  
+    ##   ##  ##       ##  ##            ## ##     ####      ##      ####             ##  ##     ##         ##  
+    ##   ##  ##       ##  ##            ##  ##   ##  ##     ##     ##  ##            ##  ##     ##        ##   
+    ## # ##  ####     #####    ######   ##  ##   ######     ##     ######   ######   ##  ##     ##       ##    
+    #######  ##       ##  ##            ##  ##   ##  ##     ##     ##  ##            ##  ##     ##      ##     
+    ### ###  ##       ##  ##            ## ##    ##  ##     ##     ##  ##             ####      ##     ##      
+    ##   ##  ######   #####             ####     ##  ##     ##     ##  ##              ##      ####    ######  
 ${reset}
     Ceres já está rodando! Acesse o caminho a seguir para visualizar .: http://${HOST_APP}:${PORTA_APP} :.
 
