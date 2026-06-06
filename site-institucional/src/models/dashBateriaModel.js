@@ -60,11 +60,13 @@ WHERE id = ${idBateria};`;
 }
 
 function selectVolumeMensalBateria(idBateria) {
-  var instrucaoSql = `SELECT 
-*
-FROM media_preenchimento_mensal_por_bateria 
-WHERE bateria = ${idBateria};
-ORDER BY`;
+  var instrucaoSql = `
+  SELECT 
+  *
+  FROM media_preenchimento_mensal_por_bateria 
+  WHERE bateria = ${idBateria};
+  ORDER BY mes
+  LIMIT 12;`;
 
   return database.executar(instrucaoSql);
 }
