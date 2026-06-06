@@ -801,7 +801,7 @@ JOIN bateria_silo bat
  bateria,
  SUM(total)
  FROM volume_total
- WHERE id=${idBateria}
+ WHERE id=1
  GROUP BY id, bateria;
 
   -- CALCULANDO O QUÃO CHEIO ESTÁ OS SILOS DA BATERIA
@@ -945,6 +945,7 @@ SELECT * FROM responsavel_fazenda;
 -- Para saber as informações de cada fazenda
 CREATE VIEW fazendas_do_usuario AS
 SELECT
+	id_empresa,
 	id_usuario,
 	id_fazenda,
 	responsavel,
@@ -958,6 +959,7 @@ SELECT
 	SUM(CASE WHEN situacao_silo = 'Crítico' THEN 1 ELSE 0 END) AS criticos
 FROM (
 	SELECT
+		f.fk_empresa AS id_empresa,
 		rf.id_usuario AS id_usuario,
 		rf.responsavel AS responsavel,
 		rf.contato AS contato,
@@ -977,6 +979,7 @@ FROM (
 	JOIN historico_sensor AS hs ON hs.fk_sensor = sr.id_sensor
 	JOIN alerta AS a ON a.fk_historico_sensor = hs.id_historico_sensor
     JOIN responsavel_fazenda AS rf ON rf.id_fazenda = f.id_fazenda
+    JOIN empresa AS e ON e.id_empresa = f.fk_empresa
 ) AS qtd_situacoes
 GROUP BY nome, responsavel, contato, endereco, id_fazenda, id_usuario;
 
@@ -1002,6 +1005,7 @@ SELECT * FROM fazendas_do_usuario;
 	JOIN historico_sensor AS hs ON hs.fk_sensor = sr.id_sensor
 	JOIN alerta AS a ON a.fk_historico_sensor = hs.id_historico_sensor
     JOIN responsavel_fazenda AS rf ON rf.id_fazenda = f.id_fazenda
+    JOIN empresa AS e ON e.id_empresa = f.fk_empresa
 	GROUP BY gs.id_gp_sensores, rf.id_usuario, a.situacao, id_silo, id_bateria;
 
 SELECT 
@@ -1104,5 +1108,23 @@ SET
     email = 'scheffer@email.com',
     senha = 'Scheffer@123'
 WHERE id_usuario = 1;
+
+        SELECT 
+            fu.id_usuario,
+            fu.id_fazenda,
+            fu.responsavel,
+            fu.contato,
+            fu.endereco,
+            fu.nome,
+            fu.qtd_silos,
+            fu.qtd_bateria,
+            fu.estaveis,
+            fu.moderados,
+            fu.criticos
+        FROM fazendas_do_usuario AS fu
+        JOIN empresa AS e ON fu.id_empresa = e.id_empresa
+        JOIN usuario AS u ON u.fk_empresa = e.id_empresa
+        WHERE u.fk_empresa = 1
+        GROUP BY fu.id_fazenda, fu.id_usuario;
 
 -- FIM SELECT -------------------------------------------------------------------------
