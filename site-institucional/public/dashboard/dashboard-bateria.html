@@ -30,14 +30,14 @@
 
 <body>
 
-    <div id="menu_hamburger"></div>
+    <!-- <div id="menu_hamburger"></div>
     <script>
         fetch("../includes/menu.html")
             .then(resposta => resposta.text())
             .then(dados => {
                 document.getElementById("menu_hamburger").innerHTML = dados;
             });
-    </script>
+    </script> -->
 
     <div class="titulos">
         <div class="titulo-pag">
@@ -93,29 +93,30 @@
 
 <script>
 
-    function obterDadosVolumeTotal() {
-        let idBateria = req.params.id
+    // function obterDadosVolumeTotal() {
+    //     let idBateria = req.params.id
 
-        fetch(`/quiz/selectUltimosPontosQuizMusica/${id}`, { cache: 'no-store' })
-            .then(function (response) {
-                if (response.ok) {
-                    response.json().then(function (resposta) {
-                        nivelTotalBateria.innerHTML = resposta[0].total
-
-
-                    })
-
-                } else {
-                    console.log("Nenhum dado encontrado")
-                }
-
-            })
-            .catch(function (error) {
-                console.error("Erro na obtenção de dados")
-            })
-    }
+    //     fetch(`/quiz/selectUltimosPontosQuizMusica/${id}`, { cache: 'no-store' })
+    //         .then(function (response) {
+    //             if (response.ok) {
+    //                 response.json().then(function (resposta) {
+    //                     nivelTotalBateria.innerHTML = resposta[0].total
 
 
+    //                 })
+
+    //             } else {
+    //                 console.log("Nenhum dado encontrado")
+    //             }
+
+    //         })
+    //         .catch(function (error) {
+    //             console.error("Erro na obtenção de dados")
+    //         })
+    // }
+
+let valores=[45, 78, 89, 10, 50, 29]
+let labels=["silo1", "silo2", "silo3", "silo4", "silo5", "silo6"]
 
     const Criticos = valores.map((v) => {
 
@@ -198,31 +199,31 @@
 
 
 
-        function obterDadosPreenchimentoMensal() {
-        let idBateria = req.params.id
+    //     function obterDadosPreenchimentoMensal() {
+    //     let idBateria = req.params.id
 
-        fetch(`/quiz/selectUltimosPontosQuizMusica/${id}`, { cache: 'no-store' })
-            .then(function (response) {
-                if (response.ok) {
-                    response.json().then(function (resposta) {
-                        nivelTotalBateria.innerHTML = resposta[0].total
+    //     fetch(`/quiz/selectVolumeMensalBateria/${idBateria}`, { cache: 'no-store' })
+    //         .then(function (response) {
+    //             if (response.ok) {
+    //                 response.json().then(function (resposta) {
+    //                     nivelTotalBateria.innerHTML = resposta[0].total
 
-                        plotarGraficosPreenchimentoMensal()
-                    })
+    //                     // plotarGraficosPreenchimentoMensal()
+    //                 })
 
-                } else {
-                    console.log("Nenhum dado encontrado")
-                }
+    //             } else {
+    //                 console.log("Nenhum dado encontrado")
+    //             }
 
-            })
-            .catch(function (error) {
-                console.error("Erro na obtenção de dados")
-            })
-    }
+    //         })
+    //         .catch(function (error) {
+    //             console.error("Erro na obtenção de dados")
+    //         })
+    // }
 
 
-    function plotarGraficosPreenchimentoMensal(){
-    const labels2 = [];
+    // function plotarGraficosPreenchimentoMensal(){
+    const labels2 = ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"];
 
     const data2 = {
         labels: labels2,
@@ -236,45 +237,45 @@
             },
         ],
     };
-    for (let i = 0; i < resposta.length; i++) {
-        if (resposta[i].mes = 1) {
-            data2.datasets[0].data[0].push(preenchimento_bateria)
-            labels2.push("Janeiro")
-        } else if (resposta[i].mes = 2) {
-            data2.datasets[0].data[0].push(preenchimento_bateria)
-            labels2.push("Fevereiro")
-        } else if (resposta[i].mes = 3) {
-            data2.datasets[0].data[0].push(preenchimento_bateria)
-            labels2.push("Março")
-        } else if (resposta[i].mes = 4) {
-            data2.datasets[0].data[0].push(preenchimento_bateria)
-            labels2.push("Abril")
-        } else if (resposta[i].mes = 5) {
-            data2.datasets[0].data[0].push(preenchimento_bateria)
-            labels2.push("Maio")
-        } else if (resposta[i].mes = 6) {
-            data2.datasets[0].data[0].push(preenchimento_bateria)
-            labels2.push("Junho")
-        } else if (resposta[i].mes = 7) {
-            data2.datasets[0].data[0].push(preenchimento_bateria)
-            labels2.push("Julho")
-        } else if (resposta[i].mes = 8) {
-            data2.datasets[0].data[0].push(preenchimento_bateria)
-            labels2.push("Agosto")
-        } else if (resposta[i].mes = 9) {
-            data2.datasets[0].data[0].push(preenchimento_bateria)
-            labels2.push("Setembro")
-        } else if (resposta[i].mes = 10) {
-            data2.datasets[0].data[0].push(preenchimento_bateria)
-            labels2.push("Outubro")
-        } else if (resposta[i].mes = 11) {
-            data2.datasets[0].data[0].push(preenchimento_bateria)
-            labels2.push("Novembro")
-        } else if (resposta[i].mes = 12) {
-            data2.datasets[0].data[0].push(preenchimento_bateria)
-            labels2.push("Dezembro")
-        }
-    }
+    // for (let i = 0; i < resposta.length; i++) {
+    //     if (resposta[i].mes = 1) {
+    //         data2.datasets[0].data.push(preenchimento_bateria)
+    //         labels2.push("Janeiro")
+    //     } else if (resposta[i].mes = 2) {
+    //         data2.datasets[0].data.push(preenchimento_bateria)
+    //         labels2.push("Fevereiro")
+    //     } else if (resposta[i].mes = 3) {
+    //         data2.datasets[0].data.push(preenchimento_bateria)
+    //         labels2.push("Março")
+    //     } else if (resposta[i].mes = 4) {
+    //         data2.datasets[0].data.push(preenchimento_bateria)
+    //         labels2.push("Abril")
+    //     } else if (resposta[i].mes = 5) {
+    //         data2.datasets[0].data.push(preenchimento_bateria)
+    //         labels2.push("Maio")
+    //     } else if (resposta[i].mes = 6) {
+    //         data2.datasets[0].data.push(preenchimento_bateria)
+    //         labels2.push("Junho")
+    //     } else if (resposta[i].mes = 7) {
+    //         data2.datasets[0].data.push(preenchimento_bateria)
+    //         labels2.push("Julho")
+    //     } else if (resposta[i].mes = 8) {
+    //         data2.datasets[0].data.push(preenchimento_bateria)
+    //         labels2.push("Agosto")
+    //     } else if (resposta[i].mes = 9) {
+    //         data2.datasets[0].data.push(preenchimento_bateria)
+    //         labels2.push("Setembro")
+    //     } else if (resposta[i].mes = 10) {
+    //         data2.datasets[0].data.push(preenchimento_bateria)
+    //         labels2.push("Outubro")
+    //     } else if (resposta[i].mes = 11) {
+    //         data2.datasets[0].data.push(preenchimento_bateria)
+    //         labels2.push("Novembro")
+    //     } else if (resposta[i].mes = 12) {
+    //         data2.datasets[0].data.push(preenchimento_bateria)
+    //         labels2.push("Dezembro")
+    //     }
+    // }
 
 
     const config2 = {
@@ -299,7 +300,7 @@
     const myChart2 = new Chart(
         document.getElementById("myChart2"),
         config2);
-    }
+    // }
 </script>
 
 </html>

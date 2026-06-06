@@ -1,4 +1,4 @@
-var usuarioModel = require("../models/usuarioModel");
+var configBateriaModel = require("../models/usuarioModel");
 
 function inserirDadosBateria(req, res) {
     // Crie uma variável que vá recuperar os valores do arquivo cadastro.html
@@ -63,13 +63,13 @@ function atualizarDadosBateria(req, res) {
     var diametroSilos = req.body.diametroSiloServer
 
     if (nomeSilos == undefined) {
-        res.status(400).send("Seu nome está undefined!");
+        res.status(400).send("O nome da bateria está undefined!");
     } else if (qtdSilos == undefined) {
-        res.status(400).send("Seu CPF está undefined!");
+        res.status(400).send("A quantidade está undefined!");
     } else if (alturaSilos == undefined) {
-        res.status(400).send("Seu email está undefined!");
+        res.status(400).send("A altura está undefined!");
     } else if (diametroSilos == undefined) {
-        res.status(400).send("Sua senha está undefined!");
+        res.status(400).send("O diâmetro está undefined!");
     } else {
 
         configBateriaModel.atualizarDadosBateria(alturaSilos, diametroSilos)
