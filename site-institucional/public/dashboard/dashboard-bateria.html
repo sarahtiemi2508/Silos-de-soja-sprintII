@@ -93,27 +93,115 @@
 
 <script>
 
-    // function obterDadosVolumeTotal() {
-    //     let idBateria = req.params.id
+    function obterDadosVolumeTotal() {
+        let idBateria = req.params.id
 
-    //     fetch(`/quiz/selectUltimosPontosQuizMusica/${id}`, { cache: 'no-store' })
-    //         .then(function (response) {
-    //             if (response.ok) {
-    //                 response.json().then(function (resposta) {
-    //                     nivelTotalBateria.innerHTML = resposta[0].total
+        fetch(`/dashBateria/selectUltimosPontosQuizMusica/${id}`, { cache: 'no-store' })
+            .then(function (response) {
+                if (response.ok) {
+                    response.json().then(function (resposta) {
+                        nivelTotalBateria.innerHTML = resposta[0].total
 
 
-    //                 })
+                    })
 
-    //             } else {
-    //                 console.log("Nenhum dado encontrado")
-    //             }
+                } else {
+                    console.log("Nenhum dado encontrado")
+                }
 
-    //         })
-    //         .catch(function (error) {
-    //             console.error("Erro na obtenção de dados")
-    //         })
-    // }
+            })
+            .catch(function (error) {
+                console.error("Erro na obtenção de dados")
+            })
+    }
+
+    function obterDadosVolumeOcupado() {
+        let idBateria = req.params.id
+
+        fetch(`/dashBateria/selectOcupacaoTotal`, { cache: 'no-store' })
+            .then(function (response) {
+                if (response.ok) {
+                    response.json().then(function (resposta) {
+                       
+
+
+                    })
+
+                } else {
+                    console.log("Nenhum dado encontrado")
+                }
+
+            })
+            .catch(function (error) {
+                console.error("Erro na obtenção de dados")
+            })
+    }
+
+    function obterDadosVolumeMaior() {
+        let idBateria = req.params.id
+
+        fetch(`/dashBateria/selectMaiorNivel`, { cache: 'no-store' })
+            .then(function (response) {
+                if (response.ok) {
+                    response.json().then(function (resposta) {
+                        
+
+
+                    })
+
+                } else {
+                    console.log("Nenhum dado encontrado")
+                }
+
+            })
+            .catch(function (error) {
+                console.error("Erro na obtenção de dados")
+            })
+    }
+
+    function obterDadosVolumeMenor() {
+        let idBateria = req.params.id
+
+        fetch(`/dashBateria/selectMenorNivel`, { cache: 'no-store' })
+            .then(function (response) {
+                if (response.ok) {
+                    response.json().then(function (resposta) {
+                        
+
+
+                    })
+
+                } else {
+                    console.log("Nenhum dado encontrado")
+                }
+
+            })
+            .catch(function (error) {
+                console.error("Erro na obtenção de dados")
+            })
+    }
+
+    function obterDadosVolumeIndividual() {
+        let idBateria = req.params.id
+
+        fetch(`/dashBateria/selectVolumeIndividual`, { cache: 'no-store' })
+            .then(function (response) {
+                if (response.ok) {
+                    response.json().then(function (resposta) {
+                        
+
+
+                    })
+
+                } else {
+                    console.log("Nenhum dado encontrado")
+                }
+
+            })
+            .catch(function (error) {
+                console.error("Erro na obtenção de dados")
+            })
+    }
 
 // let valores=[45, 78, 89, 10, 50, 29]
 // let labels=["silo1", "silo2", "silo3", "silo4", "silo5", "silo6"]
