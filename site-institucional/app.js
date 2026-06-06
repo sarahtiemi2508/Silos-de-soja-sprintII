@@ -1,5 +1,5 @@
-//var ambiente_processo = 'producao';
-var ambiente_processo = 'desenvolvimento';
+var ambiente_processo = 'producao';
+//var ambiente_processo = 'desenvolvimento';
 
 var caminho_env = ambiente_processo === 'producao' ? '.env' : '.env.dev';
 // Acima, temos o uso do operador ternário para definir o caminho do arquivo .env
@@ -16,12 +16,10 @@ var HOST_APP = process.env.APP_HOST;
 var app = express();
 
 var indexRouter = require("./src/routes/home");
-var usuarioRouter = require("./src/routes/usuarios");
 var medidasRouter = require("./src/routes/medidas");
 var empresasRouter = require("./src/routes/empresas");
 var fazendaRouter = require("./src/routes/fazenda");
 var addUserRouter = require("./src/routes/addUser");
-var alertaRouter = require("./src/routes/alerta");
 
 // Rotas da bateria da Sarah
 // var dashBateriaRouter = require("./src/routes/dashBateria");
@@ -34,50 +32,37 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use(cors());
 
 app.use("/", indexRouter);
-app.use("/usuarios", usuarioRouter);
 app.use("/medidas", medidasRouter);
 app.use("/empresas", empresasRouter);
 app.use("/fazenda", fazendaRouter);
 app.use("/usuario", addUserRouter);
-app.use("/alerta", alertaRouter);
 
 // Rotas da bateria da Sarah
 // app.use("/dashBateria", dashBateriaRouter);
 // app.use("/configBateria", configBateriaRouter)
 
 app.listen(PORTA_APP, function () {
+    // No js usamos o \x1b no lugar do \e do sh
+    var corDourada = "\x1b[38;2;252;195;39m";
+    var reset = "\x1b[0m"; // Pras últimas instruções terem destaque
+
     console.log(`
-    ####################    ########    ####################################    
-      ##################  ############  ####################################    
-        ##                ########  ####                              ####      
-        ####              ##########                                  ##        
-          ####              ##########  ##                          ####        
-            ##                    ######                          ####          
-            ####                    ####          ##              ##            
-              ####                    ##      ##########        ####            
-                ##                    ####  ############      ####              
-                ####                    ######  ########      ##                
-                  ####                  ####  ########      ##                  
-                    ##                  ##  ##########    ####                  
-                    ####                ##  ######        ##                    
-                      ####              ##  ##          ##                      
-                        ##              ##            ####                      
-                        ####            ##            ##                        
-                          ####          ##          ##                          
-                            ##    ##############  ####                          
-                            ####  ############  ####                            
-                              ####  ##########  ##                              
-                                ##    ######  ####                              
-                                  ##  ####  ####                                
-                                  ####  ##  ##                                  
-                                    ##    ####                                  
-                                      ######                                    
-                                      ####                                      
-                                        ##                                      
-    \n\n\n                                                                                                 
-    Ceres já está rodando! Acesse o caminho a seguir para visualizar .: http://${HOST_APP}:${PORTA_APP} :. \n\n
-    Você está rodando sua aplicação em ambiente de .:${process.env.AMBIENTE_PROCESSO}:. \n\n
-    \tSe .:desenvolvimento:. você está se conectando ao banco local. \n
-    \tSe .:producao:. você está se conectando ao banco remoto. \n\n
-    \t\tPara alterar o ambiente, comente ou descomente as linhas 1 ou 2 no arquivo 'app.js'\n\n`);
+${corDourada}
+    ##   ##  ######   #####             ####       ##     ######     ##              ##  ##    ####    ######  
+    ##   ##  ##       ##  ##            ## ##     ####      ##      ####             ##  ##     ##         ##  
+    ##   ##  ##       ##  ##            ##  ##   ##  ##     ##     ##  ##            ##  ##     ##        ##   
+    ## # ##  ####     #####    ######   ##  ##   ######     ##     ######   ######   ##  ##     ##       ##    
+    #######  ##       ##  ##            ##  ##   ##  ##     ##     ##  ##            ##  ##     ##      ##     
+    ### ###  ##       ##  ##            ## ##    ##  ##     ##     ##  ##             ####      ##     ##      
+    ##   ##  ######   #####             ####     ##  ##     ##     ##  ##              ##      ####    ######  
+${reset}
+    Ceres já está rodando! Acesse o caminho a seguir para visualizar .: http://${HOST_APP}:${PORTA_APP} :.
+
+    Você está rodando sua aplicação em ambiente de .:${process.env.AMBIENTE_PROCESSO}:.
+
+    \tSe .:desenvolvimento:. você está se conectando ao banco local.
+    \tSe .:producao:. você está se conectando ao banco remoto.
+
+    \t\tPara alterar o ambiente, comente ou descomente as linhas 1 ou 2 no arquivo 'app.js'
+    `);
 });
