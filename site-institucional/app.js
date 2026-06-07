@@ -27,8 +27,8 @@ var visuBateria = require("./src/routes/visuBateria")
 var cadastrarFazendaRouter = require("./src/routes/cadastrarFazenda");
 
 // Rotas da bateria da Sarah
-// var dashBateriaRouter = require("./src/routes/dashBateria");
-// var configBateriaRouter = require("./src/routes/configBateria");
+var dashBateriaRouter = require("./src/routes/dashBateria");
+var configBateriaRouter = require("./src/routes/configBateria");
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -50,8 +50,8 @@ app.use("/cadastrar_fazenda", cadastrarFazendaRouter)
 
 
 // Rotas da bateria da Sarah
-// app.use("/dashBateria", dashBateriaRouter);
-// app.use("/configBateria", configBateriaRouter)
+app.use("/dashBateria", dashBateriaRouter);
+app.use("/configBateria", configBateriaRouter);
 
 app.listen(PORTA_APP, function () {
     console.log(`

@@ -1,4 +1,4 @@
-var dashBateriaModel = require("../models/dashBateria");
+var dashBateriaModel = require("../models/dashBateriaModel");
 
 function selectVolumeTotal(req, res) {
     
