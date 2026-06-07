@@ -1,4 +1,4 @@
-var configBateriaModel = require("../models/usuarioModel");
+var configBateriaModel = require("../models/configBateriaModel");
 
 function inserirDadosBateria(req, res) {
     // Crie uma variável que vá recuperar os valores do arquivo cadastro.html
@@ -18,7 +18,7 @@ function inserirDadosBateria(req, res) {
         res.status(400).send("Sua senha está undefined!");
     } else {
 
-        configBateriaModel.cadastrarBateria(nomeSilos, qtdSilos, alturaSilos, diametroSilos)
+        configBateriaModel.inserirDadosBateria(nomeSilos, qtdSilos, alturaSilos, diametroSilos)
             .then(
                 function (resultado) {
                     res.json(resultado);

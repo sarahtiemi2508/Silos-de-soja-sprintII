@@ -54,12 +54,13 @@
 <script>
 
     function cadastrarBateria() {
+
         let nomeInserido = iptNome.value;
         let qtdSilosInserido = iptQtdSilos.value;
         let alturaInserida = iptAltura.value;
         let diametroInserido = iptDiametro.value;
 
-        fetch("/configBateria/cadastrarBateria", {
+        fetch("../configBateria/inserirDadosBateria", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -81,7 +82,7 @@
                         "Cadastro realizado com sucesso! Redirecionando para tela de baterias...";
 
                     setTimeout(() => {
-                        window.location.href = ".html";
+                        window.location.href = "visualizar_bateria.html";
                         console.log("Passei detro do redirecionamento");
 
                     }, "2000");
