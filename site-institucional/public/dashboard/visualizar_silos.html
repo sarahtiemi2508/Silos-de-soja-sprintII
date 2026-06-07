@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="../css/visu_bateria.css">
+    <link rel="stylesheet" href="../css/menu.css">
+
+    <!-- Icons -->
+    <link rel="shortcut icon" href="../assets/icon/favicon-dark.ico" media="(prefers-color-scheme: dark)">
+    <link rel="shortcut icon" href="../assets/icon/favicon-light.ico" media="(prefers-color-scheme: light)">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"
+        rel="stylesheet" />
+
+    <script src="../js/menu.js"></script>
+
+    <title>Bateria</title>
+</head>
+
+<body>
+
+    <div id="menu_hamburger"></div>
+    <script>
+        fetch("../includes/menu.html")
+            .then(resposta => resposta.text())
+            .then(dados => {
+                document.getElementById("menu_hamburger").innerHTML = dados;
+            });
+    </script>
+
+    <div class="fundo_geral_tela">
+        <div class="titulo">
+            <img src="../assets/imgs/icon_fazenda.png" alt="">
+            <p>VISUALIZAR SILO</p>
+        </div>
+    </div>
+</body>
+
+<script>
+    const parametros_silo = new URLSearchParams(window.location.search);
+
+    const id_fazenda = parametros_silo.get("id_fazenda")
+    const id_bateria = parametros_silo.get("id_bateria");
+
+
+    console.log(`ID DA FAZENDA: `, id_fazenda)
+    console.log(`ID DA BATERIA: `, id_bateria);
+</script>
+
+</html>
