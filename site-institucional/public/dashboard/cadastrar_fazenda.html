@@ -115,9 +115,37 @@
         let cep = ipt_cep.value
         let numero = ipt_numero.value
         let uf = ipt_uf.value
-        let cidade = ipt_cidade
+        let cidade = ipt_cidade.value
 
-
+        fetch("/cadastrar_fazenda/cadastrar_fazenda", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            nomeFazendaServer: nome_fazenda,
+            logradouroServer: logradouro,
+            cepServer: cep,
+            numeroServer: numero,
+            ufServer: uf,
+            cidadeServer: cidade,
+            fkEmpresaServer: id_empresa
+        })
+    })
+    .then(function (resposta) {
+        if (resposta.ok) {
+            alert("Fase 1 cadastrada com sucesso!");
+            
+            // >>> SEU CÓDIGO DA FASE 2 ENTRA AQUI <<<
+            // Exemplo: avançar o visual do formulário ou ir para a próxima tela
+            
+        } else {
+            alert("Houve um erro ao cadastrar a fazenda.");
+        }
+    })
+    .catch(function (erro) {
+        console.log(erro);
+    });
 
       }
 
