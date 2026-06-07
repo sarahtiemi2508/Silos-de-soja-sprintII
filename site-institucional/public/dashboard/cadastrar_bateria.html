@@ -6,12 +6,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cadastro de Bateria</title>
     <link rel="stylesheet" href="../css/cadBateria.css">
+    <link rel="stylesheet" href="../css/menu.css">
 </head>
 
 <body>
     <div class="imgFundo">
         <div class="blur">
             <div class="header"></div>
+      
+            <div id="menu_hamburger"></div>
+    <script>
+        fetch("../includes/menu.html")
+            .then(resposta => resposta.text())
+            .then(dados => {
+                document.getElementById("menu_hamburger").innerHTML = dados;
+            });
+    </script>
+      
             <div class="divTitulo">
                 <img class="imgTitulo" src="../assets/imgs/fazenda.png" width="38px">
                 <h1 class="titulo">
