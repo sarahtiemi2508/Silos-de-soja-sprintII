@@ -30,14 +30,14 @@
 
 <body>
 
-    <!-- <div id="menu_hamburger"></div>
+    <div id="menu_hamburger"></div>
     <script>
         fetch("../includes/menu.html")
             .then(resposta => resposta.text())
             .then(dados => {
                 document.getElementById("menu_hamburger").innerHTML = dados;
             });
-    </script> -->
+    </script>
 
     <div class="titulos">
         <div class="titulo-pag">
@@ -325,7 +325,7 @@ for(let i=0; resposta.length; i++){
 
 
         function obterDadosPreenchimentoMensal() {
-        let idBateria = req.params.id
+        
 
         fetch(`/quiz/selectVolumeMensalBateria`, { cache: 'no-store' })
             .then(function (response) {
