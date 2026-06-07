@@ -3,7 +3,7 @@ var router = express.Router();
 
 var cadastrarFazendaController = require("../controllers/cadastrarFazendaController");
 
-router.post("/cadastrar_fazenda", function (req, res) {
+router.post("/", function (req, res) {
     cadastrarFazendaController.cadastrar_fazenda(req, res);
 })
 

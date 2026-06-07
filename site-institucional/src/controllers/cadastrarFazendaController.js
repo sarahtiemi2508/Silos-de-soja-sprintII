@@ -33,3 +33,7 @@ function cadastrar_fazenda(req, res) {
       res.status(500).json({ erro: erro.sqlMessage });
     });
 }
+
+module.exports = {
+    cadastrar_fazenda
+};
