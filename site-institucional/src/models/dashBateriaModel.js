@@ -1,12 +1,14 @@
 var database = require("../database/config")
 
 function selectVolumeTotal(idBateria) {
-  var instrucaoSql = `SELECT 
- bateria,
- SUM(total) AS total
- FROM volume_total
- WHERE id=${idBateria}
- GROUP BY id, bateria;`;
+  var instrucaoSql = `
+  SELECT 
+id,
+bateria,
+SUM(preenchimento) AS nivelTotal
+FROM volume_preenchido_bateria
+WHERE id=${idBateria}
+GROUP BY bateria;`;
 
   return database.executar(instrucaoSql);
 }
