@@ -1,8 +1,7 @@
 var dashBateriaModel = require("../models/dashBateria");
 
 function selectVolumeTotal(req, res) {
-    const limite_linhas = 10;
-    var idUsuario = req.params.id;
+    
 
 console.log("idUsuario recebido:", idBateria);
 
@@ -17,8 +16,7 @@ console.log("idUsuario recebido:", idBateria);
 }
 
 function selectOcupacaoTotal(req, res) {
-    const limite_linhas = 10;
-    var idUsuario = req.params.id;
+    
 
 console.log("idUsuario recebido:", idBateria);
 
@@ -33,8 +31,7 @@ console.log("idUsuario recebido:", idBateria);
 }
 
 function selectMaiorNivel(req, res) {
-    const limite_linhas = 10;
-    var idUsuario = req.params.id;
+   
 
 console.log("idUsuario recebido:", idBateria);
 
@@ -49,8 +46,7 @@ console.log("idUsuario recebido:", idBateria);
 }
 
 function selectMenorNivel(req, res) {
-    const limite_linhas = 10;
-    var idUsuario = req.params.id;
+    
 
 console.log("idUsuario recebido:", idBateria);
 
@@ -65,8 +61,7 @@ console.log("idUsuario recebido:", idBateria);
 }
 
 function selectVolumeMensalBateria(req, res) {
-    const limite_linhas = 10;
-    var idUsuario = req.params.id;
+    
 
 console.log("idUsuario recebido:", idBateria);
 
