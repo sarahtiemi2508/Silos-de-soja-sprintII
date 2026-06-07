@@ -103,11 +103,11 @@
     function obterDadosVolumeTotal() {
         let idBateria = req.params.id
 
-        fetch(`/dashBateria/selectVolumeTotal/${id}`, { cache: 'no-store' })
+        fetch(`/dashBateria/selectVolumeTotal`, { cache: 'no-store' })
             .then(function (response) {
                 if (response.ok) {
                     response.json().then(function (resposta) {
-                        dadoNivelTotalBat.innerHTML = `${resposta[0].total}M`
+                        dadoNivelTotalBat.innerHTML = `${resposta[0].nivelTotal}M`
 
 
                     })
@@ -125,11 +125,11 @@
 function obterDadosVolumeMedio() {
         let idBateria = req.params.id
 
-        fetch(`/dashBateria/selectUltimosPontosQuizMusica/${id}`, { cache: 'no-store' })
+        fetch(`/dashBateria/selectOcupacaoTotal`, { cache: 'no-store' })
             .then(function (response) {
                 if (response.ok) {
                     response.json().then(function (resposta) {
-                        dadoNivelTotalBat.innerHTML = `${resposta[0].total}M`
+                        dadoNivelMedioBat.innerHTML = `${resposta[0].total}M`
 
 
                     })
