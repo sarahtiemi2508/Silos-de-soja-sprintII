@@ -5,7 +5,7 @@ function inserirDadosBateria(req, res) {
     var nomeSilos = req.body.nomeBateriaServer;
     var qtdSilos = req.body.qtdSilosServer;
     var alturaSilos = req.body.alturaSiloServer;
-    var diametroSilos = req.body.diametroSiloServer
+    var diametroSilos = req.body.diametroSiloServer;
 
     // Faça as validações dos valores
     if (nomeSilos == undefined) {
@@ -60,7 +60,7 @@ function atualizarDadosBateria(req, res) {
     var nomeSilos = req.body.nomeBateriaServer;
     var qtdSilos = req.body.qtdSilosServer;
     var alturaSilos = req.body.alturaSiloServer;
-    var diametroSilos = req.body.diametroSiloServer
+    var diametroSilos = req.body.diametroSiloServer;
 
     if (nomeSilos == undefined) {
         res.status(400).send("O nome da bateria está undefined!");
@@ -72,7 +72,7 @@ function atualizarDadosBateria(req, res) {
         res.status(400).send("O diâmetro está undefined!");
     } else {
 
-        configBateriaModel.atualizarDadosBateria(alturaSilos, diametroSilos)
+        configBateriaModel.atualizarDadosBateria(idBateria, alturaSilos, diametroSilos)
             .then(
                 function (resultado) {
                     res.json(resultado);
