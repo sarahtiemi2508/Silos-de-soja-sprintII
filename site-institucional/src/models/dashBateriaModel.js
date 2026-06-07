@@ -64,7 +64,8 @@ function selectVolumeIndividual(idBateria) {
       modelo_silo_indiv as modelo,
       preenchimento
     FROM volume_preenchido_bateria
-    WHERE id = ${idBateria};
+    WHERE id = ${idBateria}
+    LIMIT 6;
 `;
 
   return database.executar(instrucaoSql);
