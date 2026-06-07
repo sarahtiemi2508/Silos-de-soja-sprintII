@@ -25,6 +25,7 @@ var alertaRouter = require("./src/routes/alerta");
 var visuBateria = require("./src/routes/visuBateria")
 
 var cadastrarFazendaRouter = require("./src/routes/cadastrarFazenda");
+var cadastrarResponsavelRouter = require("./src/routes/cadastrarResponsavel");
 
 // Rotas da bateria da Sarah
 var dashBateriaRouter = require("./src/routes/dashBateria");
@@ -47,6 +48,7 @@ app.use("/alerta", alertaRouter);
 app.use("/visuBateria", visuBateria);
 
 app.use("/cadastrar_fazenda", cadastrarFazendaRouter)
+app.use("/cadastrar_responsavel", cadastrarResponsavelRouter);
 
 
 // Rotas da bateria da Sarah

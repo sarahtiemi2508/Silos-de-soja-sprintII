@@ -388,7 +388,7 @@ main {
     justify-content: center;
     align-items: center;
     width: 100%;
-    gap: 25px;
+    gap: 18px;
 }
 
 .sobre-fazenda h1 {
@@ -534,4 +534,9 @@ main {
     color: black;
     border: 2px solid black;
     background-color: white;
+}
+
+#conta_responsavel{
+    font-size: 12px;
+    margin-top: -15px;
 }

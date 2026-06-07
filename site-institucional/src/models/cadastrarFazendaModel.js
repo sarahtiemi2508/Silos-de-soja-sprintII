@@ -1,7 +1,6 @@
 var database = require("../database/config");
 
 function inserir_endereco_fazenda(cep, logradouro_fazenda, num_logradouro, cidade_fazenda, uf_fazenda) {
-  // Alterado: Retirados os '?' e colocadas as variáveis direto usando `${}`
   var instrucaoSql = `
         INSERT INTO endereco (cep, logradouro_fazenda, num_logradouro, cidade_fazenda, uf_fazenda) 
         VALUES ('${cep}', '${logradouro_fazenda}', '${num_logradouro}', '${cidade_fazenda}', '${uf_fazenda}');
@@ -11,7 +10,7 @@ function inserir_endereco_fazenda(cep, logradouro_fazenda, num_logradouro, cidad
 }
 
 function inserir_dados_fazenda(nome_fazenda, fk_empresa, fk_endereco){
-    // Alterado: Retirados os '?' e colocadas as variáveis direto usando `${}`
+
     var instrucaoSql = `
         INSERT INTO fazenda (nome_fazenda, fk_empresa, fk_endereco) 
         VALUES ('${nome_fazenda}', ${fk_empresa}, ${fk_endereco});
