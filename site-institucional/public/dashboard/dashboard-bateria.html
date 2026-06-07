@@ -189,7 +189,6 @@ function obterDadosVolumeMedio() {
     }
 
     function obterDadosVolumeMenor() {
-        let idBateria = req.params.id
 
         fetch(`/dashBateria/selectMenorNivel`, { cache: 'no-store' })
             .then(function (response) {
@@ -218,7 +217,7 @@ function obterDadosVolumeMedio() {
                 if (response.ok) {
                     response.json().then(function (resposta) {
                         
-
+                        plotarGraficoVolumeIndividual(resposta)
 
                     })
 
@@ -235,7 +234,7 @@ function obterDadosVolumeMedio() {
 // let valores=[45, 78, 89, 10, 50, 29]
 // let labels=["silo1", "silo2", "silo3", "silo4", "silo5", "silo6"]
 
-function plotarGraficoVolumeIndividual(){
+function plotarGraficoVolumeIndividual(resposta){
 let labels=[];
 let valores=[];
 for(let i=0; resposta.length; i++){
@@ -333,7 +332,7 @@ for(let i=0; resposta.length; i++){
                 if (response.ok) {
                     response.json().then(function (resposta) {
 
-                        plotarGraficosPreenchimentoMensal()
+                        plotarGraficosPreenchimentoMensal(resposta)
                     })
 
                 } else {
@@ -347,7 +346,7 @@ for(let i=0; resposta.length; i++){
     }
 
 
-    function plotarGraficosPreenchimentoMensal(){
+    function plotarGraficosPreenchimentoMensal(resposta){
     let labels2 = [];
     
 
@@ -431,6 +430,14 @@ for(let i=0; resposta.length; i++){
         document.getElementById("myChart2"),
         config2);
     }
+
+    obterDadosPreenchimentoMensal(),
+    obterDadosVolumeIndividual()
+    obterDadosVolumeMaior()
+    obterDadosVolumeMenor()
+    obterDadosVolumeMedio()
+    obterDadosVolumeOcupado()
+    obterDadosVolumeTotal()
 </script>
 
 </html>
