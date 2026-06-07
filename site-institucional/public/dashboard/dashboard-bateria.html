@@ -54,8 +54,15 @@
             <div id="boxNiveis">
                 <div id="boxNiveisSilos">
                     <div id="boxNiveisBateria">
-                        <div id="nivelTotalBateria"></div>
-                        <div id="nivelMediaBateria"></div>
+                        <div id="nivelTotalBateria">
+                            <div id="titNivelTotalBat">Nível Total da Bateria</div>
+                            <div id="dadoNivelTotalBat">1400M</div>
+                        </div>
+                        <div id="nivelMediaBateria">
+                            <div id="titNivelMedioBat">Nível Total da Bateria</div>
+                            <div id="dadoNivelMedioBat"></div>
+                        </div>
+                        
                     </div>
                     <div id="graficosMaiorMenor">
                         <p id="tituloMaiorMenorNivel">MAIOR E MENOR NÍVEL DOS SILOS</p>
@@ -96,11 +103,33 @@
     function obterDadosVolumeTotal() {
         let idBateria = req.params.id
 
+        fetch(`/dashBateria/selectVolumeTotal/${id}`, { cache: 'no-store' })
+            .then(function (response) {
+                if (response.ok) {
+                    response.json().then(function (resposta) {
+                        dadoNivelTotalBat.innerHTML = `${resposta[0].total}M`
+
+
+                    })
+
+                } else {
+                    console.log("Nenhum dado encontrado")
+                }
+
+            })
+            .catch(function (error) {
+                console.error("Erro na obtenção de dados")
+            })
+    }
+
+function obterDadosVolumeMedio() {
+        let idBateria = req.params.id
+
         fetch(`/dashBateria/selectUltimosPontosQuizMusica/${id}`, { cache: 'no-store' })
             .then(function (response) {
                 if (response.ok) {
                     response.json().then(function (resposta) {
-                        nivelTotalBateria.innerHTML = resposta[0].total
+                        dadoNivelTotalBat.innerHTML = `${resposta[0].total}M`
 
 
                     })
