@@ -22,6 +22,7 @@ var empresasRouter = require("./src/routes/empresas");
 var fazendaRouter = require("./src/routes/fazenda");
 var addUserRouter = require("./src/routes/addUser");
 var alertaRouter = require("./src/routes/alerta");
+var visuBateria = require("./src/routes/visuBateria")
 
 // Rotas da bateria da Sarah
 // var dashBateriaRouter = require("./src/routes/dashBateria");
@@ -40,6 +41,7 @@ app.use("/empresas", empresasRouter);
 app.use("/fazenda", fazendaRouter);
 app.use("/usuario", addUserRouter);
 app.use("/alerta", alertaRouter);
+app.use("/visuBateria", visuBateria);
 
 // Rotas da bateria da Sarah
 // app.use("/dashBateria", dashBateriaRouter);

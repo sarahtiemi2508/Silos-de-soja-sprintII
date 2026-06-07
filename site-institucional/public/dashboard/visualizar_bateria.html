@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="../css/visu_bateria.css">
+    <link rel="stylesheet" href="../css/menu.css">
+
+    <!-- Icons -->
+    <link rel="shortcut icon" href="../assets/icon/favicon-dark.ico" media="(prefers-color-scheme: dark)">
+    <link rel="shortcut icon" href="../assets/icon/favicon-light.ico" media="(prefers-color-scheme: light)">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"
+        rel="stylesheet" />
+
+    <script src="../js/menu.js"></script>
+
+    <title>Bateria</title>
+</head>
+
+<body>
+
+    <div id="menu_hamburger"></div>
+    <script>
+        fetch("../includes/menu.html")
+            .then(resposta => resposta.text())
+            .then(dados => {
+                document.getElementById("menu_hamburger").innerHTML = dados;
+            });
+    </script>
+
+    <div class="fundo_geral_tela">
+        <div class="titulo">
+            <img src="../assets/imgs/icon_fazenda.png" alt="">
+            <p>VISUALIZAR BATERIA</p>
+        </div>
+
+
+        <div class="cards_info_geral">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            <div class="card_info_baterias">
+
+                <p class="titulo_bateria">SUAS BATERIAS</p>
+                <div class="baterias_gerais" id="baterias_gerais">
+
+                </div>
+            </div>
+
+
+
+
+
+
+
+
+            <div class="card_info_fazenda" id="card_info_fazenda">
+
+            </div>
+        </div>
+
+    </div>
+
+</body>
+
+
+
+
+
+
+
+<script>
+    const parametros = new URLSearchParams(window.location.search);
+
+    const id_fazenda = parametros.get("id_fazenda");
+
+    console.log(id_fazenda);
+
+    visualizarBaterias();
+
+    function visualizarBaterias() {
+
+
+
+        fetch(`/visuBateria/visualizarBateria/${id_fazenda}`)
+            .then(resposta => resposta.json())
+            .then(dados => {
+                console.log(dados);
+
+                let fazenda = dados[0];
+
+                card_info_fazenda.innerHTML = `
+        
+        <p id="nome_fazenda">Fazenda ${fazenda.nome_fazenda}</p>
+                <div class="infos_gerais_fazenda">
+                    <div class="info_empresa">
+                        <p class="sub_titulo_fazenda">EMPRESA</p>
+                        <p id="nome_empresa">Nome: ${fazenda.nome_empresa}</p>
+                        <p id="email_empresa">CPNJ: ${fazenda.cnpj_empresa}</p>
+                      
+                    </div>
+                    <div class="info_resp">
+                        <p class="sub_titulo_fazenda">RESPONSÁVEL</p>
+                        <p id="nome_resp">Nome: ${fazenda.responsavel}</p>
+                        <p id="email_resp">Email: ${fazenda.resp_email}</p>
+                        <p id="telefone_resp">Telefone: ${fazenda.contato}</p>
+                    </div>
+                    <div class="info_endereco">
+                        <p class="sub_titulo_fazenda">ENDEREÇO</p>
+                        <p id="logradouro">Logradouro: ${fazenda.end_log}</p>
+                        <p id="cep">CEP: ${fazenda.end_cep}</p>
+                        <p id="numero">Número: ${fazenda.end_num}</p>
+                        <p id="cidade">Cidade: ${fazenda.end_cidade}</p>
+                        <p id="uf">UF: ${fazenda.end_uf}</p>
+                    </div>
+                </div>`
+
+
+
+            })
+
+
+    }
+
+    detalhesBateria();
+
+    function detalhesBateria() {
+
+        baterias_gerais.innerHTML = ``;
+
+
+
+
+        fetch(`/visuBateria/detalhesBateria/${id_fazenda}`)
+            .then(resposta => resposta.json())
+            .then(dados => {
+                console.log(dados);
+
+                let fazenda = dados[0];
+
+
+                for (let i = 0; i < dados.length; i++) {
+
+                    baterias_gerais.innerHTML += `
+                
+                <div class="bateria_unica">
+                        <p id="nome_bateria">${dados[i].nome_bateria}</p>
+
+                        <div class="div_qtd_silos">
+                            <p class="sub_titulo_bateria">QTD SILOS</p>
+                            <p id="qtd_silos">${dados[i].qtd_silos}</p>
+                        </div>
+
+                        <div class="situacoes_silos_geral">
+                            <p class="sub_titulo_bateria">SITUAÇÕES</p>
+                            <div class="situacoes_silos">
+                                <p id="situacao_padrao">${dados[i].estaveis}</p>
+                                <p id="situacao_moderada">${dados[i].moderados}</p>
+                                <p id="situacao_critica">${dados[i].criticos}</p>
+                            </div>
+                        </div>
+
+                        <button><a href="">></a></button>
+                    </div>
+                `
+                }
+
+
+            })
+
+
+
+
+
+    }
+</script>
+
+</html>
