@@ -18,7 +18,7 @@ function inserirDadosBateria(req, res) {
         res.status(400).send("Sua senha está undefined!");
     } else {
 
-        configBateriaModel.inserirDadosBateria(nomeSilos, qtdSilos, alturaSilos, diametroSilos)
+        configBateriaModel.inserirDadosBateria(nomeSilos, fk_fazenda)
             .then(
                 function (resultado) {
                     res.json(resultado);

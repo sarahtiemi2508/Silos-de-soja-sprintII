@@ -1045,6 +1045,8 @@ SELECT
     f.id_fazenda AS id_fazenda,
 	f.nome_fazenda AS fazenda,
     b.bateria_grupo AS bateria,
+    b.id_bateria_silo AS id_bateria,
+    s.id_silo_individual AS id_silo_individual,
     ROW_NUMBER() OVER(PARTITION BY b.id_bateria_silo ORDER BY s.id_silo_individual) AS num_silo,
     a.prioridade AS prioridade,
     a.situacao AS situacao,
