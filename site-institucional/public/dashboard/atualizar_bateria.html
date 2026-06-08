@@ -19,13 +19,13 @@
             <div class="header"></div>
 
             <div id="menu_hamburger"></div>
-    <script>
-        fetch("../includes/menu.html")
-            .then(resposta => resposta.text())
-            .then(dados => {
-                document.getElementById("menu_hamburger").innerHTML = dados;
-            });
-    </script>
+            <script>
+                fetch("../includes/menu.html")
+                    .then(resposta => resposta.text())
+                    .then(dados => {
+                        document.getElementById("menu_hamburger").innerHTML = dados;
+                    });
+            </script>
 
             <div class="divTitulo">
                 <img class="imgTitulo" src="../assets/imgs/fazenda.png" width="38px">
@@ -58,99 +58,93 @@
                 </div>
             </div>
             <div class="cardErro" id="cardErro">
-                    <div class="boxErro">
-                        <div id="mensagem_erro"></div>
-                    </div>
+                <div class="boxErro">
+                    <div id="mensagem_erro"></div>
                 </div>
+            </div>
         </div>
     </div>
 </body>
 
 <script>
 
-let buscarIdBateria="";
-    
-    function obterDadosBateria(){
-let id = sessionStorage.ID_USUARIO
+    let buscarIdBateria = "";
 
-fetch(`/configBateria/buscarDadosBateria`, { cache: 'no-store' })
-    .then(function (response){
-        if(response.ok){
-            response.json().then(function(resposta){
-                
-                for(let i=0; i<resposta.length; i++){
-                    if(resposta[i].nomeBateria== iptNome.value){
+    function obterDadosBateria() {
+        let id = sessionStorage.ID_USUARIO
 
-                        buscarIdBateria= resposta[i].idBateria
-                       atualizarBateria() 
+        fetch(`/configBateria/buscarDadosBateria`, { cache: 'no-store' })
+            .then(function (response) {
+                if (response.ok) {
+                    response.json().then(function (resposta) {
 
-                    } else{
-                        cardErro.style.display="block"
-                        mensagem_erro.innerHTML=`Bateria não identificada.<br> Verifique se o nome está correto.`
-                    }
-                    
+                        atualizarBateria(resposta)
+                    })
+
+                } else {
+                    console.log("Nenhum dado encontrado")
                 }
-                
-             })   
-             
-            } else{
-                console.log("Nenhum dado encontrado")
-            }
-            
-        }) 
-        .catch( function (error){
-            console.error("Erro na obtenção de dados")
-        })
-}
 
+            })
+            .catch(function (error) {
+                console.error("Erro na obtenção de dados")
+            })
 
-function atualizarBateria(){
-    let idBateria= buscarIdBateria;
+        let idBateria = resposta[0].idBateria;
+        
+    }
+
+    let idBateria = buscarIdBateria;
     let nomeInserido = iptNome.value;
-    let qtdSilosInserido = iptQtdSilos.value;
+    // let qtdSilosInserido = iptQtdSilos.value;
     let alturaInserida = iptAltura.value;
     let diametroInserido = iptDiametro.value;
 
+    function atualizarBateria() {
 
-fetch("/configBateria/atualizarDadosBateria", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        idBateriaserver: idBateria,
-        nomeBateriaServer: nomeInserido,
-        qtdSilosServer: qtdSilosInserido,
-        alturaSiloServer: alturaInserida,
-        diametroSiloServer: diametroInserido
-      }),
-    })
-      .then(function (resposta) {
-        console.log("resposta: ", resposta);
+        for (let i = 0; i < resposta.length; i++) {
+            if (resposta[i].nomeBateria == iptNome.value) {
 
-        if (resposta.ok) {
-          cardErro.style.display = "block";
+                fetch("/configBateria/atualizarDadosBateria", {
+                    method: "PUT",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({
+                        idBateriaserver: idBateria,
+                        nomeBateriaServer: nomeInserido,
+                        // qtdSilosServer: qtdSilosInserido,
+                        alturaSiloServer: alturaInserida,
+                        diametroSiloServer: diametroInserido
+                    }),
+                })
+                    .then(function (resposta) {
+                        console.log("resposta: ", resposta);
 
-          mensagem.innerHTML =
-            "Atualização realizada com sucesso! Redirecionando para tela de bateria...";
-           
+                        if (resposta.ok) {
+                            cardErro.style.display = "block";
 
-            setTimeout(function () {
-                        window.location.href = "visualizar_bateria_mocado.html";
-                }, 1000);
+                            mensagem.innerHTML =
+                                "Atualização realizada com sucesso! Redirecionando para tela de bateria...";
 
-          limparFormulario();
-          finalizarAguardar();
-        } else {
-          throw "Houve um erro ao tentar realizar o cadastro!";
+
+                            setTimeout(function () {
+                                window.location.href = "visualizar_bateria_mocado.html";
+                            }, 1000);
+
+                            limparFormulario();
+                            finalizarAguardar();
+                        } else {
+                            throw "Houve um erro ao tentar realizar o cadastro!";
+                        }
+                    })
+                    .catch(function (resposta) {
+                        console.log(`#ERRO: ${resposta}`);
+                        // finalizarAguardar();
+                    });
+
+            }
         }
-      })
-      .catch(function (resposta) {
-        console.log(`#ERRO: ${resposta}`);
-        // finalizarAguardar();
-      });
-
-
     }
 
 </script>

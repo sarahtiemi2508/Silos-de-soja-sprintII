@@ -68,12 +68,12 @@
 
 <script>
 
-    function cadastrarBateria() {
+    let nomeInserido = iptNome.value;
+    let qtdSilosInserido = iptQtdSilos.value;
+    let alturaInserida = iptAltura.value;
+    let diametroInserido = iptDiametro.value;
 
-        let nomeInserido = iptNome.value;
-        let qtdSilosInserido = iptQtdSilos.value;
-        let alturaInserida = iptAltura.value;
-        let diametroInserido = iptDiametro.value;
+    function cadastrarBateria() {
 
         fetch("../configBateria/inserirDadosBateria", {
             method: "POST",
@@ -81,10 +81,67 @@
                 "Content-Type": "application/json",
             },
             body: JSON.stringify({
-                nomeBateriaServer: nomeInserido,
-                qtdSilosServer: qtdSilosInserido,
+                nomeBateriaServer: nomeInserido
+                
+            }),
+        })
+            .then(function (resposta) {
+                console.log("resposta: ", resposta);
+
+                if (resposta.ok) {
+                    cardErro.style.display = "block";
+
+                    buscarDadosBateria()
+
+                    // limparFormulario();
+                    // finalizarAguardar();
+                } else {
+                    throw "Houve um erro ao tentar realizar o cadastro!";
+                }
+            })
+            .catch(function (resposta) {
+                console.log(`#ERRO: ${resposta}`);
+                // finalizarAguardar();
+            });
+
+    }
+
+    function buscarDadosBateria(){
+    fetch(`/dashBateria/buscarDadosBateria`, { cache: 'no-store' })
+            .then(function (response) {
+                if (response.ok) {
+                    response.json().then(function (resposta) {
+
+                        let idBateria= resposta[0].idBateria
+                    adicionarSilos(resposta, idBateria)                        
+
+                    })
+
+                } else {
+                    console.log("Nenhum dado encontrado")
+                }
+
+            })
+            .catch(function (error) {
+                console.error("Erro na obtenção de dados")
+            })
+        }
+
+        function adicionarSilos(resposta, idBateria){
+            
+            for(let i = 0; i= qtdSilosInserido ; i++){
+                if(resposta[i].nomeBateria== nomeInserido){
+                fetch("../configBateria/inserirDadosBateria", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                // nomeBateriaServer: nomeInserido,
+                // qtdSilosServer: qtdSilosInserido,
                 alturaSiloServer: alturaInserida,
-                diametroSiloServer: diametroInserido
+                diametroSiloServer: diametroInserido,
+                fkBateria: idBateria 
             }),
         })
             .then(function (resposta) {
@@ -113,8 +170,10 @@
                 finalizarAguardar();
             });
 
-    }
 
+                }
+            }
+            }
 </script>
 
 </html>

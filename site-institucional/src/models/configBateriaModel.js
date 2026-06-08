@@ -1,25 +1,39 @@
 var database = require("../database/config")
 
-function inserirDadosBateria(nomeBateria, alturaSilos, diametroSilos) {
+function inserirDadosBateria(nomeBateria) {
     console.log("ACESSEI O USUARIO MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function cadastrar():", nomeBateria, alturaSilos, diametroSilos);
     
     var instrucaoSql = `
-    INSERT INTO bateria_silo (bateria_grupo, fk_fazenda) VALUES ('${nomeBateria}', ${fk_fazenda});
+    INSERT INTO bateria_silo (bateria_grupo, fk_fazenda) VALUES ('${nomeBateria}', '${fk_fazenda}');
     `;
     console.log("Executando a instrução SQL: \n" + instrucaoSql);
     return database.executar(instrucaoSql);
 }
 
+
 function buscarDadosBateria(){
     console.log("ACESSEI O USUARIO MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function entrar(): ")
     var instrucaoSql = ` SELECT
         id_bateria_silo AS idBateria,
-        bateria_grupo AS nomeBateria
-        FROM bateria_silo;
-    `;
-    console.log("Executando a instrução SQL: \n" + instrucaoSql);
-    return database.executar(instrucaoSql);
-}
+        bateria_grupo AS nomeBateria,
+        fk_fazenda
+        FROM bateria_silo
+        ORDER BY id_bateria_silo DESC
+        LIMIT 1;
+        `;
+        console.log("Executando a instrução SQL: \n" + instrucaoSql);
+        return database.executar(instrucaoSql);
+    }
+
+    function inserirDadosSilo(alturaSilos, diametroSilos) {
+        console.log("ACESSEI O USUARIO MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function cadastrar():", nomeBateria, alturaSilos, diametroSilos);
+        
+        var instrucaoSql = `
+        INSERT INTO silo_individual (altura_silo, diametro_silo, fkBateria) VALUES ('${altursSilo}', '${diametroSilos}', '${fkBateria}' );
+        `;
+        console.log("Executando a instrução SQL: \n" + instrucaoSql);
+        return database.executar(instrucaoSql);
+    }
 
 function atualizarDadosBateria(idBateria, alturaSilos, diametroSilos) {
     console.log("ACESSEI O USUARIO MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function entrar(): ", idBateria, alturaSilos, diametroSilos)
