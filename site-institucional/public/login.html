@@ -52,6 +52,16 @@
 <script>
 	function logar() {
 
+		async function listarUsuario() {
+
+			const retornoUsuario = await fetch(`../fazenda/listarTipoUsuario/${id_usuario}`);
+			const retornoUsuarioConvertido = await retornoUsuario.json();
+			const usuario = retornoUsuarioConvertido;
+
+			console.log(usuario);
+
+		}
+
 		let email = document.getElementById("email_inserido").value.trim();
 		let senha = document.getElementById("senha_inserida").value.trim();
 
@@ -91,7 +101,14 @@
 						alert("Login realizado com sucesso. Seja bem vindo(a)!");
 
 						setTimeout(() => {
-							window.location = "/dashboard/alerta.html";
+
+							if (usuario[0].tipo_usuario === 'N3') {
+								alert('Identifiquei o usuário N3!');
+								window.location ="http://localhost:3000";
+							} else {
+								window.location = "/dashboard/alerta.html";
+							}
+
 						}, 2000);
 					});
 				} else {
