@@ -25,11 +25,11 @@ var alertaRouter = require("./src/routes/alerta");
 var visuBateria = require("./src/routes/visuBateria")
 var cadastrarFazendaRouter = require("./src/routes/cadastrarFazenda");
 var cadastrarResponsavelRouter = require("./src/routes/cadastrarResponsavel");
-
-// Rotas da bateria da Sarah
+var siloRouter = require("./src/routes/silos");
 var dashBateriaRouter = require("./src/routes/dashBateria");
 var configBateriaRouter = require("./src/routes/configBateria");
 var gerenciarFazendaRouter = require("./src/routes/gerenciarFazenda");
+
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -50,6 +50,7 @@ app.use("/cadastrar_responsavel", cadastrarResponsavelRouter);
 app.use("/dashBateria", dashBateriaRouter);
 app.use("/configBateria", configBateriaRouter);
 app.use("/gerenciarFazenda", gerenciarFazendaRouter);
+app.use("/silos", siloRouter);
 
 app.listen(PORTA_APP, function () {
     console.log(`
