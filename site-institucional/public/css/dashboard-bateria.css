@@ -74,6 +74,68 @@ body {
   box-sizing: border-box;
 }
 
+.campo-grafico{
+  width: 800px;
+}
+
+#boxSilosIndividuais{
+  background-color: white;
+  width: 300px;
+  height: 500px;
+  display: flex;
+  border-radius: 25px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+#botoesSilosIndividuais{
+  width: 300px;
+  height: 450px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+.nomeSilo{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
+.boxBotao{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  height: 110px;
+}
+a{
+  text-decoration: none;
+}
+
+.botaoSiloIndividual{
+  width: 70px;
+  height: 100px;
+  border-radius: 30px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+#parte2{
+  display: flex;
+  width: 100%;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-evenly;
+}
+
 #tituloTelaGraficosBateria {
   color: white;
   /* border: solid 2px white; */

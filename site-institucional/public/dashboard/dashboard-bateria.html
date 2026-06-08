@@ -42,7 +42,7 @@
     <div class="titulos">
         <div class="titulo-pag">
             <img src="../assets/imgs/imagemtitulo.svg" alt="imagemTitulo">
-            <h1>BATERIA XPTO</h1>
+            <h1 id="nomeBateria">BATERIA XPTO</h1>
         </div>
         <h2 class="fazenda-grupo">Fazenda XPTO</h2>
     </div>
@@ -56,13 +56,13 @@
                     <div id="boxNiveisBateria">
                         <div id="nivelTotalBateria">
                             <div id="titNivelTotalBat">Nível Total da Bateria</div>
-                            <div id="dadoNivelTotalBat">1400M</div>
+                            <div id="dadoNivelTotalBat"></div>
                         </div>
                         <div id="nivelMediaBateria">
                             <div id="titNivelMedioBat">Nível Total da Bateria</div>
                             <div id="dadoNivelMedioBat"></div>
                         </div>
-                        
+
                     </div>
                     <div id="graficosMaiorMenor">
                         <p id="tituloMaiorMenorNivel">MAIOR E MENOR NÍVEL DOS SILOS</p>
@@ -70,14 +70,14 @@
                             style="display: flex; flex-direction: row; justify-content: space-evenly; width: 100%; background: transparent">
                             <div class="volumeSilo">
                                 <p id="siloMaximo">Silo 4</p>
-                                <div class="SilosNivel">
-                                    <div id="vermelhoMaior"></div>
+                                <div class="SilosNivel" id="siloMaior">
+                            
                                 </div>
                                 <div class="porcentagem" id="maiorSilo">31<span>%</span></div>
                             </div>
                             <div class="volumeSilo">
                                 <p id="siloMinimo">Silo 7</p>
-                                <div class="SilosNivel">
+                                <div class="SilosNivel" id="siloMenor">
                                     <div id="vermelhoMenor"></div>
                                 </div>
                                 <div class="porcentagem" id="menorSilo">7<span>%</span></div>
@@ -91,23 +91,94 @@
             </div>
         </div>
 
-        <div class="campo-grafico">
-            <canvas id="myChart2"></canvas>
-        </div>
+        <div id="parte2">
+            <div class="campo-grafico">
+                <canvas id="myChart2"></canvas>
+            </div>
+            <div id="boxSilosIndividuais">
 
+                <div id="botoesSilosIndividuais">
+                    <div class="boxBotao">
+                        <a href="">
+                            <div id="nomeSilo" class="nomeSilo">Silo 1</div>
+                            <div id="botaoSiloIndividual" class="botaoSiloIndividual" style="background-color: green;">
+                                <img src="../assets/imgs/iconSiloIndiv.svg">
+                            </div>
+                        </a>
+                        <a href="">
+                            <div id="nomeSilo" class="nomeSilo">Silo 1</div>
+                            <div id="botaoSiloIndividual" class="botaoSiloIndividual" style="background-color: green;">
+                                <img src="../assets/imgs/iconSiloIndiv.svg">
+                            </div>
+                        </a>
+                        <a href="">
+                            <div id="nomeSilo" class="nomeSilo">Silo 1</div>
+                            <div id="botaoSiloIndividual" class="botaoSiloIndividual" style="background-color: green;">
+                                <img src="../assets/imgs/iconSiloIndiv.svg">
+                            </div>
+                        </a>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
     </div>
 </body>
 
 <script>
 
+
+
+        fetch(`/dashBateria/selectInfoBateria`, { cache: 'no-store' })
+            .then(function (response) {
+                if (response.ok) {
+                    response.json().then(function (resposta) {
+                        for(let i=0; i<resposta.length; i++){
+                            if(resposta[i].id == idBateria){
+                        nomeBateria.innerHTML = `Bateria: ${resposta[i].nome}`
+                        }
+                    }
+
+                    })
+
+                } else {
+                    console.log("Nenhum dado encontrado")
+                }
+
+            })
+            .catch(function (error) {
+                console.error("Erro na obtenção de dados")
+            })
+    
+            fetch(`/dashBateria/selectInfoFazenda`, { cache: 'no-store' })
+            .then(function (response) {
+                if (response.ok) {
+                    response.json().then(function (resposta) {
+                        for(let i=0; i<resposta.length; i++){
+                            if(resposta[i].id == idFazenda){
+                        nomeBateria.innerHTML = `Fazenda: ${resposta[i].nome}`
+                        }
+                    }
+
+                    })
+
+                } else {
+                    console.log("Nenhum dado encontrado")
+                }
+
+            })
+            .catch(function (error) {
+                console.error("Erro na obtenção de dados")
+            })
+
+
     function obterDadosVolumeTotal() {
-        let idBateria = req.params.id
 
         fetch(`/dashBateria/selectVolumeTotal`, { cache: 'no-store' })
             .then(function (response) {
                 if (response.ok) {
                     response.json().then(function (resposta) {
-                        dadoNivelTotalBat.innerHTML = `${resposta[0].nivelTotal}M`
+                        dadoNivelTotalBat.innerHTML = `${resposta[0].nivelTotal}m³`
 
 
                     })
@@ -122,14 +193,16 @@
             })
     }
 
-function obterDadosVolumeMedio() {
+    function obterDadosVolumeMedio() {
         let idBateria = req.params.id
 
         fetch(`/dashBateria/selectOcupacaoTotal`, { cache: 'no-store' })
             .then(function (response) {
                 if (response.ok) {
                     response.json().then(function (resposta) {
-                        dadoNivelMedioBat.innerHTML = `${resposta[0].total}M`
+
+                        let media= (resposta[0].nivelTotal)/resposta[0].qantidade
+                        dadoNivelMedioBat.innerHTML = `${media}M`
 
 
                     })
@@ -144,37 +217,19 @@ function obterDadosVolumeMedio() {
             })
     }
 
-    function obterDadosVolumeOcupado() {
-        let idBateria = req.params.id
-
-        fetch(`/dashBateria/selectOcupacaoTotal`, { cache: 'no-store' })
-            .then(function (response) {
-                if (response.ok) {
-                    response.json().then(function (resposta) {
-                       
-
-
-                    })
-
-                } else {
-                    console.log("Nenhum dado encontrado")
-                }
-
-            })
-            .catch(function (error) {
-                console.error("Erro na obtenção de dados")
-            })
-    }
 
     function obterDadosVolumeMaior() {
-        let idBateria = req.params.id
+        
 
         fetch(`/dashBateria/selectMaiorNivel`, { cache: 'no-store' })
             .then(function (response) {
                 if (response.ok) {
                     response.json().then(function (resposta) {
-                        
 
+                        siloMaximo.innerHTML=`${resposta[0].modelo}`
+                        let porcentagem= (resposta[0].preenchimento)/(resposta[0].total) 
+                        siloMaior.innerHTML=`<div id="vermelhoMaior" style="height:${porcentagem*100}%;"></div>`
+                        maiorSilo.innerHTML=`${porcentagem*100}`
 
                     })
 
@@ -194,8 +249,11 @@ function obterDadosVolumeMedio() {
             .then(function (response) {
                 if (response.ok) {
                     response.json().then(function (resposta) {
-                        
 
+                        siloMinimo.innerHTML=`${resposta[0].modelo}`
+                        let porcentagem= (resposta[0].preenchimento)/(resposta[0].total) 
+                        siloMenor.innerHTML=`<div id="vermelhoMaior" style="height:${porcentagem*100}%;"></div>`
+                        menorSilo.innerHTML=`${porcentagem*100}`
 
                     })
 
@@ -210,13 +268,13 @@ function obterDadosVolumeMedio() {
     }
 
     function obterDadosVolumeIndividual() {
-        let idBateria = req.params.id
+      
 
         fetch(`/dashBateria/selectVolumeIndividual`, { cache: 'no-store' })
             .then(function (response) {
                 if (response.ok) {
                     response.json().then(function (resposta) {
-                        
+
                         plotarGraficoVolumeIndividual(resposta)
 
                     })
@@ -231,108 +289,109 @@ function obterDadosVolumeMedio() {
             })
     }
 
-// let valores=[45, 78, 89, 10, 50, 29]
-// let labels=["silo1", "silo2", "silo3", "silo4", "silo5", "silo6"]
+    // let valores=[45, 78, 89, 10, 50, 29]
+    // let labels=["silo1", "silo2", "silo3", "silo4", "silo5", "silo6"]
 
-function plotarGraficoVolumeIndividual(resposta){
-let labels=[];
-let valores=[];
-for(let i=0; resposta.length; i++){
-    labels.push(resposta[i].bateria)
-    valores.push(resposta[i].preenchimento)
-}
-
-
-    const Criticos = valores.map((v) => {
-
-        return v <= 15 || v >= 85 ? v : null;
-    })
-    const Moderado = valores.map((v) => {
-
-        return (v <= 25 || v >= 75) && v > 15 && v < 85 ? v : null;
-    })
-    const Estavel = valores.map((v) => {
-
-        return (v >= 26 && v <= 74) ? v : null;
-    })
+    function plotarGraficoVolumeIndividual(resposta) {
+        let labels = [];
+        let valores = [];
+        for (let i = 0; resposta.length; i++) {
+            let porcentagem= (reposta[i].preenchimento)/(resposta[i].total)
+            labels.push(resposta[i].bateria)
+            valores.push(porcentagem*100)
+        }
 
 
+        const Criticos = valores.map((v) => {
 
-    console.log(valores)
-    console.log(Criticos)
+            return v <= 15 || v >= 85 ? v : null;
+        })
+        const Moderado = valores.map((v) => {
 
-    const data = {
-        labels: labels,
-        datasets: [
-            {
-                label: "Crítico",
-                backgroundColor: "rgb(245, 67, 67)",
-                borderColor: "rgb(245, 67, 67)",
-                data: Criticos,
-                barThickness: 50,
-                borderRadius: 5,
-            },
-            {
-                label: "Moderado",
-                backgroundColor: "rgb(255, 198, 42)",
-                borderColor: "rgb(255, 198, 42)",
-                data: Moderado,
-                barThickness: 50,
-                borderRadius: 5,
-            },
-            {
-                label: "Estável",
-                backgroundColor: "rgb(20, 245, 106)",
-                borderColor: "rgb(20, 245, 106)",
-                data: Estavel,
-                barThickness: 50,
-                borderRadius: 5,
-            },
-        ],
-    };
+            return (v <= 25 || v >= 75) && v > 15 && v < 85 ? v : null;
+        })
+        const Estavel = valores.map((v) => {
 
-    const config = {
-        type: "bar",
-        data: data,
-        options: {
-            maintainAspectRatio: false, // PERMITE QUE O GRÁFICO ESTIQUE NA VERTICAL
-            responsive: true,
-            scales: {
-                y: {
-                    min: 0,
-                    max: 100,
-                    stacked: true
+            return (v >= 26 && v <= 74) ? v : null;
+        })
+
+
+
+        console.log(valores)
+        console.log(Criticos)
+
+        const data = {
+            labels: labels,
+            datasets: [
+                {
+                    label: "Crítico",
+                    backgroundColor: "rgb(245, 67, 67)",
+                    borderColor: "rgb(245, 67, 67)",
+                    data: Criticos,
+                    barThickness: 50,
+                    borderRadius: 5,
+                },
+                {
+                    label: "Moderado",
+                    backgroundColor: "rgb(255, 198, 42)",
+                    borderColor: "rgb(255, 198, 42)",
+                    data: Moderado,
+                    barThickness: 50,
+                    borderRadius: 5,
+                },
+                {
+                    label: "Estável",
+                    backgroundColor: "rgb(20, 245, 106)",
+                    borderColor: "rgb(20, 245, 106)",
+                    data: Estavel,
+                    barThickness: 50,
+                    borderRadius: 5,
+                },
+            ],
+        };
+
+        const config = {
+            type: "bar",
+            data: data,
+            options: {
+                maintainAspectRatio: false, // PERMITE QUE O GRÁFICO ESTIQUE NA VERTICAL
+                responsive: true,
+                scales: {
+                    y: {
+                        min: 0,
+                        max: 100,
+                        stacked: true
+
+                    },
+                    x: {
+                        stacked: true,
+                        offset: true
+                    }
 
                 },
-                x: {
-                    stacked: true,
-                    offset: true
-                }
-
-            },
-            plugins: {
-                title: {
-                    display: true,
-                    text: "SITUAÇÃO DO NÍVEL DE CADA SILO",
+                plugins: {
+                    title: {
+                        display: true,
+                        text: "SITUAÇÃO DO NÍVEL DE CADA SILO",
+                    },
                 },
             },
-        },
-    };
-    const myChart = new Chart(
-        document.getElementById("myChart"),
-        config);
-}
+        };
+        const myChart = new Chart(
+            document.getElementById("myChart"),
+            config);
+    }
 
 
-        function obterDadosPreenchimentoMensal() {
-        
+    function obterDadosPreenchimentoMensal() {
+
 
         fetch(`/quiz/selectVolumeMensalBateria`, { cache: 'no-store' })
             .then(function (response) {
                 if (response.ok) {
                     response.json().then(function (resposta) {
 
-                        plotarGraficosPreenchimentoMensal(resposta)
+                        // plotarGraficosPreenchimentoMensal(resposta)
                     })
 
                 } else {
@@ -346,93 +405,131 @@ for(let i=0; resposta.length; i++){
     }
 
 
-    function plotarGraficosPreenchimentoMensal(resposta){
-    let labels2 = [];
-    
+    function plotarGraficosPreenchimentoMensal(resposta) {
+        let labels2 = [];
+        // let labels2=["Janeiro", "Fevereiro", "Março", "Abril"]
 
-    const data2 = {
-        labels: labels2,
-        datasets: [
-            {
-                label: "Nível de Preenchimento",
-                backgroundColor: "rgb(255, 0, 0)",
-                borderColor: "rgb(255, 0, 0)",
-                data: [],
-                tension: 0.3,
-            },
-        ],
-    };
+        const data2 = {
+            labels: labels2,
+            datasets: [
+                {
+                    label: "Nível de Preenchimento",
+                    backgroundColor: "rgb(255, 0, 0)",
+                    borderColor: "rgb(255, 0, 0)",
+                    // data: [45, 90, 39, 20],
+                    data: [],
+                    tension: 0.3,
+                },
+            ],
+        };
 
-    
-    for (let i = 0; i < resposta.length; i++) {
-        labels2.push(resposta[i].modelo)
 
-        if (resposta[i].mes = 1) {
-            data2.datasets[0].data.push(preenchimento_bateria)
-            labels2.push("Janeiro")
-        } else if (resposta[i].mes = 2) {
-            data2.datasets[0].data.push(preenchimento_bateria)
-            labels2.push("Fevereiro")
-        } else if (resposta[i].mes = 3) {
-            data2.datasets[0].data.push(preenchimento_bateria)
-            labels2.push("Março")
-        } else if (resposta[i].mes = 4) {
-            data2.datasets[0].data.push(preenchimento_bateria)
-            labels2.push("Abril")
-        } else if (resposta[i].mes = 5) {
-            data2.datasets[0].data.push(preenchimento_bateria)
-            labels2.push("Maio")
-        } else if (resposta[i].mes = 6) {
-            data2.datasets[0].data.push(preenchimento_bateria)
-            labels2.push("Junho")
-        } else if (resposta[i].mes = 7) {
-            data2.datasets[0].data.push(preenchimento_bateria)
-            labels2.push("Julho")
-        } else if (resposta[i].mes = 8) {
-            data2.datasets[0].data.push(preenchimento_bateria)
-            labels2.push("Agosto")
-        } else if (resposta[i].mes = 9) {
-            data2.datasets[0].data.push(preenchimento_bateria)
-            labels2.push("Setembro")
-        } else if (resposta[i].mes = 10) {
-            data2.datasets[0].data.push(preenchimento_bateria)
-            labels2.push("Outubro")
-        } else if (resposta[i].mes = 11) {
-            data2.datasets[0].data.push(preenchimento_bateria)
-            labels2.push("Novembro")
-        } else if (resposta[i].mes = 12) {
-            data2.datasets[0].data.push(preenchimento_bateria)
-            labels2.push("Dezembro")
+        for (let i = 0; i < resposta.length; i++) {
+            labels2.push(resposta[i].modelo)
+
+            if (resposta[i].mes = 1) {
+                data2.datasets[0].data.push(preenchimento_bateria)
+                labels2.push("Janeiro")
+            } else if (resposta[i].mes = 2) {
+                data2.datasets[0].data.push(preenchimento_bateria)
+                labels2.push("Fevereiro")
+            } else if (resposta[i].mes = 3) {
+                data2.datasets[0].data.push(preenchimento_bateria)
+                labels2.push("Março")
+            } else if (resposta[i].mes = 4) {
+                data2.datasets[0].data.push(preenchimento_bateria)
+                labels2.push("Abril")
+            } else if (resposta[i].mes = 5) {
+                data2.datasets[0].data.push(preenchimento_bateria)
+                labels2.push("Maio")
+            } else if (resposta[i].mes = 6) {
+                data2.datasets[0].data.push(preenchimento_bateria)
+                labels2.push("Junho")
+            } else if (resposta[i].mes = 7) {
+                data2.datasets[0].data.push(preenchimento_bateria)
+                labels2.push("Julho")
+            } else if (resposta[i].mes = 8) {
+                data2.datasets[0].data.push(preenchimento_bateria)
+                labels2.push("Agosto")
+            } else if (resposta[i].mes = 9) {
+                data2.datasets[0].data.push(preenchimento_bateria)
+                labels2.push("Setembro")
+            } else if (resposta[i].mes = 10) {
+                data2.datasets[0].data.push(preenchimento_bateria)
+                labels2.push("Outubro")
+            } else if (resposta[i].mes = 11) {
+                data2.datasets[0].data.push(preenchimento_bateria)
+                labels2.push("Novembro")
+            } else if (resposta[i].mes = 12) {
+                data2.datasets[0].data.push(preenchimento_bateria)
+                labels2.push("Dezembro")
+            }
         }
+
+
+        const config2 = {
+            type: "line",
+            data: data2,
+            options: {
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        max: 100,
+                    },
+                },
+                plugins: {
+                    title: {
+                        display: true,
+                        text: "NÍVEL DE PREENCHIMENTO DA BATERIA EM RELAÇÃO AO TEMPO",
+                    },
+                },
+            },
+        };
+        const myChart2 = new Chart(
+            document.getElementById("myChart2"),
+            config2);
     }
 
 
-    const config2 = {
-        type: "line",
-        data: data2,
-        options: {
-            maintainAspectRatio: false,
-            scales: {
-                y: {
-                    beginAtZero: true,
-                    max: 100,
-                },
-            },
-            plugins: {
-                title: {
-                    display: true,
-                    text: "NÍVEL DE PREENCHIMENTO DA BATERIA EM RELAÇÃO AO TEMPO",
-                },
-            },
-        },
-    };
-    const myChart2 = new Chart(
-        document.getElementById("myChart2"),
-        config2);
-    }
+    fetch(`/dashBateria/selectInfoSiloIndividual`, { cache: 'no-store' })
+            .then(function (response) {
+                if (response.ok) {
+                    response.json().then(function (resposta) {
+                        for(let i=0; i<resposta.length; i++){
+                           let corFundo="";
+                        boxBotao.innerHTML =+ `
+                        <a href="">
+                            <div id="nomeSilo" class="nomeSilo">${resposta[i].nome}</div>
+                            <div id="botaoSiloIndividual" class="botaoSiloIndividual" style="background-color: ${corFundo};">
+                                <img src="../assets/imgs/iconSiloIndiv.svg">
+                            </div>
+                        </a>`
+                        
+                        if(resposta[i].situacao=="Crítico"){
+                            corFundo="rgb(245, 67, 67)"
+                        } else if(resposta[i].situacao=="Moderado"){
+                            corFundo="rgb(255, 198, 42)"
+                        } else if(resposta[i].situacao=="Estável"){
+                            corFundo="rgb(20, 245, 106)"
+                        }
+
+                    }
+
+                    })
+
+                } else {
+                    console.log("Nenhum dado encontrado")
+                }
+
+            })
+            .catch(function (error) {
+                console.error("Erro na obtenção de dados")
+            })
+
 
     obterDadosPreenchimentoMensal(),
-    obterDadosVolumeIndividual()
+        obterDadosVolumeIndividual()
     obterDadosVolumeMaior()
     obterDadosVolumeMenor()
     obterDadosVolumeMedio()
