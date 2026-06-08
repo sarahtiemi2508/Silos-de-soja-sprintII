@@ -30,7 +30,7 @@ email VARCHAR(200) UNIQUE NOT NULL,
 telefone VARCHAR(15),
 
 tipo_usuario VARCHAR(30) NOT NULL,
-CONSTRAINT chk_tipo_usuario CHECK (tipo_usuario IN ('AdmEmpresa', 'AdmFazenda', 'Colaborador')),
+CONSTRAINT chk_tipo_usuario CHECK (tipo_usuario IN ('AdmEmpresa', 'AdmFazenda', 'Colaborador', 'N3')),
 
 fk_empresa INT,
 CONSTRAINT ctfk_empresa
@@ -1213,6 +1213,10 @@ JOIN gp_sensores AS gs ON gs.fk_silo = s.id_silo_individual
     JOIN fazenda f ON b.fk_fazenda = f.id_fazenda
     WHERE id_fazenda = 1
 GROUP BY id_bateria_silo, bateria_grupo;
+
+INSERT INTO usuario (nome_usuario, cpf, dt_nascimento, senha, email, telefone, tipo_usuario, fk_empresa) VALUES
+-- 3 Usuários da empresa Scheffer fk empresa 1
+('Maria Fernanda', '79620121025', '2008-09-18', 'maria@123', 'maria@email.com', '(11) 99999-0000', 'N3', NULL);
 
 
 -- FIM DOS SELECTS
