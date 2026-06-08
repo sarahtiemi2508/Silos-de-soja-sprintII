@@ -52,16 +52,6 @@
 <script>
 	function logar() {
 
-		async function listarUsuario() {
-
-			const retornoUsuario = await fetch(`../fazenda/listarTipoUsuario/${id_usuario}`);
-			const retornoUsuarioConvertido = await retornoUsuario.json();
-			const usuario = retornoUsuarioConvertido;
-
-			console.log(usuario);
-
-		}
-
 		let email = document.getElementById("email_inserido").value.trim();
 		let senha = document.getElementById("senha_inserida").value.trim();
 
@@ -96,14 +86,14 @@
 						sessionStorage.EMAIL_USUARIO = json.email;
 						sessionStorage.NOME_USUARIO = json.nome_usuario;
 						sessionStorage.ID_USUARIO = json.id_usuario;
-						sessionStorage.ID_EMPRESA = json.fk_empresa; 
+						sessionStorage.ID_EMPRESA = json.fk_empresa;
+						sessionStorage.TIPO_USUARIO = json.tipo_usuario;
 
 						alert("Login realizado com sucesso. Seja bem vindo(a)!");
 
 						setTimeout(() => {
 
-							if (usuario[0].tipo_usuario === 'N3') {
-								alert('Identifiquei o usuário N3!');
+							if (sessionStorage.TIPO_USUARIO === 'N3') {
 								window.location ="http://localhost:3000";
 							} else {
 								window.location = "/dashboard/alerta.html";
