@@ -1,7 +1,7 @@
-var database = require("../database/config")
+var database = require("../database/config");
 
-function inserirDadosBateria(nomeBateria) {
-    console.log("ACESSEI O USUARIO MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function cadastrar():", nomeBateria, alturaSilos, diametroSilos);
+function inserirDadosBateria(nomeBateria, fk_fazenda) {
+    console.log("ACESSEI O USUARIO MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function cadastrar():", nomeBateria, fk_fazenda);
     
     var instrucaoSql = `
     INSERT INTO bateria_silo (bateria_grupo, fk_fazenda) VALUES ('${nomeBateria}', '${fk_fazenda}');
