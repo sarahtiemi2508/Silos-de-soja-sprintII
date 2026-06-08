@@ -39,6 +39,7 @@
       align-items: center;
       overflow: hidden;
       gap: 40px;
+      padding-top: 80px;
   }
 
   #container::before {
@@ -64,28 +65,30 @@
     padding: 40px;
     background-color: white;
     border-radius: 12px;
+    gap: 20px;
 }
 
 .titulo_container{
-    font-size: 40px;
+    font-size: 35px;
     font-weight: bold;
     color: #e5e5e7;
+}
+.subtitulo{
+    font-weight: bold;
+    font-size: 18px;
+
 }
 
 textarea[type="text"] {
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 15px 0px 10px 20px;
+    padding: 10px 0px 0px 20px;
     font-size: 16px;
     border-radius: 20px;
     width: 400px;
     border: none;
     background-color: #F1F4F9;
-}
-
-textarea::placeholder {
-  text-align: center; /* Centraliza apenas o texto do placeholder */
 }
 
 
@@ -98,9 +101,18 @@ button {
 }
 
 button {
-    background-color: #ED145B;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #FFBA00;
     color: #FFFFFF;
     border: none;
+    border-radius: 15px;
+    color: black;
+    font-weight: bold;
+    padding: 8px 35px;
+    font-size: 14px;
+
 }
 
 button:hover {
@@ -115,4 +127,5 @@ button:hover {
     border: 1px solid #63666A;
     text-align: left;
     display: none;
+    border: 2px double black;
 }
