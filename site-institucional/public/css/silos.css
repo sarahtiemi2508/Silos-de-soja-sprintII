@@ -1,0 +1,63 @@
+  /* API da fonte de títulos Inter */
+  @import url('https://fonts.googleapis.com/css2?&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+
+  /* API da fonte padrão Montserrat */
+  @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&display=swap');
+
+  * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: var(--paragrafo);
+  }
+
+  :root {
+      --cor-critico: rgb(245, 67, 67);
+      --cor-moderado: rgb(255, 187, 0);
+      --primary-yellow: #FFBA00;
+      --second-green: #00352A;
+      --paragrafo: 'Montserrat', sans-serif;
+      --titulo: 'Inter', sans-serif;
+  }
+
+  .fundo_geral_tela {
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      background-repeat: no-repeat;
+      background-size: cover;
+      width: 100%;
+      min-height: 100vh;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+      gap: 40px;
+  }
+
+  .fundo_geral_tela::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-image: url('../assets/imgs/img_fundo_alerta.png');
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: cover;
+      filter: brightness(0.6) blur(5px);
+
+      z-index: -1;
+      transform: scale(1.1)
+  }
+
+
+  .titulo {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: flex-start;
+      font-size: 32px;
+      color: white;
+      font-weight: bolder;
+      gap: 20px;
+      width: 82%;
+
+  }
