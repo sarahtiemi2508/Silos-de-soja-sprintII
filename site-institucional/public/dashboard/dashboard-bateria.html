@@ -129,7 +129,14 @@
 
 <script>
 
+const parametros = new URLSearchParams(window.location.search);
 
+    const id_fazenda = parametros.get("id_fazenda")
+    const id_bateria = parametros.get("id_bateria_silo");
+
+
+    console.log(`ID DA FAZENDA: `, id_fazenda)
+    console.log(`ID DA BATERIA: `, id_bateria);
 
         fetch(`/dashBateria/selectInfoBateria`, { cache: 'no-store' })
             .then(function (response) {
