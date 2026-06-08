@@ -107,7 +107,7 @@
         document.getElementById("menu_hamburger").innerHTML = dados;
       });
 
-      var id_empresa = sessionStorage.getItem("ID_EMPRESA");
+      let id_empresa = sessionStorage.getItem("ID_EMPRESA");
 
       function enviarParte1() {
         let nome_fazenda = ipt_nome_fazenda.value 
@@ -200,7 +200,14 @@ fetch("/cadastrar_fazenda", {
       }
 
 
-
+      function enviarParte2() {
+        let nome = ipt_nome_admin.value
+        let email = ipt_email_admin.value
+        let cpf = ipt_cpf_admin.value
+        let senha = ipt_senha_admin.value
+        let senha_confirmar = ipt_senha_confirmar_admin.value
+        let 
+      }
 
 
 
