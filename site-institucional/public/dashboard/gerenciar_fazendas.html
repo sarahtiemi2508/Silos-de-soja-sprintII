@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="../css/gerenciar_fazendas.css">
+    <link rel="stylesheet" href="../css/menu.css">
+
+    <link rel="shortcut icon" href="../assets/icon/favicon-dark.ico" media="(prefers-color-scheme: dark)">
+    <link rel="shortcut icon" href="../assets/icon/favicon-light.ico" media="(prefers-color-scheme: light)">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"
+        rel="stylesheet" />
+
+    <script src="../js/menu.js"></script>
+    <script src="../js/sessao.js"></script>
+
+    <title>Gerenciar Fazenda</title>
+</head>
+
+<body onload="validarSessao(), carregarTodosDadosTela()">
+
+    <div class="fundo_geral_tela">
+
+        <div id="menu_hamburger"></div>
+
+        <script>
+            fetch("../includes/menu.html")
+                .then(resposta => resposta.text())
+                .then(dados => {
+                    document.getElementById("menu_hamburger").innerHTML = dados;
+                });
+        </script>
+
+        <div class="titulo">
+            <img src="../assets/imgs/icon_fazenda.png" alt="">
+            <p>GERENCIAR FAZENDA</p>
+        </div>
+
+        <div class="conteudo">
+
+            <div class="gerenciar gerenciar-baterias">
+
+                <div class="secao-gerenciar-baterias">
+                    <div class="subtitulo">GERENCIAR BATERIAS</div>
+
+                    <div class="cards-baterias" id="container_baterias">
+                        <p style="text-align:center;">Aguardando baterias...</p>
+                    </div>
+
+                    <div class="div-btn-adicionar">
+                        <button class="btn_adicionar" onclick="window.location.href='cadastrar_bateria.html'">ADICIONAR
+                            BATERIA</button>
+                    </div>
+                </div>
+
+                <div class="linha"></div>
+
+                <div class="info-fazenda">
+                    <div class="subtitulo">INFORMAÇÕES DA FAZENDA</div>
+
+                    <!--criar um modo que só exibe as informações ainda sem editar-->
+                    <div id="modo_visualizacao">
+                        <div class="info-secao">
+                            <p class="info-label">Nome</p>
+                            <p id="span_nome_fazenda">Carregando...</p>
+                        </div>
+
+                        <div class="info-secao">
+                            <p class="info-label">Responsável</p>
+                            <div class="info-grid">
+                                <span class="chave">Nome:</span> <span id="span_resp_nome">...</span>
+                                <span class="chave">Email:</span> <span id="span_resp_email">...</span>
+                                <span class="chave">Telefone:</span> <span id="span_resp_tel">...</span>
+                            </div>
+                        </div>
+
+                        <div class="info-secao">
+                            <p class="info-label">Endereço</p>
+                            <div class="info-grid">
+                                <span class="chave">Logradouro:</span> <span id="span_end_log">...</span>
+                                <span class="chave">CEP:</span> <span id="span_end_cep">...</span>
+                                <span class="chave">Número:</span> <span id="span_end_num">...</span>
+                                <span class="chave">Cidade:</span> <span id="span_end_cidade">...</span>
+                                <span class="chave">UF:</span> <span id="span_end_uf">...</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!--o modo edição fica com a classe de escondido por padrão. Isso só vai mudar quando clilcar pra editar a fazenda-->>
+                    <div id="modo_edicao" class="div_geral_input escondido">
+
+                        <div class="label_input">
+                            <label>NOME DA FAZENDA:</label>
+                            <input type="text" id="ipt_editar_nome">
+                        </div>
+
+                        <div class="label_input">
+                            <label>LOGRADOURO:</label>
+                            <input type="text" id="ipt_editar_log">
+                        </div>
+
+                        <div class="linha-inputs">
+                            <div class="label_input input-metade">
+                                <label>CEP:</label>
+                                <input type="text" id="ipt_editar_cep">
+                            </div>
+                            <div class="label_input input-metade">
+                                <label>NÚMERO:</label>
+                                <input type="text" id="ipt_editar_num">
+                            </div>
+                        </div>
+
+                        <div class="linha-inputs">
+                            <div class="label_input input-maior">
+                                <label>CIDADE:</label>
+                                <input type="text" id="ipt_editar_cidade">
+                            </div>
+                            <div class="label_input input-menor">
+                                <label>UF:</label>
+                                <input type="text" id="ipt_editar_uf">
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="botoes-info">
+                        <button class="btn-atualizar" id="btn_iniciar_edicao" onclick="editarInfosFazenda()">ATUALIZAR
+                            INFORMAÇÕES</button>
+                        <button class="btn-excluir" id="btn_deletar_fazenda" onclick="deletarFazenda()">EXCLUIR
+                            FAZENDA</button>
+
+                        <button class="btn-atualizar escondido" id="btn_salvar_edicao"
+                            onclick="salvarEdicao()">SALVAR</button>
+                        <button class="btn-excluir escondido" id="btn_cancelar_edicao"
+                            onclick="cancelarEdicao()">CANCELAR</button>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="gerenciar gerenciar-usuarios">
+                <div class="subtitulo">GERENCIAR USUÁRIOS</div>
+
+                <div class="lista-usuarios" id="container_usuarios">
+                    <p style="text-align:center;">Carregando usuários...</p>
+                </div>
+
+                <div class="btn-adicionar-func">
+                    <button onclick="window.location.href='adicionar_usuario.html'">ADICIONAR FUNCIONÁRIO</button>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        let idFazendaAtual = sessionStorage.ID_FAZENDA_ATUAL;
+
+        // se nao achar o id da fazenda atual então ele nao veio da tela que deveria vir que salva o id então manda ele voltar pra onde devia estar
+        if (idFazendaAtual == undefined || idFazendaAtual == null || idFazendaAtual == "") {
+            window.location.href = "fazendas.html";
+        }
+
+        // Em uma função só que vai atualizar todas partes da tela
+        function carregarTodosDadosTela() {
+            buscarInfoFazenda();
+            buscarBaterias();
+            buscarUsuarios();
+        }
+
+        function buscarInfoFazenda() {
+            fetch(`/gerenciarFazenda/info/${idFazendaAtual}`)
+                .then(function (resposta) {
+                    if (resposta.ok) {
+                        resposta.json().then(function (dados) {
+                            // esse pacote tem q ver com as informações na primeira posição do array pq pedimos de uma fazenda especifica. Usa o indice 0 pra pegar o unico "pacote"
+                            let fazenda = dados[0];
+                            // Colocar as informçaões que vieram na tela pelo ID
+                            document.getElementById("span_nome_fazenda").innerText = fazenda.nome_fazenda;
+                            document.getElementById("span_resp_nome").innerText = fazenda.responsavel;
+                            document.getElementById("span_resp_email").innerText = fazenda.resp_email;
+                            document.getElementById("span_resp_tel").innerText = fazenda.contato;
+                            // Informações do endereço
+                            document.getElementById("span_end_log").innerText = fazenda.end_log;
+                            document.getElementById("span_end_cep").innerText = fazenda.end_cep;
+                            document.getElementById("span_end_num").innerText = fazenda.end_num;
+                            document.getElementById("span_end_cidade").innerText = fazenda.end_cidade;
+                            document.getElementById("span_end_uf").innerText = fazenda.end_uf;
+                        });
+                    }
+                })
+                .catch(function (erro) { console.error("Erro ao buscar info da fazenda:", erro) });
+        }
+
+        function editarInfosFazenda() {
+            // Primeiro esconder o modo de só vizualizar
+            document.getElementById("modo_visualizacao").classList.add("escondido");
+            // Esconder tbm os botoes de editar e deletar já que está editando
+            document.getElementById("btn_iniciar_edicao").classList.add("escondido");
+            document.getElementById("btn_deletar_fazenda").classList.add("escondido");
+
+            // Mostra o modo de editar que tem inputs e os botões de salvar ou cancelar a edicao
+            document.getElementById("modo_edicao").classList.remove("escondido");
+            document.getElementById("btn_salvar_edicao").classList.remove("escondido");
+            document.getElementById("btn_cancelar_edicao").classList.remove("escondido");
+
+            // Coloca o texto que esta no modo de vizualização em cada input pro usuário editar como quiser
+            document.getElementById("ipt_editar_nome").value = document.getElementById("span_nome_fazenda").innerText;
+            document.getElementById("ipt_editar_log").value = document.getElementById("span_end_log").innerText;
+            document.getElementById("ipt_editar_cep").value = document.getElementById("span_end_cep").innerText;
+            document.getElementById("ipt_editar_num").value = document.getElementById("span_end_num").innerText;
+            document.getElementById("ipt_editar_cidade").value = document.getElementById("span_end_cidade").innerText;
+            document.getElementById("ipt_editar_uf").value = document.getElementById("span_end_uf").innerText;
+        }
+
+        function cancelarEdicao() {
+            // Mesma cooisa que o editar. só que invertido. Esconde o modo de edição e mostra o modo de vizu
+            document.getElementById("modo_edicao").classList.add("escondido");
+            document.getElementById("btn_salvar_edicao").classList.add("escondido");
+            document.getElementById("btn_cancelar_edicao").classList.add("escondido");
+            document.getElementById("modo_visualizacao").classList.remove("escondido");
+            document.getElementById("btn_iniciar_edicao").classList.remove("escondido");
+            document.getElementById("btn_deletar_fazenda").classList.remove("escondido");
+        }
+
+        function salvarEdicao() {
+            // Salva os novos valores que ele digitou
+            let nomeNovo = document.getElementById("ipt_editar_nome").value;
+            let logNovo = document.getElementById("ipt_editar_log").value;
+            let cepNovo = document.getElementById("ipt_editar_cep").value;
+            let numNovo = document.getElementById("ipt_editar_num").value;
+            let cidadeNova = document.getElementById("ipt_editar_cidade").value;
+            let ufNova = document.getElementById("ipt_editar_uf").value;
+
+            // Manda pro backend fazer o update
+            fetch("/gerenciarFazenda/atualizar", {
+                method: "PUT",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    idFazendaServer: idFazendaAtual,
+                    nomeFazendaServer: nomeNovo,
+                    cepServer: cepNovo,
+                    logradouroServer: logNovo,
+                    numeroServer: numNovo,
+                    cidadeServer: cidadeNova,
+                    ufServer: ufNova
+                })
+            })
+                .then(function (resposta) {
+                    if (resposta.ok) {
+                        console.log("Os dados da edição foram enviados pro banco pra att");
+                        alert("Fazenda atualizada :)");
+                        cancelarEdicao();
+                        // Atualiza as informações de acordo com o banco dnv
+                        buscarInfoFazenda();
+                    } else {
+                        alert("Aconteceu um erro ao atualizar");
+                    }
+                })
+                .catch(function (erro) { console.error("Erro:", erro) });
+        }
+
+        function buscarBaterias() {
+            fetch(`/gerenciarFazenda/baterias/${idFazendaAtual}`)
+                .then(function (resposta) {
+                    if (resposta.ok) {
+                        if (resposta.status == 204) {
+                            document.getElementById("container_baterias").innerHTML = "<p>Nenhuma bateria cadastrada nessa fazenda</p>";
+                        } else {
+                            resposta.json().then(function (dados) { exibirBaterias(dados) });
+                        }
+                    }
+                })
+                .catch(function (erro) { console.error("Erro ao buscar baterias:", erro) });
+        }
+
+        function exibirBaterias(listaBaterias) {
+            const container = document.getElementById("container_baterias");
+            // Tirar mensagem mocada
+            container.innerHTML = "";
+
+            // Passa ate o final da qtd total de baterias pra montar os cards
+            for (let i = 0; i < listaBaterias.length; i++) {
+                let bat = listaBaterias[i];
+
+                let qtdEstaveis = bat.estaveis;
+                if (qtdEstaveis == undefined) {
+                    qtdEstaveis = 0;
+                }
+
+                // Se tiver silos (nós ja implantamos), monta o card normal padrao
+                if (bat.qtd_silos > 0) {
+                    container.innerHTML += `
+                    <div class="card-bateria">
+                        <span>${bat.nome_bateria}</span>
+                        <div class="quantidade-silos">
+                            <p>QTD SILOS</p>
+                            <span>${bat.qtd_silos}</span>
+                        </div>
+                        <div class="situacoes">
+                            <p>SITUAÇÕES</p>
+                            <div class="indicadores-situacoes">
+                                <div class="situacao-ideal"><span>${qtdEstaveis}</span></div>
+                                <div class="situacao-moderado"><span>${bat.moderados || 0}</span></div>
+                                <div class="situacao-critico"><span>${bat.criticos || 0}</span></div>
+                            </div>
+                        </div>
+                        <div class="botoes-card">
+                            <button class="btn-icone" onclick="gerenciarBateria(${bat.id_bateria})">
+                                <img src="../assets/imgs/gerenciarbateria.png" alt="gerenciar">
+                            </button>
+                            <button class="btn-icone">
+                                <img src="../assets/imgs/apagarbateria.png" alt="deletar">
+                            </button>
+                        </div>
+                    </div>
+                `;
+                } else {
+                    // Se não tiver silo nenhum (nao foi implantado) faz o card pedindo pra ativar
+                    container.innerHTML += `
+                    <div class="card-ativar">
+                        <span>${bat.nome_bateria}</span>
+                        <div class="mensagem-ativar">
+                            <a href="https://ceres-administracao.atlassian.net/servicedesk/customer/portals" target="_blank">
+                                <span>ENTRAR EM CONTATO PARA ATIVAR</span>
+                            </a>
+                        </div>
+                    </div>
+                `;
+                }
+            }
+        }
+
+        // Enviando com id da bateria pra atualizar bateria
+        function gerenciarBateria(idBat) {
+            sessionStorage.ID_BATERIA_ATUAL = idBat;
+            window.location.href = "atualizar_bateria.html";
+        }
+
+        // Pegar os usuários vinculados nessa fazenda
+        function buscarUsuarios() {
+            fetch(`/gerenciarFazenda/usuarios/${idFazendaAtual}`)
+                .then(function (resposta) {
+                    if (resposta.ok) {
+                        // Não veio nenhum conteudo entao fica vazio o corpo da resposta
+                        if (resposta.status == 204) {
+                            document.getElementById("container_usuarios").innerHTML = "<p>Nenhum usuário com acesso.</p>";
+                        } else {
+                            // se nao ta vazio entao pode montar os cards dos usuarios com a função de exibir
+                            resposta.json().then(function (dados) { exibirUsuarios(dados) });
+                        }
+                    }
+                })
+                .catch(function (erro) { console.error("Erro ao buscar usuários:", erro) });
+        }
+
+        function exibirUsuarios(listaUsuarios) {
+            const container = document.getElementById("container_usuarios");
+            container.innerHTML = "";
+
+            // Segue a mesma logica de montar os cards das baterias
+            for (let i = 0; i < listaUsuarios.length; i++) {
+                let usr = listaUsuarios[i];
+
+                // Pra dar destaque pra quem está logaddo
+                let isUserLogado = "";
+
+                if (usr.id_usuario == sessionStorage.ID_USUARIO) {
+                    isUserLogado = `<span class="usuario-tag">Você</span>`;
+                } else {
+                    isUserLogado = `<span class="usuario-tag">${usr.tipo_permissao}</span>`;
+                }
+
+                let botaoDeletar = ``;
+
+                // Só monta o botao de deletar usuario se nao for card dele mesmo pra ele nao se excluir
+                if (usr.id_usuario != sessionStorage.ID_USUARIO) {
+                    botaoDeletar = `<button class="btn-icone" onclick="removerUsuario(${usr.id_usuario}, '${usr.nome_usuario}')">
+                        <img src="../assets/imgs/apagarbateria.png" alt="deletar">
+                   </button>`
+                } else {
+                    botaoDeletar = ``;
+                }
+
+                container.innerHTML += `
+                <div class="card-usuario">
+                    <div class="usuario-info">
+                        <span class="usuario-nome">${usr.nome_usuario}</span>
+                        ${isUserLogado}
+                    </div>
+                    ${botaoDeletar}
+                </div>
+            `;
+            }
+        }
+
+        function removerUsuario(idUsuarioClicado, nomeUsr) {
+            // Confirm parece o alert mas é uma caixa de confirmação se ele falar q tem certeza, ai executa
+            if (confirm(`Remover o acesso de ${nomeUsr} desta fazenda?`)) {
+                fetch("/gerenciarFazenda/usuarios/remover", {
+                    method: "DELETE",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        idFazendaServer: idFazendaAtual,
+                        idUsuarioServer: idUsuarioClicado
+                    })
+                })
+                    .then(function (resposta) {
+                        if (resposta.ok) {
+                            alert("Usuário removido dessa fazenda.");
+                            buscarUsuarios(); // Remover oq foi removido
+                        }
+                    })
+                    .catch(function (erro) { console.error("Erro:", erro) });
+            }
+        }
+
+        function deletarFazenda() {
+            if (confirm("Tem certeza que deseja EXCLUIR toda a fazenda? Isso apagará todos os dados vinculados a ela.")) {
+                fetch("/gerenciarFazenda/excluir", {
+                    method: "DELETE",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ idFazendaServer: idFazendaAtual })
+                })
+                    .then(function (resposta) {
+                        if (resposta.ok) {
+                            alert("Fazenda excluída.");
+                            window.location.href = "fazendas.html"; // Volta pra tela de fazendas que sobraram
+                        } else {
+                            alert("Houve um erro ao excluir a fazenda");
+                        }
+                    })
+                    .catch(function (erro) { console.error("Erro de exclusao de fazenda: ", erro) });
+            }
+        }
+    </script>
+
+</body>
+
+</html>
