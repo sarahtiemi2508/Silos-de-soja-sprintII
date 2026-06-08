@@ -6,9 +6,12 @@
     <title>Cadastro de Fazendas</title>
     <link rel="stylesheet" href="../css/cadFazenda.css" />
     <script src="../js/menu.js"></script>
+
+    <!--Importar validação de sessão-->
+    <script src="../js/sessao.js"></script>
   </head>
 
-  <body>
+  <body onload="validarSessao()">
     <div id="imgFundo">
       <div class="blur">
         <div id="menu_hamburger"></div>
@@ -31,7 +34,7 @@
               <div class="circulo" id="passo3">3</div>
             </div>
 
-            <div class="content-infos-cadastro">
+            <div class="content-infos-cadastro" id="content-infos-cadastro1">
               <!-- Colunm -->
               <div class="sobre-fazenda">
                 <h1>Nos conte um pouco sobre a sua fazenda</h1>
@@ -134,7 +137,9 @@ fetch("/cadastrar_fazenda", {
         })
         .then(function (resposta) {
             if (resposta.ok) {
-                alert("Fase 1 cadastrada com sucesso!");
+                var idFazendaCriada = dadosDoBack.resultado.insertId;
+                sessionStorage.setItem("ID_FAZENDA_ATUAL", idFazendaCriada);
+                console.log("Fase 1 cadastrada com sucesso!");
                 atualizarTela();
             } else {
                 // Captura erros estruturados vindos do banco de dados (ex: erro de SQL)
@@ -158,6 +163,43 @@ fetch("/cadastrar_fazenda", {
       function atualizarTela() {
         const elemento = document.getElementById("passo2")
         elemento.classList.replace("circulo", "circulo-atual");
+
+        const conteudo_parte1 = document.getElementById("content-infos-cadastro1");
+
+        const conteudo_parte2 = `
+    <div class="content-infos-cadastro" id="content-infos-cadastro2">
+        <div class="sobre-fazenda">
+            <h1>CADASTRE UM RESPONSÁVEL</h1>
+            <p id="conta_responsavel">Crie uma conta responsável pela sua fazenda. <b>ATENÇÃO</b>, essa conta só terá acesso a essa fazenda.</p>
+            
+            <div class="inputs nome">
+                  <label for="ipt_nome_admin">Nome: </label>
+                  <input type="text" id="ipt_nome_admin" placeholder="Digite o nome do Administrador da fazenda"/>
+            </div>
+            <div class="inputs nome">
+                  <label for="ipt_email_admin">Email: </label>
+                  <input type="text" id="ipt_email_admin" placeholder="Digite o email do Administrador da fazenda"/>
+            </div>
+            <div class="inputs nome">
+                  <label for="ipt_cpf_admin">Senha: </label>
+                  <input type="text" id="ipt_cpf_admin" placeholder="Digite o cpf do Administrador da fazenda"/>
+            </div>
+            <div class="inputs nome">
+                  <label for="ipt_senha_admin">Senha: </label>
+                  <input type="text" id="ipt_senha_admin" placeholder="Digite a senha do Administrador da fazenda"/>
+            </div>
+            <div class="inputs nome">
+                  <label for="ipt_senha_confirmar_admin">Senha: </label>
+                  <input type="text" id="ipt_senha_confirmar_admin" placeholder="Confirme a senha do Administrador da fazenda"/>
+            </div>
+            <button class="continuar" onclick="enviarParte2()">continuar</button>
+
+
+        </div>
+    </div>
+    
+  `;
+    conteudo_parte1.innerHTML = conteudo_parte2;
       }
 
 

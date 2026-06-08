@@ -1,0 +1,441 @@
+@import url("https://fonts.googleapis.com/css2?&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&display=swap");
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: var(--paragrafo);
+}
+
+:root {
+  --cor-critico: rgb(245, 67, 67);
+  --cor-moderado: rgb(255, 187, 0);
+  --cor-ideal: rgb(90, 226, 95);
+  --primary-yellow: #ffba00;
+  --second-green: #00352a;
+  --paragrafo: "Montserrat", sans-serif;
+  --titulo: "Inter", sans-serif;
+}
+
+.fundo_geral_tela {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+  align-items: center;
+  overflow: hidden;
+  gap: 40px;
+  padding: 60px 80px;
+}
+
+.fundo_geral_tela::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: url("../assets/imgs/img_fundo_alerta.png");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  filter: brightness(0.6) blur(5px);
+  z-index: -1;
+  transform: scale(1.1);
+}
+
+.titulo {
+  display: flex;
+  width: 100%;
+  flex-direction: row;
+  font-weight: bolder;
+  gap: 20px;
+  font-size: 32px;
+  color: white;
+  align-items: center;
+  justify-content: left;
+}
+
+.conteudo {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  flex-direction: row;
+  gap: 20px;
+}
+
+.gerenciar {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: stretch;
+  flex-direction: row;
+  background-color: #fff;
+  border-radius: 15px;
+  padding: 50px 20px;
+  min-height: 400px;
+}
+
+.gerenciar-baterias {
+  width: 65%;
+}
+
+.gerenciar-usuarios {
+  width: 30%;
+  flex-direction: column;
+  justify-content: flex-start;
+  gap: 16px;
+}
+
+.linha {
+  width: 1px;
+  background-color: #ddd;
+}
+
+.subtitulo {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  font-size: 18px;
+  font-weight: bold;
+  text-align: center;
+  padding-bottom: 20px;
+}
+
+.secao-gerenciar-baterias {
+  display: flex;
+  flex-direction: column;
+  flex: 1.2;
+  padding-right: 16px;
+}
+
+.cards-baterias {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.card-bateria {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  border: 2px solid black;
+  border-radius: 10px;
+  align-items: center;
+  padding: 10px;
+  gap: 20px;
+  height: 80px;
+  max-width: 500px;
+
+  img {
+    height: 30px;
+    width: 30px;
+  }
+
+  p {
+    text-align: center;
+  }
+}
+
+.card-bateria > span,
+.card-ativar > span {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.card-ativar {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  border: 2px solid black;
+  border-radius: 10px;
+  align-items: center;
+  padding: 10px;
+  gap: 20px;
+  max-width: 500px;
+  height: 80px;
+  text-align: center;
+}
+
+.mensagem-ativar {
+  border: 2px solid var(--cor-critico);
+  border-radius: 50px;
+  padding: 10px;
+
+  span {
+    font-size: 16px;
+    font-weight: bold;
+    color: var(--cor-critico);
+  }
+}
+
+.quantidade-silos {
+  text-align: center;
+}
+
+.situacoes {
+  text-align: center;
+}
+
+.situacoes > p {
+  font-size: 10px;
+  color: #888888;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  margin-bottom: 4px;
+}
+
+.indicadores-situacoes {
+  display: flex;
+  flex-direction: row;
+  gap: 5px;
+}
+
+.indicadores-situacoes span {
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.situacao-ideal {
+  width: 35px;
+  background-color: var(--cor-ideal);
+  border-radius: 5px;
+  text-align: center;
+  color: white;
+}
+
+.situacao-moderado {
+  width: 35px;
+  background-color: var(--cor-moderado);
+  border-radius: 5px;
+  text-align: center;
+  color: white;
+}
+
+.situacao-critico {
+  width: 35px;
+  background-color: var(--cor-critico);
+  border-radius: 5px;
+  text-align: center;
+  color: white;
+}
+
+.botoes-card {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.btn-icone {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-icone img {
+  height: 30px;
+  width: 30px;
+}
+
+.div-btn-adicionar {
+  display: flex;
+  justify-content: center;
+  margin-top: 24px;
+}
+
+.btn_adicionar {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: transparent;
+  border: 2px solid black;
+  width: fit-content;
+  padding: 8px 40px;
+  font-weight: bold;
+  border-radius: 16px;
+  cursor: pointer;
+}
+
+.info-fazenda {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  padding-left: 16px;
+}
+
+.info-secao {
+  margin-bottom: 20px;
+}
+
+.info-label {
+  font-weight: bold;
+  font-size: 13px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: black;
+  margin-bottom: 5px;
+}
+
+.info-grid {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 3px 12px;
+  color: black;
+}
+
+.info-grid span {
+  font-size: 13px;
+  font-weight: 400;
+}
+
+.info-grid .chave {
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.botoes-info {
+  display: flex;
+  gap: 10px;
+  margin-top: auto;
+  padding-top: 24px;
+}
+
+.btn-atualizar {
+  background-color: var(--primary-yellow);
+  border: none;
+  border-radius: 50px;
+  padding: 10px 22px;
+  font-family: var(--paragrafo);
+  font-weight: 700;
+  font-size: 12px;
+  letter-spacing: 0.5px;
+  cursor: pointer;
+}
+
+.btn-excluir {
+  background: white;
+  border: 2px solid var(--cor-critico);
+  border-radius: 50px;
+  padding: 10px 22px;
+  font-family: var(--paragrafo);
+  font-weight: 700;
+  font-size: 12px;
+  color: var(--cor-critico);
+  cursor: pointer;
+}
+
+.lista-usuarios {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  flex: 1;
+}
+
+.card-usuario {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border: 2px solid black;
+  border-radius: 50px;
+  padding: 10px 16px;
+  gap: 10px;
+}
+
+.usuario-info {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: 1;
+}
+
+.usuario-nome {
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.usuario-tag {
+  font-size: 12px;
+  font-weight: 500;
+  color: #888;
+}
+
+.btn-adicionar-func {
+  margin-top: 16px;
+}
+
+.btn-adicionar-func button {
+  width: 100%;
+  background: white;
+  border: 2px solid #222;
+  border-radius: 50px;
+  padding: 10px 28px;
+  font-family: var(--paragrafo);
+  font-weight: 700;
+  font-size: 12px;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+
+.btn-adicionar-func button:hover {
+  background: black;
+  color: white;
+}
+
+.div_geral_input {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  width: 60%;
+}
+
+.label_input {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.label_input label {
+  font-weight: bold;
+  font-size: 11px;
+  padding-left: 20px;
+  color: #1a1d1e;
+  font-style: italic;
+}
+
+.label_input input {
+  background-color: #f1f4f9;
+  padding: 10px 0px 10px 20px;
+  border-radius: 20px;
+  border-style: none;
+}
+
+.escondido {
+  display: none !important;
+}
+
+/* Modo edicao */
+
+#modo_edicao {
+  width: 100%;
+}
+
+.linha-inputs {
+  display: flex;
+  gap: 10px;
+}
+
+.input-metade {
+  width: 50%;
+}
+
+.input-maior {
+  width: 70%;
+}
+
+.input-menor {
+  width: 30%;
+}
