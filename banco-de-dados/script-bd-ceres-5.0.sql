@@ -944,7 +944,6 @@ WHERE p.tipo_permissao = 'Responsável';
 
 SELECT * FROM responsavel_fazenda;
 
-SELECT * FROM fazendas_do_usuario;
 -- Para saber as informações de cada fazenda
 CREATE VIEW fazendas_do_usuario AS
 SELECT
@@ -1219,6 +1218,5 @@ GROUP BY id_bateria_silo, bateria_grupo;
 INSERT INTO usuario (nome_usuario, cpf, dt_nascimento, senha, email, telefone, tipo_usuario, fk_empresa) VALUES
 -- 3 Usuários da empresa Scheffer fk empresa 1
 ('Maria Fernanda', '79620121025', '2008-09-18', 'maria@123', 'maria@email.com', '(11) 99999-0000', 'N3', NULL);
-
 
 -- FIM DOS SELECTS

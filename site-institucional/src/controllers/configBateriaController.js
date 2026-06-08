@@ -2,23 +2,15 @@ var configBateriaModel = require("../models/configBateriaModel");
 
 function inserirDadosBateria(req, res) {
     // Crie uma variável que vá recuperar os valores do arquivo cadastro.html
-    var nomeSilos = req.body.nomeBateriaServer;
-    var qtdSilos = req.body.qtdSilosServer;
-    var alturaSilos = req.body.alturaSiloServer;
-    var diametroSilos = req.body.diametroSiloServer;
+    var id_fazenda = req.params.id_fazenda;
+    var nomeBateria = req.body.nomeBateriaServer;
 
     // Faça as validações dos valores
-    if (nomeSilos == undefined) {
+    if (nomeBateria == undefined) {
         res.status(400).send("Seu nome está undefined!");
-    } else if (qtdSilos == undefined) {
-        res.status(400).send("Seu CPF está undefined!");
-    } else if (alturaSilos == undefined) {
-        res.status(400).send("Seu email está undefined!");
-    } else if (diametroSilos == undefined) {
-        res.status(400).send("Sua senha está undefined!");
     } else {
 
-        configBateriaModel.inserirDadosBateria(nomeSilos, fk_fazenda)
+        configBateriaModel.inserirDadosBateria(nomeBateria, id_fazenda)
             .then(
                 function (resultado) {
                     res.json(resultado);
@@ -36,43 +28,15 @@ function inserirDadosBateria(req, res) {
     }
 }
 
-
-function buscarDadosBateria(req, res) {
-    var nomeSilos = req.body.nomeBateriaServer;
-    var qtdSilos = req.body.qtdSilosServer;
-    var alturaSilos = req.body.alturaSiloServer;
-    var diametroSilos = req.body.diametroSiloServer
-
-console.log("idUsuario recebido:", idUsuario);
-
-    configBateriaModel.buscarDadosBateria()
-        .then(function (resultado) {
-            res.json(resultado);
-        })
-        .catch(function (erro) {
-            console.log(erro);
-            res.status(500).json(erro.sqlMessage);
-        });
-}
-
 function atualizarDadosBateria(req, res) {
-    var idBateria = req.body.idBateriaserver;
-    var nomeSilos = req.body.nomeBateriaServer;
-    var qtdSilos = req.body.qtdSilosServer;
-    var alturaSilos = req.body.alturaSiloServer;
-    var diametroSilos = req.body.diametroSiloServer;
 
-    if (nomeSilos == undefined) {
+    var idBateria = req.body.idBateriaserver;
+
+    if (nomeBateria == undefined) {
         res.status(400).send("O nome da bateria está undefined!");
-    } else if (qtdSilos == undefined) {
-        res.status(400).send("A quantidade está undefined!");
-    } else if (alturaSilos == undefined) {
-        res.status(400).send("A altura está undefined!");
-    } else if (diametroSilos == undefined) {
-        res.status(400).send("O diâmetro está undefined!");
     } else {
 
-        configBateriaModel.atualizarDadosBateria(idBateria, alturaSilos, diametroSilos)
+        configBateriaModel.atualizarDadosBateria(idBateria)
             .then(
                 function (resultado) {
                     res.json(resultado);
@@ -93,6 +57,5 @@ function atualizarDadosBateria(req, res) {
 
 module.exports = {
     inserirDadosBateria,
-    buscarDadosBateria,
     atualizarDadosBateria
 }
