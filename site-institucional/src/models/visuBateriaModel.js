@@ -71,22 +71,49 @@ GROUP BY nome_fazenda, responsavel, contato, endereco, id_fazenda, id_usuario, c
 
 function detalhesBateria(id_fazenda){
     var instrucaoSql = `
-   SELECT 
-b.id_bateria_silo AS id_bateria,
-b.bateria_grupo AS nome_bateria,
-COUNT(DISTINCT id_silo_individual) AS qtd_silos,
-SUM(CASE WHEN situacao = 'Estável' THEN 1 ELSE 0 END) AS estaveis,
-	SUM(CASE WHEN situacao = 'Moderado' THEN 1 ELSE 0 END) AS moderados,
-	SUM(CASE WHEN situacao = 'Crítico' THEN 1 ELSE 0 END) AS criticos
-FROM bateria_silo b
-JOIN silo_individual s ON s.fk_bateria_silo = b.id_bateria_silo
-JOIN gp_sensores AS gs ON gs.fk_silo = s.id_silo_individual
-	JOIN sensor AS sr ON sr.fk_gp_sensores = gs.id_gp_sensores
-	JOIN historico_sensor AS hs ON hs.fk_sensor = sr.id_sensor
-	JOIN alerta AS a ON a.fk_historico_sensor = hs.id_historico_sensor
-    JOIN fazenda f ON b.fk_fazenda = f.id_fazenda
-    WHERE f.id_fazenda = ${id_fazenda}
-GROUP BY id_bateria_silo, bateria_grupo;
+   SELECT
+    id_bateria_silo,
+    nome_bateria,
+    COUNT(DISTINCT id_silo_individual) AS qtd_silos,
+    COUNT(CASE WHEN situacao = 'Crítico' THEN 1 END) AS criticos,
+    COUNT(CASE WHEN situacao = 'Moderado' THEN 1 END) AS moderados,
+    COUNT(CASE WHEN situacao = 'Estável' THEN 1 END) AS estaveis
+FROM (
+    SELECT
+        b.id_bateria_silo,
+        b.bateria_grupo AS nome_bateria,
+        s.id_silo_individual,
+        CASE
+            WHEN AVG(hs.distancia_captada) >= s.altura_silo * 0.85
+                THEN 'Crítico'
+            WHEN AVG(hs.distancia_captada) >= s.altura_silo * 0.60
+                THEN 'Moderado'
+            ELSE 'Estável'
+        END AS situacao
+
+    FROM bateria_silo b
+    JOIN silo_individual s
+        ON s.fk_bateria_silo = b.id_bateria_silo
+    JOIN gp_sensores gs
+        ON gs.fk_silo = s.id_silo_individual
+    JOIN sensor sr
+        ON sr.fk_gp_sensores = gs.id_gp_sensores
+    JOIN historico_sensor hs
+        ON hs.fk_sensor = sr.id_sensor
+
+    WHERE b.fk_fazenda = ${id_fazenda}
+
+    GROUP BY
+        b.id_bateria_silo,
+        b.bateria_grupo,
+        s.id_silo_individual,
+        s.altura_silo
+
+) AS situacoes_silo
+
+GROUP BY
+    id_bateria_silo,
+    nome_bateria;
 
 `;
     return database.executar(instrucaoSql);

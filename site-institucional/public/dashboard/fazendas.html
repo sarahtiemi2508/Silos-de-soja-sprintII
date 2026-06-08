@@ -7,9 +7,12 @@
     <title>Cadastro de Fazendas</title>
     <link rel="stylesheet" href="../css/cadFazenda.css">
     <script src="../js/menu.js"></script>
+
+    <!--Importar validação de sessão-->
+    <script src="../js/sessao.js"></script>
 </head>
 
-<body onload="listarUsuario()">
+<body onload="validarSessao(), listarUsuario()">
     <div id="imgFundo">
         <div class="blur">
 
@@ -146,7 +149,7 @@
                     </div>
                     <div class="boxBotoes">
                         <a class="styleBotao vizu" href="visualizar_bateria.html?id_fazenda=${id_fazenda}">visualizar -></a>
-                        <a class="styleBotao conf" href="#"></a>
+                        <a class="styleBotao conf" onclick="abrirGerenciarFazendas(${id_fazenda})"></a>
                     </div>
                 </div>
             `;
@@ -154,6 +157,14 @@
         }
 
     }
+
+    // Função pra ele gerenciar a fazenda quando ele clicar na engrenagem
+    function abrirGerenciarFazendas(idFazendaClicada) {
+    // Salva a fazenda q cliclou no session storage
+    sessionStorage.ID_FAZENDA_ATUAL = idFazendaClicada;
+    // manda pra tela de gerenciar
+    window.location.href = "gerenciar_fazendas.html";
+}
 
 </script>
 
