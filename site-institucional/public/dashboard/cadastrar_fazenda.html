@@ -117,8 +117,24 @@
         let logradouro = ipt_logradouro.value
         let cep = ipt_cep.value
         let numero = ipt_numero.value
-        let uf = ipt_uf.value
+        let uf = ipt_uf.value.toUpperCase()
+
         let cidade = ipt_cidade.value
+
+        if (nome_fazenda == "" || logradouro == "" || cep == "" || numero == "" || uf == "" || cidade == "") {
+          alert("Preencha todos os dados para que o cadastro da fazenda seja feito")
+          return
+        }
+        else if (nome_fazenda == null || logradouro == null || cep == null || numero == null || uf == null || cidade == null) {
+          alert("Ocorreu um problema no cadastro da fazenda. Nosso sistema está detectando campos de valor nulo. Por favor, reinicie a página e tente novamente. Caso o problema persista, entre em contato com nossa equipe.")
+          return
+        }
+        if (!cep.includes("-")) {
+          alert(`insira o cep neste formato para continuar: "01001-001" `)
+          return
+        }
+
+
 
 fetch("/cadastrar_fazenda", {
             method: "POST",
@@ -137,10 +153,13 @@ fetch("/cadastrar_fazenda", {
         })
         .then(function (resposta) {
             if (resposta.ok) {
-                var idFazendaCriada = dadosDoBack.resultado.insertId;
-                sessionStorage.setItem("ID_FAZENDA_ATUAL", idFazendaCriada);
-                console.log("Fase 1 cadastrada com sucesso!");
-                atualizarTela();
+                resposta.json().then(function (dadosDoBack) {
+                    var idFazendaCriada = dadosDoBack.resultado.insertId;
+                    sessionStorage.setItem("ID_FAZENDA_ATUAL", idFazendaCriada);
+                    
+                    console.log("Fase 1 cadastrada com sucesso! ID da fazenda: " + idFazendaCriada);
+                    atualizarTela();
+                });
             } else {
                 // Captura erros estruturados vindos do banco de dados (ex: erro de SQL)
                 resposta.json().then(function (erroDoBack) {
@@ -181,7 +200,7 @@ fetch("/cadastrar_fazenda", {
                   <input type="text" id="ipt_email_admin" placeholder="Digite o email do Administrador da fazenda"/>
             </div>
             <div class="inputs nome">
-                  <label for="ipt_cpf_admin">Senha: </label>
+                  <label for="ipt_cpf_admin">Cpf: </label>
                   <input type="text" id="ipt_cpf_admin" placeholder="Digite o cpf do Administrador da fazenda"/>
             </div>
             <div class="inputs nome">
@@ -189,7 +208,7 @@ fetch("/cadastrar_fazenda", {
                   <input type="text" id="ipt_senha_admin" placeholder="Digite a senha do Administrador da fazenda"/>
             </div>
             <div class="inputs nome">
-                  <label for="ipt_senha_confirmar_admin">Senha: </label>
+                  <label for="ipt_senha_confirmar_admin">Confirmar senha: </label>
                   <input type="text" id="ipt_senha_confirmar_admin" placeholder="Confirme a senha do Administrador da fazenda"/>
             </div>
             <button class="continuar" onclick="enviarParte2()">continuar</button>
@@ -209,7 +228,25 @@ fetch("/cadastrar_fazenda", {
         let cpf = ipt_cpf_admin.value
         let senha = ipt_senha_admin.value
         let senha_confirmar = ipt_senha_confirmar_admin.value
-        let 
+        
+        var id_fazenda = sessionStorage.getItem("ID_FAZENDA_ATUAL");
+
+        let posicao_arroba
+        let posicao_com
+
+        if (nome == "" || email == "" || cpf == "" || senha == "" || senha_confirmar == "") {
+          alert("Preencha todos os dados para que o cadastro do responsável seja feito")
+          return
+        }
+        else if (nome == null || email == null || cpf == null || senha == null || senha_confirmar == null) {
+          alert("Ocorreu um problema no cadastro de responsável. Nosso sistema está detectando campos de valor nulo. Por favor, reinicie a página e tente novamente. Caso o problema persista, entre em contato com nossa equipe.")
+          return
+        }
+        else if (senha != senha_confirmar) {
+          alert("A confirmação da senha inserida está diferente da senha inserida")
+          return
+        }
+
       }
 
 
