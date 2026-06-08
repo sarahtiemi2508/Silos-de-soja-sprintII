@@ -158,6 +158,23 @@ function deletarUsuarioFazenda(req, res) {
     }
 }
 
+function deletarBateria(req, res) {
+    var idBateria = req.body.idBateriaServer;
+
+    if (idBateria == undefined) {
+        res.status(400).send("O ID da bateria está undefined");
+    } else {
+        gerenciarFazendaModel.deletarBateria(idBateria)
+            .then(function (resultado) {
+                res.status(200).json(resultado);
+            }).catch(function (erro) {
+                console.log(erro);
+                console.log("\nHouve um erro apagando bateria. Erro: ", erro.sqlMessage);
+                res.status(500).json(erro.sqlMessage);
+            });
+    }
+}
+
 module.exports = {
     pegarInfoFazenda,
     atualizarFazenda,
@@ -165,5 +182,6 @@ module.exports = {
     pegarBaterias,
     pegarUsuariosFazenda,
     addUsuarioFazenda,
-    deletarUsuarioFazenda
+    deletarUsuarioFazenda,
+    deletarBateria
 };

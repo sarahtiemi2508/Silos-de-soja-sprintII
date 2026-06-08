@@ -317,7 +317,7 @@
                             <button class="btn-icone" onclick="gerenciarBateria(${bat.id_bateria})">
                                 <img src="../assets/imgs/gerenciarbateria.png" alt="gerenciar">
                             </button>
-                            <button class="btn-icone">
+                            <button class="btn-icone" onclick="deletarBateria(${bat.id_bateria})">
                                 <img src="../assets/imgs/apagarbateria.png" alt="deletar">
                             </button>
                         </div>
@@ -439,6 +439,25 @@
                         }
                     })
                     .catch(function (erro) { console.error("Erro de exclusao de fazenda: ", erro) });
+            }
+        }
+
+        function deletarBateria(idBateriaClicada) {
+            if (confirm("Tem certeza que deseja EXCLUIR essa bateria? Todos os dados dela e dos silos vinculados serão apagados também.")) {
+                fetch("/gerenciarFazenda/deletarBateria", {
+                    method: "DELETE",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ idBateriaServer: idBateriaClicada })
+                })
+                .then(function (resposta) {
+                    if (resposta.ok) {
+                        alert("Bateria excluída");
+                        buscarBaterias();
+                    } else {
+                        alert("Houve um erro ao excluir a bateria");
+                    }
+                })
+                .catch(function (erro) { console.error("Erro de exclusão de bateria: ", erro) });
             }
         }
     </script>

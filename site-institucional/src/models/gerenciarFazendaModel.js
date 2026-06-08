@@ -54,22 +54,25 @@ function atualizarFazenda(idFazenda, nomeFazenda, cep, logradouro, numero, cidad
 }
 
 function deletarFazenda(idFazenda) {
-    console.log("Entrei na função deletarFazenda do gerenciarFazendaModel com o id da fazenda ", idFazenda);
+    var sqlAlerta = `DELETE a FROM alerta a JOIN historico_sensor hs ON a.fk_historico_sensor = hs.id_historico_sensor JOIN sensor sr ON hs.fk_sensor = sr.id_sensor JOIN gp_sensores gs ON sr.fk_gp_sensores = gs.id_gp_sensores JOIN silo_individual s ON gs.fk_silo = s.id_silo_individual JOIN bateria_silo b ON s.fk_bateria_silo = b.id_bateria_silo WHERE b.fk_fazenda = ${idFazenda};`;
+    var sqlHistorico = `DELETE hs FROM historico_sensor hs JOIN sensor sr ON hs.fk_sensor = sr.id_sensor JOIN gp_sensores gs ON sr.fk_gp_sensores = gs.id_gp_sensores JOIN silo_individual s ON gs.fk_silo = s.id_silo_individual JOIN bateria_silo b ON s.fk_bateria_silo = b.id_bateria_silo WHERE b.fk_fazenda = ${idFazenda};`;
+    var sqlSensor = `DELETE sr FROM sensor sr JOIN gp_sensores gs ON sr.fk_gp_sensores = gs.id_gp_sensores JOIN silo_individual s ON gs.fk_silo = s.id_silo_individual JOIN bateria_silo b ON s.fk_bateria_silo = b.id_bateria_silo WHERE b.fk_fazenda = ${idFazenda};`;
+    var sqlGp = `DELETE gs FROM gp_sensores gs JOIN silo_individual s ON gs.fk_silo = s.id_silo_individual JOIN bateria_silo b ON s.fk_bateria_silo = b.id_bateria_silo WHERE b.fk_fazenda = ${idFazenda};`;
+    var sqlSilo = `DELETE s FROM silo_individual s JOIN bateria_silo b ON s.fk_bateria_silo = b.id_bateria_silo WHERE b.fk_fazenda = ${idFazenda};`;
+    var sqlBateria = `DELETE FROM bateria_silo WHERE fk_fazenda = ${idFazenda};`;
+    var sqlPermissao = `DELETE FROM permissao WHERE fk_fazenda = ${idFazenda};`;
+    var sqlFazenda = `DELETE FROM fazenda WHERE id_fazenda = ${idFazenda};`;
 
-    // 3 comandos por conta das relações de fk com ela
-    var instrucaoSql = `
-        DELETE FROM permissao WHERE fk_fazenda = ${idFazenda};
+    console.log("Apagando a fazenda toda");
 
-        DELETE FROM fazenda WHERE id_fazenda = ${idFazenda};
-
-        DELETE ende FROM endereco AS ende
-        JOIN fazenda AS f
-            ON f.fk_endereco = ende.id_endereco
-        WHERE f.id_fazenda = ${idFazenda};
-    `;
-
-    console.log("Executando o comando sql: \n" + instrucaoSql);
-    return database.executar(instrucaoSql);
+    return database.executar(sqlAlerta)
+        .then(function () { return database.executar(sqlHistorico); })
+        .then(function () { return database.executar(sqlSensor); })
+        .then(function () { return database.executar(sqlGp); })
+        .then(function () { return database.executar(sqlSilo); })
+        .then(function () { return database.executar(sqlBateria); })
+        .then(function () { return database.executar(sqlPermissao); })
+        .then(function () { return database.executar(sqlFazenda); });
 }
 
 function pegarBaterias(idFazenda) {
@@ -171,6 +174,25 @@ function deletarUsuarioFazenda(idFazenda, idUsuario) {
     return database.executar(instrucaoSql);
 }
 
+function deletarBateria(idBateria) {
+    var sqlAlerta = `DELETE a FROM alerta a JOIN historico_sensor hs ON a.fk_historico_sensor = hs.id_historico_sensor JOIN sensor sr ON hs.fk_sensor = sr.id_sensor JOIN gp_sensores gs ON sr.fk_gp_sensores = gs.id_gp_sensores JOIN silo_individual s ON gs.fk_silo = s.id_silo_individual WHERE s.fk_bateria_silo = ${idBateria};`;
+    var sqlHistorico = `DELETE hs FROM historico_sensor hs JOIN sensor sr ON hs.fk_sensor = sr.id_sensor JOIN gp_sensores gs ON sr.fk_gp_sensores = gs.id_gp_sensores JOIN silo_individual s ON gs.fk_silo = s.id_silo_individual WHERE s.fk_bateria_silo = ${idBateria};`;
+    var sqlSensor = `DELETE sr FROM sensor sr JOIN gp_sensores gs ON sr.fk_gp_sensores = gs.id_gp_sensores JOIN silo_individual s ON gs.fk_silo = s.id_silo_individual WHERE s.fk_bateria_silo = ${idBateria};`;
+    var sqlGp = `DELETE gs FROM gp_sensores gs JOIN silo_individual s ON gs.fk_silo = s.id_silo_individual WHERE s.fk_bateria_silo = ${idBateria};`;
+    var sqlSilo = `DELETE FROM silo_individual WHERE fk_bateria_silo = ${idBateria};`;
+    var sqlBateria = `DELETE FROM bateria_silo WHERE id_bateria_silo = ${idBateria};`;
+
+    console.log("Apagando a bateria");
+
+    // Pra ir fazendo se a anterior der certo
+    return database.executar(sqlAlerta)
+        .then(function () { return database.executar(sqlHistorico); })
+        .then(function () { return database.executar(sqlSensor); })
+        .then(function () { return database.executar(sqlGp); })
+        .then(function () { return database.executar(sqlSilo); })
+        .then(function () { return database.executar(sqlBateria); });
+}
+
 module.exports = {
     pegarInfoFazenda,
     atualizarFazenda,
@@ -178,5 +200,6 @@ module.exports = {
     pegarBaterias,
     pegarUsuariosFazenda,
     addUsuarioFazenda,
-    deletarUsuarioFazenda
+    deletarUsuarioFazenda,
+    deletarBateria
 };

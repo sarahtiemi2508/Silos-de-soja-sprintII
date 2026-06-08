@@ -18,6 +18,9 @@ router.delete("/excluir", function (req, res) {
 router.get("/baterias/:id_fazenda", function (req, res) {
     gerenciarFazendaController.pegarBaterias(req, res);
 });
+router.delete("/deletarBateria", function (req, res) {
+    gerenciarFazendaController.deletarBateria(req, res);
+});
 
 // Funcionarios
 router.get("/usuarios/:id_fazenda", function (req, res) {
