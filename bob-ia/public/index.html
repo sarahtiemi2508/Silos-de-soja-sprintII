@@ -1,31 +1,34 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BobIA</title>
     <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
 
-        <div class="header">
-            <p>SUPORTE NÍVEL 3</p>
-        </div>
+    <div class="header">
+        <p>SUPORTE NÍVEL 3</p>
+    </div>
 
     <div id="container">
         <p class="titulo_container">BOB.IA</p>
         <div class="container_resposta">
+            <p class="subtitulo">CHAT BOB.IA</p>
             <textarea id="pergunta" type="text" placeholder="Digite a pergunta..."></textarea>
-        <br><br>
-        <button onclick="gerarResposta()">Gerar Resposta</button>
-        <h3>Resposta da IA:</h3>
-        <div id="resposta"></div>
+            <br><br>
+            <button onclick="gerarResposta()">Gerar Resposta</button>
+
+            <div id="resposta"></div>
         </div>
-        
+
     </div>
 
     <script>
-        
+
         async function gerarResposta() {
             const pergunta = document.getElementById('pergunta').value;
 
@@ -44,6 +47,7 @@
         }
 
     </script>
-    
+
 </body>
+
 </html>
