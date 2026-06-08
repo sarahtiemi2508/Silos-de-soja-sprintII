@@ -6,6 +6,7 @@ function listarFazendas(id_usuario) {
     var instrucao = `
         
 SELECT
+
     id_empresa,
     id_usuario,
     id_fazenda,
