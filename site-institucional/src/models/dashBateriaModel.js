@@ -116,7 +116,8 @@ JOIN historico_sensor hs
 ON hs.fk_sensor = s.id_sensor
 JOIN alerta a
 ON a.fk_historico_sensor = hs.id_historico_sensor
-WHERE si.fk_bateria_silo=${id_bateria};
+WHERE si.fk_bateria_silo=${id_bateria}
+GROUP BY si.id_silo_individual, a.situacao;
   `;
 
   return database.executar(instrucaoSql);

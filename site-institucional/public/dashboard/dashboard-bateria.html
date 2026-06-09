@@ -100,27 +100,8 @@
             <div id="boxSilosIndividuais">
 
                 <div id="botoesSilosIndividuais">
-                    <div class="boxBotao">
-                        <a href="">
-                            <div id="nomeSilo" class="nomeSilo">Silo 1</div>
-                            <div id="botaoSiloIndividual" class="botaoSiloIndividual" style="background-color: green;">
-                                <img src="../assets/imgs/iconSiloIndiv.svg">
-                            </div>
-                        </a>
-                        <a href="">
-                            <div id="nomeSilo" class="nomeSilo">Silo 1</div>
-                            <div id="botaoSiloIndividual" class="botaoSiloIndividual" style="background-color: green;">
-                                <img src="../assets/imgs/iconSiloIndiv.svg">
-                            </div>
-                        </a>
-                        <a href="">
-                            <div id="nomeSilo" class="nomeSilo">Silo 1</div>
-                            <div id="botaoSiloIndividual" class="botaoSiloIndividual" style="background-color: green;">
-                                <img src="../assets/imgs/iconSiloIndiv.svg">
-                            </div>
-                        </a>
+                    <div class="boxBotao" id="boxBotao">
                     </div>
-
                 </div>
             </div>
         </div>
@@ -133,6 +114,7 @@
 
     const id_fazenda = parametros.get("id_fazenda")
     const id_bateria = parametros.get("id_bateria_silo");
+    sessionStorage.ID_FAZENDA = id_fazenda;
 
 
     console.log(`ID DA FAZENDA: `, id_fazenda)
@@ -214,7 +196,7 @@
                         siloMaximo.innerHTML = `Silo ${resposta[0].modelo}`
                         let porcentagem = (resposta[0].preenchimento) / (resposta[0].total)
                         siloMaior.innerHTML = `<div id="vermelhoMaior" style="height:${porcentagem * 100}%;"></div>`
-                        maiorSilo.innerHTML = `${porcentagem * 100}`
+                        maiorSilo.innerHTML = `${porcentagem.toFixed(2) * 100}%`
 
                     })
 
@@ -240,7 +222,7 @@
                         siloMinimo.innerHTML = `Silo ${resposta[0].modelo}`
                         let porcentagem = (resposta[0].preenchimento) / (resposta[0].total)
                         siloMenor.innerHTML = `<div id="vermelhoMaior" style="height:${porcentagem * 100}%;"></div>`
-                        menorSilo.innerHTML = `${porcentagem * 100}`
+                        menorSilo.innerHTML = `${porcentagem.toFixed(2) * 100}%`
 
                     })
 
@@ -515,7 +497,8 @@
                     for (let i = 0; i < resposta.length; i++) {
                         let corFundo = "";
 
-
+                        console.log('RESPOSTAS: ', resposta);
+                        
                         if (resposta[i].situacao == "Crítico") {
                             corFundo = "rgb(245, 67, 67)"
                         } else if (resposta[i].situacao == "Moderado") {
@@ -523,8 +506,9 @@
                         } else if (resposta[i].situacao == "Estável") {
                             corFundo = "rgb(20, 245, 106)"
                         }
+                        
                         boxBotao.innerHTML += `
-                        <a href="">
+                        <a href="dashboard-individual.html?id_fazenda=${sessionStorage.ID_FAZENDA}&id_bateria=${resposta[i].idBateria}&id_silo_individual=${resposta[i].idSilo}">
                             <div id="nomeSilo" class="nomeSilo">${resposta[i].nome}</div>
                             <div id="botaoSiloIndividual" class="botaoSiloIndividual" style="background-color: ${corFundo};">
                                 <img src="../assets/imgs/iconSiloIndiv.svg">
