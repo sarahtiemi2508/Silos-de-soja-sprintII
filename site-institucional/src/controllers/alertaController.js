@@ -29,7 +29,30 @@ function listarAlertasEmpresa(req, res) {
 
 }
 
+function confirmarLeitura(req, res) {
+    let id_usuario = req.params.id_usuario;
+    let id_alerta = req.body.idAlertaServer;
+
+    alertaModel.confirmarLeitura(id_usuario, id_alerta)
+    .then(
+        function (resultado) {
+            res.json(resultado);
+        }
+    ).catch(
+        function (erro) {
+            console.log(erro);
+            console.log(
+                "\nHouve um erro ao realizar o cadastro! Erro: ",
+                erro.sqlMessage
+            );
+            res.status(500).json(erro.sqlMessage);
+        }
+    );
+
+}
+
 module.exports = {
     listarAlertas,
-    listarAlertasEmpresa
+    listarAlertasEmpresa,
+    confirmarLeitura
 }

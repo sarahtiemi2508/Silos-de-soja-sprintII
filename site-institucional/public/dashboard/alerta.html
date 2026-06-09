@@ -73,6 +73,7 @@
                                 <div class="qtd_alerta cor_fundo_alerta_moderado" id="id_moderados">
                                     2
                                 </div>
+                        
                             </div>
                         </div>
                     </div>
@@ -170,7 +171,7 @@
                                 </div>
                             </div>
                             <div class="div_btn_VER_card_alerta">
-                                <a href="dashboard-individual.html?id_fazenda=${alertas[i].id_fazenda}&id_bateria=${alertas[i].id_bateria}&id_silo_individual=${alertas[i].id_silo_individual}">VER</a>
+                                <a onclick="inserirConfirmacaoLeitura(${alertas[i].id_alerta}, '${alertas[i].fazenda}', ${alertas[i].id_bateria}, ${alertas[i].id_silo_individual})"> VER </a>
                             </div>
                         </div>
 
@@ -198,7 +199,6 @@
             } else if (alertas[i].situacao == 'Moderado') {
                 qtd_moderados++
                 console.log('ADICIONEI MODERADO: ', qtd_moderados);
-                
 
                 if (alertas[i].prioridade == 3) {
                     mensagem = `
@@ -209,6 +209,7 @@
                     O SILO ${alertas[i].num_silo} DA FAZENDA ${alertas[i].fazenda} ALCANÇOU MENOS QUE 26% DE PREENCHIMENTO, ENTRANDO EM ESTADO MODERADO. CONFIRA AGORA NA DASHBOARD!
                     `;
                 }
+                
 
                 id_exibir_alertas.innerHTML += `
                 
@@ -227,7 +228,7 @@
                                 </div>
                             </div>
                             <div class="div_btn_VER_card_alerta">
-                                <a href="dashboard-individual.html?id_fazenda=${alertas[i].id_fazenda}&id_bateria=${alertas[i].id_bateria}&id_silo_individual=${alertas[i].id_silo_individual}" onclick="confirmarLeitura()">VER</a>
+                                <a onclick="inserirConfirmacaoLeitura(${alertas[i].id_alerta}, '${alertas[i].fazenda}', ${alertas[i].id_bateria}, ${alertas[i].id_silo_individual})"> VER </a>
                             </div>
                         </div>
 
@@ -260,15 +261,39 @@
 
         id_criticos.innerHTML = `${qtd_criticos}`;
         id_moderados.innerHTML = `${qtd_moderados}`;
+    }
+    
+    async function inserirConfirmacaoLeitura(id_alerta, id_fazenda, id_bateria, id_silo_individual) {
 
+        console.log('ID ALERTA: ', id_alerta);
+
+        fetch(`../alerta/confirmarLeitura/${id_usuario}`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                idAlertaServer: id_alerta
+            }),
+        })
+        .then(function (resposta) {
+            console.log("resposta: ", resposta);
+
+            if (resposta.ok) {
+                console.log(`INSERT DEU CERTO!`);
+                setTimeout(() => {
+                    window.location = `dashboard-individual.html?id_fazenda=${id_fazenda}&id_bateria=${id_bateria}&id_silo_individual=${id_silo_individual}`;
+                }, 3000);
+            } else {
+                throw "Houve um erro ao tentar realizar o cadastro!";
+            }
+        })
+        .catch(function (resposta) {
+            console.log(`#ERRO: ${resposta}`);
+        });
     }
 
-    async function confirmarLeitura() {
-
-        
-
-    }
-
+    
 </script>
 
 </html>
