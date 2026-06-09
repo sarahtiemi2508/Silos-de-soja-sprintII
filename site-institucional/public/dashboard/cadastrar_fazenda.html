@@ -75,7 +75,11 @@
                   <div class="inputs numero">
                     <!-- Colunm -->
                     <label for="ipt_numero">numero: </label>
-                    <input type="text" id="ipt_numero" placeholder="Ex: 454" />
+                    <input
+                      type="number"
+                      id="ipt_numero"
+                      placeholder="Ex: 454"
+                    />
                   </div>
                 </div>
                 <div class="inputs-dupla uf-cidade">
@@ -112,82 +116,129 @@
         document.getElementById("menu_hamburger").innerHTML = dados;
       });
 
-      let id_empresa = sessionStorage.getItem("ID_EMPRESA");
+    let id_empresa = sessionStorage.getItem("ID_EMPRESA");
+        var id_usuario = sessionStorage.ID_USUARIO;
+   
 
-      function enviarParte1() {
-        let nome_fazenda = ipt_nome_fazenda.value 
-        let logradouro = ipt_logradouro.value
-        let cep = ipt_cep.value
-        let numero = ipt_numero.value
-        let uf = ipt_uf.value.toUpperCase()
+    let nome_fazenda_armazenado = "";
+    let logradouro_armazenado = "";
+    let cep_armazenado = "";
+    let numero_armazenado = "";
+    let cidade_armazenado = "";
+    let uf_armazenado = "";
 
-        let cidade = ipt_cidade.value
+    let nome_armazenado = "";
+    let email_armazenado = "";
 
-        if (nome_fazenda == "" || logradouro == "" || cep == "" || numero == "" || uf == "" || cidade == "") {
-          alert("Preencha todos os dados para que o cadastro da fazenda seja feito")
-          return
-        }
-        else if (nome_fazenda == null || logradouro == null || cep == null || numero == null || uf == null || cidade == null) {
-          alert("Ocorreu um problema no cadastro da fazenda. Nosso sistema está detectando campos de valor nulo. Por favor, reinicie a página e tente novamente. Caso o problema persista, entre em contato com nossa equipe.")
-          return
-        }
-        if (!cep.includes("-")) {
-          alert(`insira o cep neste formato para continuar: "01001-001" `)
-          return
-        }
+    function enviarParte1() {
+      let nome_fazenda = ipt_nome_fazenda.value;
+      let logradouro = ipt_logradouro.value;
+      let cep = ipt_cep.value;
+      let numero = Number(ipt_numero.value);
+      let uf = ipt_uf.value.toUpperCase();
 
+      let cidade = ipt_cidade.value;
 
-
-fetch("/cadastrar_fazenda", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                nomeFazendaServer: nome_fazenda,
-                logradouroServer: logradouro,
-                cepServer: cep,
-                numeroServer: numero,
-                ufServer: uf,
-                cidadeServer: cidade,
-                fkEmpresaServer: id_empresa
-            })
-        })
-        .then(function (resposta) {
-            if (resposta.ok) {
-                resposta.json().then(function (dadosDoBack) {
-                    var idFazendaCriada = dadosDoBack.resultado.insertId;
-                    sessionStorage.setItem("ID_FAZENDA_ATUAL", idFazendaCriada);
-                    
-                    console.log("Fase 1 cadastrada com sucesso! ID da fazenda: " + idFazendaCriada);
-                    atualizarTela();
-                });
-            } else {
-                // Captura erros estruturados vindos do banco de dados (ex: erro de SQL)
-                resposta.json().then(function (erroDoBack) {
-                    console.log("Erro detalhado do Servidor:", erroDoBack);
-                    alert("Erro no banco de dados: " + (erroDoBack.erro || "Verifique os dados enviados."));
-                }).catch(() => {
-                    // Fallback seguro caso o servidor envie um erro em formato texto/HTML
-                    resposta.text().then(function (textoErro) {
-                        console.error("Erro bruto do servidor:", textoErro);
-                        alert("Houve um erro no servidor. Verifique o terminal do Node.");
-                    });
-                });
-            }
-        })
-        .catch(function (erro) {
-            console.log("Erro de conexão com a rede:", erro);
-        });
+      if (
+        nome_fazenda == "" ||
+        logradouro == "" ||
+        cep == "" ||
+        numero == "" ||
+        uf == "" ||
+        cidade == ""
+      ) {
+        alert(
+          "Preencha todos os dados para que o cadastro da fazenda seja feito",
+        );
+        return;
+      } else if (
+        nome_fazenda == null ||
+        logradouro == null ||
+        cep == null ||
+        numero == null ||
+        uf == null ||
+        cidade == null
+      ) {
+        alert(
+          "Ocorreu um problema no cadastro da fazenda. Nosso sistema está detectando campos de valor nulo. Por favor, reinicie a página e tente novamente. Caso o problema persista, entre em contato com nossa equipe.",
+        );
+        return;
+      }
+      if (cep.charAt(5) !== "-") {
+        alert(`insira o cep neste formato para continuar: "01001-001" `);
+        return;
       }
 
-      function atualizarTela() {
-        const elemento = document.getElementById("passo2")
-        elemento.classList.replace("circulo", "circulo-atual");
+      nome_fazenda_armazenado = nome_fazenda;
+      logradouro_armazenado = logradouro;
+      cep_armazenado = cep;
+      numero_armazenado = numero;
+      cidade_armazenado = cidade;
+      uf_armazenado = uf;
 
-        const conteudo_parte1 = document.getElementById("content-infos-cadastro1");
+      fetch("/cadastrar_fazenda", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          nomeFazendaServer: nome_fazenda,
+          logradouroServer: logradouro,
+          cepServer: cep,
+          numeroServer: numero,
+          ufServer: uf,
+          cidadeServer: cidade,
+          fkEmpresaServer: id_empresa,
+        }),
+      })
+        .then(function (resposta) {
+          if (resposta.ok) {
+            resposta.json().then(function (dadosDoBack) {
+              var idFazendaCriada = dadosDoBack.resultado.insertId;
+              sessionStorage.setItem("ID_FAZENDA_ATUAL", idFazendaCriada);
 
-        const conteudo_parte2 = `
+              console.log(
+                "Fase 1 cadastrada com sucesso! ID da fazenda: " +
+                  idFazendaCriada,
+              );
+              atualizarTela();
+            });
+          } else {
+            // Captura erros estruturados vindos do banco de dados (ex: erro de SQL)
+            resposta
+              .json()
+              .then(function (erroDoBack) {
+                console.log("Erro detalhado do Servidor:", erroDoBack);
+                alert(
+                  "Erro no banco de dados: " +
+                    (erroDoBack.erro || "Verifique os dados enviados."),
+                );
+              })
+              .catch(() => {
+                // Fallback seguro caso o servidor envie um erro em formato texto/HTML
+                resposta.text().then(function (textoErro) {
+                  console.error("Erro bruto do servidor:", textoErro);
+                  alert(
+                    "Houve um erro no servidor. Verifique o terminal do Node.",
+                  );
+                });
+              });
+          }
+        })
+        .catch(function (erro) {
+          console.log("Erro de conexão com a rede:", erro);
+        });
+    }
+
+    function atualizarTela() {
+      const pss2 = document.getElementById("passo2");
+      pss2.classList.replace("circulo", "circulo-atual");
+
+      const conteudo_parte1 = document.getElementById(
+        "content-infos-cadastro1",
+      );
+
+      const conteudo_parte2 = `
     <div class="content-infos-cadastro" id="content-infos-cadastro2">
         <div class="sobre-fazenda">
             <h1>CADASTRE UM RESPONSÁVEL</h1>
@@ -220,44 +271,134 @@ fetch("/cadastrar_fazenda", {
     </div>
     
   `;
-    conteudo_parte1.innerHTML = conteudo_parte2;
+      conteudo_parte1.innerHTML = conteudo_parte2;
+    }
+
+    function enviarParte2() {
+      let nome = ipt_nome_admin.value;
+      let email = ipt_email_admin.value;
+      let cpf = ipt_cpf_admin.value;
+      let senha = ipt_senha_admin.value;
+      let senha_confirmar = ipt_senha_confirmar_admin.value;
+
+      var id_fazenda = sessionStorage.getItem("ID_FAZENDA_ATUAL");
+
+      let posicao_arroba = email.indexOf("@");
+      let posicao_com = email.indexOf(".com");
+
+      if (
+        nome == "" ||
+        email == "" ||
+        cpf == "" ||
+        senha == "" ||
+        senha_confirmar == ""
+      ) {
+        alert(
+          "Preencha todos os dados para que o cadastro do responsável seja feito",
+        );
+        return;
+      } else if (
+        nome == null ||
+        email == null ||
+        cpf == null ||
+        senha == null ||
+        senha_confirmar == null
+      ) {
+        alert(
+          "Ocorreu um problema no cadastro de responsável. Nosso sistema está detectando campos de valor nulo. Por favor, reinicie a página e tente novamente. Caso o problema persista, entre em contato com nossa equipe.",
+        );
+        return;
+      } else if (posicao_com < posicao_arroba) {
+        alert(`Formato de Email não reconhecido, ".com" antes de "@" `);
+        return;
+      } else if (senha != senha_confirmar) {
+        alert(
+          "A confirmação da senha inserida está diferente da senha inserida",
+        );
+        return;
       }
 
+      nome_armazenado = nome;
+      email_armazenado = email;
 
-      function enviarParte2() {
-        let nome = ipt_nome_admin.value
-        let email = ipt_email_admin.value
-        let cpf = ipt_cpf_admin.value
-        let senha = ipt_senha_admin.value
-        let senha_confirmar = ipt_senha_confirmar_admin.value
-        
-        var id_fazenda = sessionStorage.getItem("ID_FAZENDA_ATUAL");
+      fetch("/cadastrar_responsavel", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          nomeServer: nome,
+          emailServer: email,
+          cpfServer: cpf,
+          senhaServer: senha,
+          tipoServer: "AdmFazenda",
+          fkEmpresaServer: id_empresa,
+          fkFazendaServer: id_fazenda,
+        }),
+      })
+        .then(function (resposta) {
+          if (resposta.ok) {
+            console.log("Responsável vinculado e cadastrado com sucesso!");
+            finalizarTela();
+          } else {
+            resposta.json().then(function (erro) {
+              alert(
+                "Erro ao cadastrar administrador: " +
+                  (erro.erro || "Tente novamente."),
+              );
+            });
+          }
+        })
+        .catch(function (erro) {
+          console.log("Erro de conexão na parte 2:", erro);
+        });
+    }
 
-        let posicao_arroba
-        let posicao_com
+    function finalizarTela() {
+      const pss3 = document.getElementById("passo3");
+      pss3.classList.replace("circulo", "circulo-atual");
 
-        if (nome == "" || email == "" || cpf == "" || senha == "" || senha_confirmar == "") {
-          alert("Preencha todos os dados para que o cadastro do responsável seja feito")
-          return
-        }
-        else if (nome == null || email == null || cpf == null || senha == null || senha_confirmar == null) {
-          alert("Ocorreu um problema no cadastro de responsável. Nosso sistema está detectando campos de valor nulo. Por favor, reinicie a página e tente novamente. Caso o problema persista, entre em contato com nossa equipe.")
-          return
-        }
-        else if (senha != senha_confirmar) {
-          alert("A confirmação da senha inserida está diferente da senha inserida")
-          return
-        }
+      // Buscamos o container real da tela usando o ID que está no seu HTML fixo
+      const containerPrincipal = document.getElementById(
+        "content-infos-cadastro1",
+      );
 
-      }
+      const conteudo_parte3 = `
+        <div class="sobre-fazenda">
+            <h1>CADASTRO FINALIZADO</h1>
+            <p>Sua fazenda ainda não tem acesso aos nossos serviços. Caso queira adicionar sensores aos silos para ter acesso ao dashboard, entre em contato conosco na tela inicial da sua fazenda.</p>
+        </div>
+        <div class="confirmar_dados">
+          <div class="confirmacao_dados">
+            <span>CONFIRMAR DADOS</span>
+          </div>
+          <div class="conteudo_dados">
+            <div class="responsavel_dados">
+              <span class="titulo_dados">NOME DA FAZENDA</span>
+              <span class="dados_dados">${nome_fazenda_armazenado}</span> 
+              <span class="titulo_dados">RESPONSÁVEL</span>
+              <span class="dados_dados">${nome_armazenado}</span>
+              <span class="dados_dados">${email_armazenado}</span>
+            </div>
+            <div class="divisao_dados"></div>
+            <div class="endereco_dados">
+              <span class="titulo_dados">ENDEREÇO</span>
+              <span class="dados_dados">${logradouro_armazenado}</span>
+              <span class="dados_dados">CEP: ${cep_armazenado}</span>
+              <span class="dados_dados">Nº ${numero_armazenado}</span>
+              <span class="dados_dados">${cidade_armazenado} - ${uf_armazenado}</span>
+            </div>
+          </div>
+        </div>
+        <button onclick = "fazendas()" class="btn-concluir">CONCLUIR</button>
+    `;
 
+      containerPrincipal.innerHTML = conteudo_parte3;
 
+    }
 
-
-
-
-
-
-
+    function fazendas() {
+      window.location.href = "fazendas.html";
+    }
   </script>
 </html>
