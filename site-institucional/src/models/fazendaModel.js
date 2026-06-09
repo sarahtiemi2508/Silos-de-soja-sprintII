@@ -4,29 +4,33 @@ var database = require("../database/config");
 
 function listarFazendas(id_usuario) {
     var instrucao = `
-        SELECT
-            id_empresa,
-            id_usuario,
-            id_fazenda,
-            responsavel,
-            contato,
-            endereco,
-            nome,
-            COUNT(DISTINCT id_silo) AS qtd_silos,
-            COUNT(DISTINCT id_bateria) AS qtd_bateria,
-            SUM(CASE WHEN situacao_silo = 'Estável' THEN 1 ELSE 0 END) AS estaveis,
-            SUM(CASE WHEN situacao_silo = 'Moderado' THEN 1 ELSE 0 END) AS moderados,
-            SUM(CASE WHEN situacao_silo = 'Crítico' THEN 1 ELSE 0 END) AS criticos
-        FROM (
-            SELECT
-                f.fk_empresa AS id_empresa,
-                rf.id_usuario AS id_usuario,
-                rf.responsavel AS responsavel,
-                rf.contato AS contato,
-                rf.endereco AS endereco,
-                
-                f.id_fazenda AS id_fazenda,
-                f.nome_fazenda AS nome,
+        
+SELECT
+
+    id_empresa,
+    id_usuario,
+    id_fazenda,
+    responsavel,
+    contato,
+    email,
+    endereco,
+    nome,
+    COUNT(DISTINCT id_silo) AS qtd_silos,
+    COUNT(DISTINCT id_bateria) AS qtd_bateria,
+    SUM(CASE WHEN situacao_silo = 'Estável' THEN 1 ELSE 0 END) AS estaveis,
+    SUM(CASE WHEN situacao_silo = 'Moderado' THEN 1 ELSE 0 END) AS moderados,
+    SUM(CASE WHEN situacao_silo = 'Crítico' THEN 1 ELSE 0 END) AS criticos
+FROM (
+    SELECT
+        f.fk_empresa AS id_empresa,
+        rf.id_usuario AS id_usuario,
+        rf.responsavel AS responsavel,
+        rf.contato AS contato,
+        rf.email AS email,
+        rf.endereco AS endereco,
+        
+        f.id_fazenda AS id_fazenda,
+        f.nome_fazenda AS nome,
 
                 b.id_bateria_silo AS id_bateria,
                 

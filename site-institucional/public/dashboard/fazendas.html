@@ -59,6 +59,8 @@
     var id_usuario = sessionStorage.ID_USUARIO;
     var id_empresa = sessionStorage.ID_EMPRESA;    
 
+console.log(id_usuario)
+
     async function listarUsuario() {
 
         const retornoUsuario = await fetch(`../fazenda/listarTipoUsuario/${id_usuario}`);
@@ -111,6 +113,9 @@
             let criticos = fazendas[i].criticos;
             let responsavel = fazendas[i].responsavel;
             let contato = fazendas[i].contato;
+            if(fazendas[i].contato == null){
+                contato= fazendas[i].email
+            }
             let endereco = fazendas[i].endereco;
             
             let id_fazenda = fazendas[i].id_fazenda
