@@ -1,9 +1,9 @@
 var dashBateriaModel = require("../models/dashBateriaModel");
 
 function selectInfoBateria(req, res) {
+    let id_bateria= req.params.id_bateria;
 
-
-    dashBateriaModel.selectVolumeTotal()
+    dashBateriaModel.selectInfoBateria(id_bateria)
         .then(function (resultado) {
             res.json(resultado);
         })
@@ -14,10 +14,10 @@ function selectInfoBateria(req, res) {
 }
 
 function selectInfoFazenda(req, res) {
+ let id_fazenda = req.params.id_fazenda;
 
 
-
-    dashBateriaModel.selectInfoFazenda()
+    dashBateriaModel.selectInfoFazenda(id_fazenda)
         .then(function (resultado) {
             res.json(resultado);
         })
@@ -29,9 +29,10 @@ function selectInfoFazenda(req, res) {
 
 function selectVolumeTotal(req, res) {
 
-console.log(idBateria);
+      let id_bateria= req.params.id_bateria;
+console.log(id_bateria);
 
-    dashBateriaModel.selectVolumeTotal(idBateria)
+    dashBateriaModel.selectVolumeTotal(id_bateria)
         .then(function (resultado) {
             res.json(resultado);
         })
@@ -44,9 +45,9 @@ console.log(idBateria);
 function selectOcupacaoTotal(req, res) {
     
 
-console.log(idBateria);
+console.log(id_bateria);
 
-    dashBateriaModel.selectOcupacaoTotal(idBateria)
+    dashBateriaModel.selectOcupacaoTotal(id_bateria)
         .then(function (resultado) {
             res.json(resultado);
         })
@@ -59,9 +60,9 @@ console.log(idBateria);
 function selectMaiorNivel(req, res) {
    
 
-console.log("idUsuario recebido:", idBateria);
+console.log("idUsuario recebido:", id_bateria);
 
-    dashBateriaModel.selectMaiorNivel(idBateria)
+    dashBateriaModel.selectMaiorNivel(id_bateria)
         .then(function (resultado) {
             res.json(resultado);
         })
@@ -74,9 +75,9 @@ console.log("idUsuario recebido:", idBateria);
 function selectMenorNivel(req, res) {
     
 
-console.log(idBateria);
+console.log(id_bateria);
 
-    dashBateriaModel.selectMenorNivel(idBateria)
+    dashBateriaModel.selectMenorNivel(id_bateria)
         .then(function (resultado) {
             res.json(resultado);
         })
@@ -89,9 +90,9 @@ console.log(idBateria);
 function selectVolumeIndividual(req, res) {
     
 
-console.log(idBateria);
+console.log(id_bateria);
 
-    dashBateriaModel.selectVolumeIndividual(idBateria)
+    dashBateriaModel.selectVolumeIndividual(id_bateria)
         .then(function (resultado) {
             res.json(resultado);
         })
@@ -104,9 +105,9 @@ console.log(idBateria);
 function selectVolumeMensalBateria(req, res) {
     
 
-console.log(idBateria);
+console.log(id_bateria);
 
-    dashBateriaModel.selectVolumeMensalBateria(idBateria)
+    dashBateriaModel.selectVolumeMensalBateria(id_bateria)
         .then(function (resultado) {
             res.json(resultado);
         })
@@ -118,9 +119,9 @@ console.log(idBateria);
 
 function selectInfoSiloIndividual(req, res) {
 
-console.log(idBateria);
+console.log(id_bateria);
 
-    dashBateriaModel.selectInfoSiloIndividual(idBateria)
+    dashBateriaModel.selectInfoSiloIndividual(id_bateria)
         .then(function (resultado) {
             res.json(resultado);
         })

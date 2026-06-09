@@ -44,9 +44,9 @@
     <div class="titulos">
         <div class="titulo-pag">
             <img src="../assets/imgs/imagemtitulo.svg" alt="imagemTitulo">
-            <h1 id="nomeBateria">BATERIA XPTO</h1>
+            <h1 id="nomeBateria"></h1>
         </div>
-        <h2 class="fazenda-grupo">Fazenda XPTO</h2>
+        <h2 class="fazenda-grupo" id="nome_fazenda"></h2>
     </div>
 
 
@@ -73,7 +73,7 @@
                             <div class="volumeSilo">
                                 <p id="siloMaximo">Silo 4</p>
                                 <div class="SilosNivel" id="siloMaior">
-                            
+
                                 </div>
                                 <div class="porcentagem" id="maiorSilo">31<span>%</span></div>
                             </div>
@@ -120,7 +120,7 @@
                             </div>
                         </a>
                     </div>
-                    
+
                 </div>
             </div>
         </div>
@@ -129,7 +129,7 @@
 
 <script>
 
-const parametros = new URLSearchParams(window.location.search);
+    const parametros = new URLSearchParams(window.location.search);
 
     const id_fazenda = parametros.get("id_fazenda")
     const id_bateria = parametros.get("id_bateria_silo");
@@ -138,52 +138,52 @@ const parametros = new URLSearchParams(window.location.search);
     console.log(`ID DA FAZENDA: `, id_fazenda)
     console.log(`ID DA BATERIA: `, id_bateria);
 
-        fetch(`/dashBateria/selectInfoBateria`, { cache: 'no-store' })
-            .then(function (response) {
-                if (response.ok) {
-                    response.json().then(function (resposta) {
-                        for(let i=0; i<resposta.length; i++){
-                            if(resposta[i].id == idBateria){
-                        nomeBateria.innerHTML = `Bateria: ${resposta[i].nome}`
-                        }
-                    }
+
+
+    fetch(`/dashBateria/selectInfoBateria/${id_bateria}`, { cache: 'no-store' })
+        .then(function (response) {
+            if (response.ok) {
+
+                response.json()
+                    .then(function (resposta) {
+                        console.log(resposta[0])
+                        nomeBateria.innerHTML = `BATERIA: ${resposta[0].nome}`
 
                     })
 
-                } else {
-                    console.log("Nenhum dado encontrado")
-                }
+            } else {
+                console.log("Nenhum dado encontrado")
+            }
 
-            })
-            .catch(function (error) {
-                console.error("Erro na obtenção de dados")
-            })
-    
-            fetch(`/dashBateria/selectInfoFazenda`, { cache: 'no-store' })
-            .then(function (response) {
-                if (response.ok) {
-                    response.json().then(function (resposta) {
-                        for(let i=0; i<resposta.length; i++){
-                            if(resposta[i].id == idFazenda){
-                        nomeBateria.innerHTML = `Fazenda: ${resposta[i].nome}`
-                        }
-                    }
+        })
+        .catch(function (error) {
+            console.error("Erro na obtenção de dados")
+        })
+
+
+
+    fetch(`/dashBateria/selectInfoFazenda/${id_fazenda}`, { cache: 'no-store' })
+        .then(function (response) {
+            if (response.ok) {
+                response.json()
+                    .then(function (resposta) {
+
+                        nome_fazenda.innerHTML = `Fazenda: ${resposta[0].nome}`
+
 
                     })
 
-                } else {
-                    console.log("Nenhum dado encontrado")
-                }
-
-            })
-            .catch(function (error) {
-                console.error("Erro na obtenção de dados")
-            })
-
+            } else {
+                console.log("Nenhum dado encontrado PARA FAZENDA")
+            }
+        })
+        .catch(function (error) {
+            console.error("Erro na obtenção de dados")
+        })
 
     function obterDadosVolumeTotal() {
 
-        fetch(`/dashBateria/selectVolumeTotal`, { cache: 'no-store' })
+        fetch(`/dashBateria/selectVolumeTotal/${id_bateria}`, { cache: 'no-store' })
             .then(function (response) {
                 if (response.ok) {
                     response.json().then(function (resposta) {
@@ -201,6 +201,18 @@ const parametros = new URLSearchParams(window.location.search);
                 console.error("Erro na obtenção de dados")
             })
     }
+
+    // obterDadosPreenchimentoMensal(),
+    //  obterDadosVolumeIndividual()
+    // obterDadosVolumeMaior()
+    // obterDadosVolumeMenor()
+    // obterDadosVolumeMedio()
+    // obterDadosVolumeOcupado()
+    obterDadosVolumeTotal()
+</script>
+<!-- 
+
+    
 
     function obterDadosVolumeMedio() {
         let idBateria = req.params.id
@@ -534,16 +546,6 @@ const parametros = new URLSearchParams(window.location.search);
             })
             .catch(function (error) {
                 console.error("Erro na obtenção de dados")
-            })
-
-
-    obterDadosPreenchimentoMensal(),
-        obterDadosVolumeIndividual()
-    obterDadosVolumeMaior()
-    obterDadosVolumeMenor()
-    obterDadosVolumeMedio()
-    obterDadosVolumeOcupado()
-    obterDadosVolumeTotal()
-</script>
+            }) -->
 
 </html>

@@ -3,15 +3,15 @@ var router = express.Router();
 
 var dashBateriaController = require("../controllers/dashBateriaController");
 
-router.get("/selectInfoBateria", function (req, res) {
+router.get("/selectInfoBateria/:id_bateria", function (req, res) {
     dashBateriaController.selectInfoBateria(req, res);
 });
 
-router.get("/selectInfoFazenda", function (req, res) {
+router.get("/selectInfoFazenda/:id_fazenda", function (req, res) {
     dashBateriaController.selectInfoFazenda(req, res);
 });
 
-router.get("/selectVolumeTotal", function (req, res) {
+router.get("/selectVolumeTotal/:id_bateria", function (req, res) {
     dashBateriaController.selectVolumeTotal(req, res);
 });
 
