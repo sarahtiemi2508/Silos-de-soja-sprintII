@@ -280,10 +280,10 @@
             console.log("resposta: ", resposta);
 
             if (resposta.ok) {
-                console.log(`INSERT DEU CERTO!`);
+                alert(`Você confirmou a leitura desse alerta, ele não aparecerá novamente!`);
                 setTimeout(() => {
                     window.location = `dashboard-individual.html?id_fazenda=${id_fazenda}&id_bateria=${id_bateria}&id_silo_individual=${id_silo_individual}`;
-                }, 3000);
+                }, 1000);
             } else {
                 throw "Houve um erro ao tentar realizar o cadastro!";
             }

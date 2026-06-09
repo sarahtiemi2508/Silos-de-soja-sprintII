@@ -1034,7 +1034,7 @@ WHERE u.id_usuario = 2;
 --------------------------
 
 -- View que indica as informações necessárias para a página de alerta de todas as fazendas
-CREATE VIEW infos_situacao_silo AS 
+CREATE VIEW infos_situacao_silo AS
 SELECT
 	rf.id_usuario AS id_responsavel,
     rf.responsavel AS responsavel,
@@ -1046,9 +1046,11 @@ SELECT
     b.id_bateria_silo AS id_bateria,
     s.id_silo_individual AS id_silo_individual,
     ROW_NUMBER() OVER(PARTITION BY b.id_bateria_silo ORDER BY s.id_silo_individual) AS num_silo,
+    MAX(a.id_alerta) AS id_alerta,
     a.prioridade AS prioridade,
     a.situacao AS situacao,
-    a.dt_registro AS dt_registro
+    a.dt_registro AS dt_registro,
+    cl.confirmacao AS confirmacao
 FROM fazenda AS f
 JOIN responsavel_fazenda AS rf ON rf.id_fazenda = f.id_fazenda
 JOIN bateria_silo AS b ON b.fk_fazenda = f.id_fazenda
@@ -1057,14 +1059,27 @@ JOIN gp_sensores AS gs ON gs.fk_silo = s.id_silo_individual
 JOIN sensor AS sr ON sr.fk_gp_sensores = gs.id_gp_sensores
 JOIN historico_sensor AS hs ON hs.fk_sensor = sr.id_sensor
 JOIN alerta AS a ON a.fk_historico_sensor = hs.id_historico_sensor
-GROUP BY gs.id_gp_sensores, a.dt_registro, a.situacao, rf.id_usuario, rf.contato, a.prioridade
+LEFT JOIN confirmacao_leitura AS cl ON cl.fk_alerta = a.id_alerta
+WHERE cl.fk_alerta IS NULL
+GROUP BY
+	gs.id_gp_sensores, 
+    a.dt_registro, 
+    a.situacao, 
+    rf.id_usuario, 
+    rf.contato, 
+    a.prioridade, 
+    cl.confirmacao
 HAVING a.situacao <> 'Estável';
+
+INSERT INTO confirmacao_leitura (confirmacao, fk_usuario, fk_alerta) VALUES
+(1, 2, 3);
 
 SELECT * FROM infos_situacao_silo;
 
 -- Select que delimita os alertas de acordo com a permissao do usuário
 -- Para ADMFazenda e Colaboradores
 SELECT
+	iss.id_alerta,
 	iss.situacao,
     iss.num_silo,
     iss.fazenda,
@@ -1088,7 +1103,7 @@ FROM infos_situacao_silo AS iss
 JOIN empresa AS e ON e.id_empresa = iss.id_empresa
 WHERE e.id_empresa = 1;
 
-
+INSERT INTO 
 -- ------------------------ --
 -- CONFIGURAÇÕES DO USUÁRIO --
 -- ------------------------ --
