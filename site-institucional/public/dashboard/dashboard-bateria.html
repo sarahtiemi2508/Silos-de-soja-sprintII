@@ -61,7 +61,7 @@
                             <div id="dadoNivelTotalBat"></div>
                         </div>
                         <div id="nivelMediaBateria">
-                            <div id="titNivelMedioBat">Nível Total da Bateria</div>
+                            <div id="titNivelMedioBat">Nível Médio da Bateria</div>
                             <div id="dadoNivelMedioBat"></div>
                         </div>
 
@@ -202,55 +202,19 @@
             })
     }
 
-    // obterDadosPreenchimentoMensal(),
-    //  obterDadosVolumeIndividual()
-    // obterDadosVolumeMaior()
-    // obterDadosVolumeMenor()
-    // obterDadosVolumeMedio()
-    // obterDadosVolumeOcupado()
-    obterDadosVolumeTotal()
-</script>
-<!-- 
-
-    
-
-    function obterDadosVolumeMedio() {
-        let idBateria = req.params.id
-
-        fetch(`/dashBateria/selectOcupacaoTotal`, { cache: 'no-store' })
-            .then(function (response) {
-                if (response.ok) {
-                    response.json().then(function (resposta) {
-
-                        let media= (resposta[0].nivelTotal)/resposta[0].qantidade
-                        dadoNivelMedioBat.innerHTML = `${media}M`
-
-
-                    })
-
-                } else {
-                    console.log("Nenhum dado encontrado")
-                }
-
-            })
-            .catch(function (error) {
-                console.error("Erro na obtenção de dados")
-            })
-    }
-
 
     function obterDadosVolumeMaior() {
-        
 
-        fetch(`/dashBateria/selectMaiorNivel`, { cache: 'no-store' })
+
+        fetch(`/dashBateria/selectMaiorNivel/${id_bateria}`, { cache: 'no-store' })
             .then(function (response) {
                 if (response.ok) {
                     response.json().then(function (resposta) {
 
-                        siloMaximo.innerHTML=`${resposta[0].modelo}`
-                        let porcentagem= (resposta[0].preenchimento)/(resposta[0].total) 
-                        siloMaior.innerHTML=`<div id="vermelhoMaior" style="height:${porcentagem*100}%;"></div>`
-                        maiorSilo.innerHTML=`${porcentagem*100}`
+                        siloMaximo.innerHTML = `Silo ${resposta[0].modelo}`
+                        let porcentagem = (resposta[0].preenchimento) / (resposta[0].total)
+                        siloMaior.innerHTML = `<div id="vermelhoMaior" style="height:${porcentagem * 100}%;"></div>`
+                        maiorSilo.innerHTML = `${porcentagem * 100}`
 
                     })
 
@@ -263,18 +227,20 @@
                 console.error("Erro na obtenção de dados")
             })
     }
+
+
 
     function obterDadosVolumeMenor() {
 
-        fetch(`/dashBateria/selectMenorNivel`, { cache: 'no-store' })
+        fetch(`/dashBateria/selectMenorNivel/${id_bateria}`, { cache: 'no-store' })
             .then(function (response) {
                 if (response.ok) {
                     response.json().then(function (resposta) {
 
-                        siloMinimo.innerHTML=`${resposta[0].modelo}`
-                        let porcentagem= (resposta[0].preenchimento)/(resposta[0].total) 
-                        siloMenor.innerHTML=`<div id="vermelhoMaior" style="height:${porcentagem*100}%;"></div>`
-                        menorSilo.innerHTML=`${porcentagem*100}`
+                        siloMinimo.innerHTML = `Silo ${resposta[0].modelo}`
+                        let porcentagem = (resposta[0].preenchimento) / (resposta[0].total)
+                        siloMenor.innerHTML = `<div id="vermelhoMaior" style="height:${porcentagem * 100}%;"></div>`
+                        menorSilo.innerHTML = `${porcentagem * 100}`
 
                     })
 
@@ -288,10 +254,38 @@
             })
     }
 
-    function obterDadosVolumeIndividual() {
-      
 
-        fetch(`/dashBateria/selectVolumeIndividual`, { cache: 'no-store' })
+
+
+    function obterDadosVolumeMedio() {
+       
+
+        fetch(`/dashBateria/selectVolumeMedio/${id_bateria}`, { cache: 'no-store' })
+            .then(function (response) {
+                if (response.ok) {
+                    response.json().then(function (resposta) {
+
+
+                        dadoNivelMedioBat.innerHTML = `${resposta[0].media_nivel}M`
+
+
+                    })
+
+                } else {
+                    console.log("Nenhum dado encontrado")
+                }
+
+            })
+            .catch(function (error) {
+                console.error("Erro na obtenção de dados")
+            })
+    }
+
+
+     function obterDadosVolumeIndividual() {
+
+
+        fetch(`/dashBateria/selectVolumeIndividual/${id_bateria}`, { cache: 'no-store' })
             .then(function (response) {
                 if (response.ok) {
                     response.json().then(function (resposta) {
@@ -316,10 +310,10 @@
     function plotarGraficoVolumeIndividual(resposta) {
         let labels = [];
         let valores = [];
-        for (let i = 0; resposta.length; i++) {
-            let porcentagem= (reposta[i].preenchimento)/(resposta[i].total)
-            labels.push(resposta[i].bateria)
-            valores.push(porcentagem*100)
+        for (let i = 0; i < resposta.length; i++) {
+            let porcentagem = (resposta[i].preenchimento) / (resposta[i].total)
+            labels.push(resposta[i].modelo)
+            valores.push(porcentagem * 100)
         }
 
 
@@ -404,15 +398,16 @@
     }
 
 
+
     function obterDadosPreenchimentoMensal() {
 
 
-        fetch(`/quiz/selectVolumeMensalBateria`, { cache: 'no-store' })
+        fetch(`/dashBateria/selectVolumeMensalBateria/${id_bateria}`, { cache: 'no-store' })
             .then(function (response) {
                 if (response.ok) {
                     response.json().then(function (resposta) {
 
-                        // plotarGraficosPreenchimentoMensal(resposta)
+                        plotarGraficosPreenchimentoMensal(resposta)
                     })
 
                 } else {
@@ -448,41 +443,41 @@
         for (let i = 0; i < resposta.length; i++) {
             labels2.push(resposta[i].modelo)
 
-            if (resposta[i].mes = 1) {
-                data2.datasets[0].data.push(preenchimento_bateria)
+            if (resposta[i].mes == 1) {
+                data2.datasets[0].data.push(resposta[i].preenchimento_bateria)
                 labels2.push("Janeiro")
-            } else if (resposta[i].mes = 2) {
-                data2.datasets[0].data.push(preenchimento_bateria)
+            } else if (resposta[i].mes == 2) {
+                data2.datasets[0].data.push(resposta[i].preenchimento_bateria)
                 labels2.push("Fevereiro")
-            } else if (resposta[i].mes = 3) {
-                data2.datasets[0].data.push(preenchimento_bateria)
+            } else if (resposta[i].mes == 3) {
+                data2.datasets[0].data.push(resposta[i].preenchimento_bateria)
                 labels2.push("Março")
-            } else if (resposta[i].mes = 4) {
-                data2.datasets[0].data.push(preenchimento_bateria)
+            } else if (resposta[i].mes == 4) {
+                data2.datasets[0].data.push(resposta[i].preenchimento_bateria)
                 labels2.push("Abril")
-            } else if (resposta[i].mes = 5) {
-                data2.datasets[0].data.push(preenchimento_bateria)
+            } else if (resposta[i].mes == 5) {
+                data2.datasets[0].data.push(resposta[i].preenchimento_bateria)
                 labels2.push("Maio")
-            } else if (resposta[i].mes = 6) {
-                data2.datasets[0].data.push(preenchimento_bateria)
+            } else if (resposta[i].mes == 6) {
+                data2.datasets[0].data.push(resposta[i].preenchimento_bateria)
                 labels2.push("Junho")
-            } else if (resposta[i].mes = 7) {
-                data2.datasets[0].data.push(preenchimento_bateria)
+            } else if (resposta[i].mes == 7) {
+                data2.datasets[0].data.push(resposta[i].preenchimento_bateria)
                 labels2.push("Julho")
-            } else if (resposta[i].mes = 8) {
-                data2.datasets[0].data.push(preenchimento_bateria)
+            } else if (resposta[i].mes == 8) {
+                data2.datasets[0].data.push(resposta[i].preenchimento_bateria)
                 labels2.push("Agosto")
-            } else if (resposta[i].mes = 9) {
-                data2.datasets[0].data.push(preenchimento_bateria)
+            } else if (resposta[i].mes == 9) {
+                data2.datasets[0].data.push(resposta[i].preenchimento_bateria)
                 labels2.push("Setembro")
-            } else if (resposta[i].mes = 10) {
-                data2.datasets[0].data.push(preenchimento_bateria)
+            } else if (resposta[i].mes == 10) {
+                data2.datasets[0].data.push(resposta[i].preenchimento_bateria)
                 labels2.push("Outubro")
-            } else if (resposta[i].mes = 11) {
-                data2.datasets[0].data.push(preenchimento_bateria)
+            } else if (resposta[i].mes == 11) {
+                data2.datasets[0].data.push(resposta[i].preenchimento_bateria)
                 labels2.push("Novembro")
-            } else if (resposta[i].mes = 12) {
-                data2.datasets[0].data.push(preenchimento_bateria)
+            } else if (resposta[i].mes == 12) {
+                data2.datasets[0].data.push(resposta[i].preenchimento_bateria)
                 labels2.push("Dezembro")
             }
         }
@@ -513,39 +508,51 @@
     }
 
 
-    fetch(`/dashBateria/selectInfoSiloIndividual`, { cache: 'no-store' })
-            .then(function (response) {
-                if (response.ok) {
-                    response.json().then(function (resposta) {
-                        for(let i=0; i<resposta.length; i++){
-                           let corFundo="";
-                        boxBotao.innerHTML =+ `
+    fetch(`/dashBateria/selectInfoSiloIndividual/${id_bateria}`, { cache: 'no-store' })
+        .then(function (response) {
+            if (response.ok) {
+                response.json().then(function (resposta) {
+                    for (let i = 0; i < resposta.length; i++) {
+                        let corFundo = "";
+
+
+                        if (resposta[i].situacao == "Crítico") {
+                            corFundo = "rgb(245, 67, 67)"
+                        } else if (resposta[i].situacao == "Moderado") {
+                            corFundo = "rgb(255, 198, 42)"
+                        } else if (resposta[i].situacao == "Estável") {
+                            corFundo = "rgb(20, 245, 106)"
+                        }
+                        boxBotao.innerHTML += `
                         <a href="">
                             <div id="nomeSilo" class="nomeSilo">${resposta[i].nome}</div>
                             <div id="botaoSiloIndividual" class="botaoSiloIndividual" style="background-color: ${corFundo};">
                                 <img src="../assets/imgs/iconSiloIndiv.svg">
                             </div>
                         </a>`
-                        
-                        if(resposta[i].situacao=="Crítico"){
-                            corFundo="rgb(245, 67, 67)"
-                        } else if(resposta[i].situacao=="Moderado"){
-                            corFundo="rgb(255, 198, 42)"
-                        } else if(resposta[i].situacao=="Estável"){
-                            corFundo="rgb(20, 245, 106)"
-                        }
-
                     }
 
-                    })
+                })
 
-                } else {
-                    console.log("Nenhum dado encontrado")
-                }
+            } else {
+                console.log("Nenhum dado encontrado")
+            }
 
-            })
-            .catch(function (error) {
-                console.error("Erro na obtenção de dados")
-            }) -->
+        })
+        .catch(function (error) {
+            console.error("Erro na obtenção de dados")
+        })
+
+
+
+     obterDadosPreenchimentoMensal(),
+    obterDadosVolumeIndividual()
+    obterDadosVolumeMaior()
+    obterDadosVolumeMenor()
+    obterDadosVolumeMedio()
+    obterDadosVolumeTotal()
+</script>
+
+
 
 </html>
