@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Configurações</title>
+    <link rel="stylesheet" href="../css/confs.css">
+    <link rel="shortcut icon" href="../assets/icon/favicon-dark.ico" media="(prefers-color-scheme: dark)">
+    <link rel="shortcut icon" href="../assets/icon/favicon-light.ico" media="(prefers-color-scheme: light)">
+    <script src="../js/menu.js"></script>
+</head>
+
+<body onload="exibirInfos()">
+    <div id="imgFundo">
+        
+        <div class="blur">
+
+            <div id="menu_hamburger"></div>
+    
+            <main class="main-cadastrar">
+    
+                <div class="titulo">
+                    <img id="imgTitulo" src="../assets/imgs/fazenda.png">
+                    <h1>configurações</h1>
+                </div>
+        
+                <div class="container-cadastro" id="id_container"></div>
+    
+            </main>
+
+        </div>
+    </div>
+</body>
+<script>
+
+    var id_usuario = sessionStorage.ID_USUARIO;
+
+    async function exibirInfos() {
+
+        const retornoInfos = await fetch(`../configUser/listarInfos/${id_usuario}`);
+        const retornoInfosConvertido = await retornoInfos.json();
+        const infos = retornoInfosConvertido;
+
+        console.log(infos);
+
+        inserirBody(infos);
+
+    }
+
+    function inserirBody(infos) {
+        id_container.innerHTML = `
+                    <div class="sobre-usuario">
+                        <h1>Minhas informações</h1>
+                    </div>
+
+                    <div class="usuario-infos"> <!-- Colunm -->
+                        <div class="inputs nome">
+                            <label for="ipt_nome">nome: </label>
+                            <input type="text" id="ipt_nome" placeholder="Ex: Rua Das Flores">
+                        </div>
+                        <div class="inputs-dupla nasc-cpf"> <!-- Row -->
+                            <div class="inputs nasc"> <!-- Colunm -->
+                                <label for="ipt_nasc">data de nascimento: </label>
+                                <input type="date" id="ipt_nasc" placeholder="Ex: 013-81005">                                    
+                            </div>
+                            <div class="inputs cpf"> <!-- Colunm -->
+                                <label for="ipt_cpf">cpf: </label>
+                                <input type="text" id="ipt_cpf" placeholder="Ex: 454">                                    
+                            </div>
+                        </div>
+                        <div class="inputs email">
+                            <label for="ipt_email">email: </label>
+                            <input type="text" id="ipt_email" placeholder="Ex: Rua Das Flores">
+                        </div>
+                        <div class="inputs senha">
+                            <label for="ipt_senha">senha: </label>
+                            <input type="password" id="ipt_senha" placeholder="Ex: Rua Das Flores">
+                        </div>
+                    </div>
+
+                    <div class="botoes">
+                        <button class="atualizar" onclick="atualizarInfos()">atualizar informações</button>
+                        <button class="deletar" onclick="deletarPermissoes()">Excluir conta</button>
+                    </div>
+        `;
+
+        let dt_nascimento = infos[0].dt_nascimento.slice(0,10);
+        console.log(dt_nascimento);
+        
+
+        document.getElementById('ipt_nome').value = `${infos[0].nome_usuario}`;
+        document.getElementById('ipt_nasc').value = `${dt_nascimento}`;
+        document.getElementById('ipt_cpf').value = `${infos[0].cpf}`;
+        document.getElementById('ipt_email').value = `${infos[0].email}`;
+        document.getElementById('ipt_senha').value = `${infos[0].senha}`;
+    }
+
+    function atualizarInfos() {
+
+        fetch(`/configUser/updateInfos/${id_usuario}`, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                nomeServer: ipt_nome.value,
+                dtNascServer: ipt_nasc.value,
+                cpfServer: ipt_cpf.value,
+                emailServer: ipt_email.value,
+                senhaServer: ipt_senha.value
+            })
+        }).then(function (resposta) {
+
+            if (resposta.ok) {
+                window.alert("Informações atualizadas com sucesso!");
+                window.location = "/dashboard/configuracoes.html"
+            } else if (resposta.status == 404) {
+                window.alert("Deu 404!");
+            } else {
+                throw ("Houve um erro ao tentar atualizar as informações! Código da resposta: " + resposta.status);
+            }
+        }).catch(function (resposta) {
+            console.log(`#ERRO: ${resposta}`);
+        });
+    }
+
+    function deletarPermissoes() {
+
+        fetch(`/configUser/delPermissoes/${id_usuario}`, {
+            method: "DELETE",
+            headers: {
+                "Content-Type": "application/json"
+            }
+        }).then(function (resposta) {
+
+            if (resposta.ok) {
+                window.alert("Suas permissoes foram deletadas com sucesso, aperte ok para prosseguir!");
+            } else if (resposta.status == 404) {
+                window.alert("Deu 404!");
+            } else {
+                throw ("Houve um erro ao tentar deletar permissões do usuário! Código da resposta: " + resposta.status);
+            }
+        }).catch(function (resposta) {
+            console.log(`#ERRO: ${resposta}`);
+        });
+
+        deletarUser();
+
+    }
+
+    function deletarUser() {
+
+        fetch(`/configUser/delUser/${id_usuario}`, {
+            method: "DELETE",
+            headers: {
+                "Content-Type": "application/json"
+            }
+        }).then(function (resposta) {
+
+            if (resposta.ok) {
+                window.alert("Seu usuário foi deletado com sucesso. Você será redirecionado para a Home so site!");
+                window.location = "/index.html"
+            } else if (resposta.status == 404) {
+                window.alert("Deu 404!");
+            } else {
+                throw ("Houve um erro ao tentar deletar usuário! Código da resposta: " + resposta.status);
+            }
+        }).catch(function (resposta) {
+            console.log(`#ERRO: ${resposta}`);
+        });
+
+    }
+
+</script>
+<script>
+    fetch("../includes/menu.html")
+        .then(resposta => resposta.text())
+        .then(dados => {
+            document.getElementById("menu_hamburger").innerHTML = dados;
+    });
+</script>
+</html>

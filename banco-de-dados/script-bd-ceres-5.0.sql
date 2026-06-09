@@ -776,7 +776,6 @@ LEFT JOIN usuario AS u
 GROUP BY e.id_empresa, f.id_fazenda
 ORDER BY e.nome_fantasia, f.nome_fazenda;
 
-
 --------------------------	
 -- DASHBOARD DA BATERIA --
 --------------------------
@@ -1220,3 +1219,4 @@ INSERT INTO usuario (nome_usuario, cpf, dt_nascimento, senha, email, telefone, t
 ('Maria Fernanda', '79620121025', '2008-09-18', 'maria@123', 'maria@email.com', '(11) 99999-0000', 'N3', NULL);
 
 -- FIM DOS SELECTS
+
