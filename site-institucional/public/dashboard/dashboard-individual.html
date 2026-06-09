@@ -130,10 +130,12 @@
     // console.log(`ID DO SILO: `,  id_silo_individual);
 
     // Id fixo p testar. Depois vai vir do session storage quando o usuario tiver logado
-    // Id fixo p testar. Depois vai vir do session storage quando o usuario tiver logado
     let idSiloAtual = 1;
     let idBateriaAtual = 1;
     let tempoInicioAlerta = null;
+
+    let idFazendaSalvo = sessionStorage.ID_FAZENDA || 1; 
+    document.querySelector('.link-bateria').href = `dashboard-bateria.html?id_fazenda=${idFazendaSalvo}&id_bateria_silo=${idBateriaAtual}`;
 
     const contextoGrafico = document.getElementById('graficoSilo').getContext('2d');
     let graficoLinha = new Chart(contextoGrafico, {

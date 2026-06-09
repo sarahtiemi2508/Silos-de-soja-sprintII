@@ -3,6 +3,10 @@ var router = express.Router();
 
 var dashBateriaController = require("../controllers/dashBateriaController");
 
+router.get("/selectDashCompleta/:id_bateria", function (req, res) {
+    dashBateriaController.selectDashCompleta(req, res);
+});
+
 router.get("/selectInfoBateria/:id_bateria", function (req, res) {
     dashBateriaController.selectInfoBateria(req, res);
 });

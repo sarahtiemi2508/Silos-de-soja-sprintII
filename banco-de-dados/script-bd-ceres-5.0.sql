@@ -1233,5 +1233,57 @@ INSERT INTO usuario (nome_usuario, cpf, dt_nascimento, senha, email, telefone, t
 -- 3 Usuários da empresa Scheffer fk empresa 1
 ('Maria Fernanda', '79620121025', '2008-09-18', 'maria@123', 'maria@email.com', '(11) 99999-0000', 'N3', NULL);
 
+-- Insert pra dash
+-- JANEIRO
+INSERT INTO historico_sensor (distancia_captada, fk_sensor, dt_hora_leitura) VALUES
+(14.0, 1, '2026-01-15 08:00:00'), (14.0, 2, '2026-01-15 08:00:00'), (14.0, 3, '2026-01-15 08:00:00'),
+(13.5, 4, '2026-01-15 08:00:00'), (13.5, 5, '2026-01-15 08:00:00'), (13.5, 6, '2026-01-15 08:00:00'),
+(14.5, 7, '2026-01-15 08:00:00'), (14.5, 8, '2026-01-15 08:00:00'), (14.5, 9, '2026-01-15 08:00:00');
+
+-- FEVEREIRO
+INSERT INTO historico_sensor (distancia_captada, fk_sensor, dt_hora_leitura) VALUES
+(12.0, 1, '2026-02-15 08:00:00'), (12.0, 2, '2026-02-15 08:00:00'), (12.0, 3, '2026-02-15 08:00:00'),
+(11.5, 4, '2026-02-15 08:00:00'), (11.5, 5, '2026-02-15 08:00:00'), (11.5, 6, '2026-02-15 08:00:00'),
+(12.5, 7, '2026-02-15 08:00:00'), (12.5, 8, '2026-02-15 08:00:00'), (12.5, 9, '2026-02-15 08:00:00');
+
+-- MARÇO
+INSERT INTO historico_sensor (distancia_captada, fk_sensor, dt_hora_leitura) VALUES
+(10.0, 1, '2026-03-15 08:00:00'), (10.0, 2, '2026-03-15 08:00:00'), (10.0, 3, '2026-03-15 08:00:00'),
+(9.5,  4, '2026-03-15 08:00:00'), (9.5,  5, '2026-03-15 08:00:00'), (9.5,  6, '2026-03-15 08:00:00'),
+(10.5, 7, '2026-03-15 08:00:00'), (10.5, 8, '2026-03-15 08:00:00'), (10.5, 9, '2026-03-15 08:00:00');
+
+-- ABRIL
+INSERT INTO historico_sensor (distancia_captada, fk_sensor, dt_hora_leitura) VALUES
+(8.0, 1, '2026-04-15 08:00:00'), (8.0, 2, '2026-04-15 08:00:00'), (8.0, 3, '2026-04-15 08:00:00'),
+(7.5, 4, '2026-04-15 08:00:00'), (7.5, 5, '2026-04-15 08:00:00'), (7.5, 6, '2026-04-15 08:00:00'),
+(8.5, 7, '2026-04-15 08:00:00'), (8.5, 8, '2026-04-15 08:00:00'), (8.5, 9, '2026-04-15 08:00:00');
+
+-- MAIO
+INSERT INTO historico_sensor (distancia_captada, fk_sensor, dt_hora_leitura) VALUES
+(6.0, 1, '2026-05-15 08:00:00'), (6.0, 2, '2026-05-15 08:00:00'), (6.0, 3, '2026-05-15 08:00:00'),
+(5.5, 4, '2026-05-15 08:00:00'), (5.5, 5, '2026-05-15 08:00:00'), (5.5, 6, '2026-05-15 08:00:00'),
+(6.5, 7, '2026-05-15 08:00:00'), (6.5, 8, '2026-05-15 08:00:00'), (6.5, 9, '2026-05-15 08:00:00');
+
+CREATE OR REPLACE VIEW media_preenchimento_mensal_por_bateria AS
+SELECT 
+    bat.id_bateria_silo AS bateria,
+    MONTH(hs.dt_hora_leitura) AS mes,
+    TRUNCATE(AVG(ROUND(
+        (
+            ((PI() * POW((silo_i.diametro_silo / 2), 2)) * silo_i.altura_silo * 0.80)
+            +
+            (((PI() * POW((silo_i.diametro_silo / 2), 2)) * silo_i.altura_silo * 0.20) / 3)
+        )
+        -
+        (PI() * POW((silo_i.diametro_silo / 2), 2) * hs.distancia_captada)
+    , 2)), 2) AS preenchimento_bateria
+FROM silo_individual silo_i
+JOIN bateria_silo bat ON bat.id_bateria_silo = silo_i.fk_bateria_silo
+JOIN gp_sensores gp ON gp.fk_silo = silo_i.id_silo_individual
+JOIN sensor s ON s.fk_gp_sensores = gp.id_gp_sensores
+JOIN historico_sensor hs ON hs.fk_sensor = s.id_sensor
+GROUP BY bat.id_bateria_silo, MONTH(hs.dt_hora_leitura)
+ORDER BY bateria, mes;
+
 -- FIM DOS SELECTS
 

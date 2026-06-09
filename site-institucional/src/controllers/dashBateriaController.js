@@ -1,5 +1,29 @@
 var dashBateriaModel = require("../models/dashBateriaModel");
 
+// Abrir uma rots so
+function selectDashCompleta(req, res) {
+    let id = req.params.id_bateria;
+    Promise.all([
+        dashBateriaModel.selectVolumeTotal(id),
+        dashBateriaModel.selectMaiorNivel(id),
+        dashBateriaModel.selectMenorNivel(id),
+        dashBateriaModel.selectVolumeMedio(id),
+        dashBateriaModel.selectVolumeIndividual(id),
+        dashBateriaModel.selectVolumeMensalBateria(id)
+    ]).then(function (resultados) {
+        res.json({
+            total: resultados[0],
+            maior: resultados[1],
+            menor: resultados[2],
+            medio: resultados[3],
+            individual: resultados[4],
+            mensal: resultados[5]
+        });
+    }).catch(function (erro) {
+        res.status(500).json(erro.sqlMessage);
+    });
+}
+
 function selectInfoBateria(req, res) {
     let id_bateria = req.params.id_bateria;
 

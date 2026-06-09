@@ -110,6 +110,9 @@
 
 <script>
 
+    let myChart = null;
+    let myChart2 = null;
+
     const parametros = new URLSearchParams(window.location.search);
 
     const id_fazenda = parametros.get("id_fazenda")
@@ -169,7 +172,7 @@
             .then(function (response) {
                 if (response.ok) {
                     response.json().then(function (resposta) {
-                        dadoNivelTotalBat.innerHTML = `${resposta[0].nivelTotal}m³`
+                        dadoNivelTotalBat.innerHTML = `${parseFloat(resposta[0].nivelTotal).toFixed(2)} m³`
 
 
                     })
@@ -195,8 +198,11 @@
 
                         siloMaximo.innerHTML = `Silo ${resposta[0].modelo}`
                         let porcentagem = (resposta[0].preenchimento) / (resposta[0].total)
-                        siloMaior.innerHTML = `<div id="vermelhoMaior" style="height:${porcentagem * 100}%;"></div>`
-                        maiorSilo.innerHTML = `${porcentagem.toFixed(2) * 100}%`
+
+                        let pct = porcentagem * 100;
+                        let cor = pct > 85 || pct < 15 ? '#cf041f' : pct > 75 || pct < 25 ? '#FFBA00' : '#008000';
+                        siloMaior.innerHTML = `<div style="height:${pct}%; background-color:${cor}; width:100%;"></div>`
+                        maiorSilo.innerHTML = `${(porcentagem * 100).toFixed(1)}%`
 
                     })
 
@@ -213,23 +219,23 @@
 
 
     function obterDadosVolumeMenor() {
-
         fetch(`/dashBateria/selectMenorNivel/${id_bateria}`, { cache: 'no-store' })
             .then(function (response) {
                 if (response.ok) {
                     response.json().then(function (resposta) {
 
                         siloMinimo.innerHTML = `Silo ${resposta[0].modelo}`
+
                         let porcentagem = (resposta[0].preenchimento) / (resposta[0].total)
-                        siloMenor.innerHTML = `<div id="vermelhoMaior" style="height:${porcentagem * 100}%;"></div>`
-                        menorSilo.innerHTML = `${porcentagem.toFixed(2) * 100}%`
+                        let pct = porcentagem * 100;
+                        let cor = pct > 85 || pct < 15 ? '#cf041f' : pct > 75 || pct < 25 ? '#FFBA00' : '#008000';
+                        siloMenor.innerHTML = `<div style="height:${pct}%; background-color:${cor}; width:100%;"></div>`
+                        menorSilo.innerHTML = `${pct.toFixed(1)}%`
 
                     })
-
                 } else {
                     console.log("Nenhum dado encontrado")
                 }
-
             })
             .catch(function (error) {
                 console.error("Erro na obtenção de dados")
@@ -240,15 +246,14 @@
 
 
     function obterDadosVolumeMedio() {
-       
+
 
         fetch(`/dashBateria/selectVolumeMedio/${id_bateria}`, { cache: 'no-store' })
             .then(function (response) {
                 if (response.ok) {
                     response.json().then(function (resposta) {
 
-
-                        dadoNivelMedioBat.innerHTML = `${resposta[0].media_nivel}M`
+                        dadoNivelMedioBat.innerHTML = `${parseFloat(resposta[0].media_nivel).toFixed(2)} m³`
 
 
                     })
@@ -264,7 +269,7 @@
     }
 
 
-     function obterDadosVolumeIndividual() {
+    function obterDadosVolumeIndividual() {
 
 
         fetch(`/dashBateria/selectVolumeIndividual/${id_bateria}`, { cache: 'no-store' })
@@ -374,9 +379,9 @@
                 },
             },
         };
-        const myChart = new Chart(
-            document.getElementById("myChart"),
-            config);
+
+        if (myChart) myChart.destroy();
+        myChart = new Chart(document.getElementById("myChart"), config);
     }
 
 
@@ -423,8 +428,6 @@
 
 
         for (let i = 0; i < resposta.length; i++) {
-            labels2.push(resposta[i].modelo)
-
             if (resposta[i].mes == 1) {
                 data2.datasets[0].data.push(resposta[i].preenchimento_bateria)
                 labels2.push("Janeiro")
@@ -484,9 +487,8 @@
                 },
             },
         };
-        const myChart2 = new Chart(
-            document.getElementById("myChart2"),
-            config2);
+        if (myChart2) myChart2.destroy();
+        myChart2 = new Chart(document.getElementById("myChart2"), config2);
     }
 
 
@@ -494,11 +496,12 @@
         .then(function (response) {
             if (response.ok) {
                 response.json().then(function (resposta) {
+                    boxBotao.innerHTML = '';
                     for (let i = 0; i < resposta.length; i++) {
                         let corFundo = "";
 
                         console.log('RESPOSTAS: ', resposta);
-                        
+
                         if (resposta[i].situacao == "Crítico") {
                             corFundo = "rgb(245, 67, 67)"
                         } else if (resposta[i].situacao == "Moderado") {
@@ -506,7 +509,7 @@
                         } else if (resposta[i].situacao == "Estável") {
                             corFundo = "rgb(20, 245, 106)"
                         }
-                        
+
                         boxBotao.innerHTML += `
                         <a href="dashboard-individual.html?id_fazenda=${sessionStorage.ID_FAZENDA}&id_bateria=${resposta[i].idBateria}&id_silo_individual=${resposta[i].idSilo}">
                             <div id="nomeSilo" class="nomeSilo">${resposta[i].nome}</div>
@@ -527,14 +530,16 @@
             console.error("Erro na obtenção de dados")
         })
 
+    function atualizarTudo() {
+        obterDadosVolumeTotal();
+        obterDadosVolumeMaior();
+        obterDadosVolumeMenor();
+        obterDadosVolumeMedio();
+        obterDadosVolumeIndividual();
+        obterDadosPreenchimentoMensal();
+    }
 
-
-     obterDadosPreenchimentoMensal(),
-    obterDadosVolumeIndividual()
-    obterDadosVolumeMaior()
-    obterDadosVolumeMenor()
-    obterDadosVolumeMedio()
-    obterDadosVolumeTotal()
+    setInterval(atualizarTudo, 10000);
 </script>
 
 

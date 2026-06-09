@@ -138,26 +138,34 @@
         let qtd_moderados = 0;
         let mensagem = '';
 
+        let silosJaVistos = [];
+
+        id_exibir_alertas.innerHTML = `
+            <div class="linha_titulos">
+                <p id="linha_titulo_alerta">ALERTAS</p>
+                <p id="linha_titulo_fazenda">Fazenda</p>
+            </div>
+        `;
+
         for (let i = 0; i < alertas.length; i++) {
+            if (silosJaVistos.includes(alertas[i].id_silo_individual)) {
+                continue;
+            }
             
+            // se dor visto add no historico
+            silosJaVistos.push(alertas[i].id_silo_individual);
+
             if (alertas[i].situacao == 'Crítico') {
-                qtd_criticos++
-                console.log('ADICIONEI CRITICO: ', qtd_criticos);
+                qtd_criticos++;
 
                 if (alertas[i].prioridade == 1) {
-                    mensagem = `
-                    O SILO ${alertas[i].num_silo} DA FAZENDA ${alertas[i].fazenda} ALCANÇOU MAIS QUE 85% DE PREENCHIMENTO, ENTRANDO EM ESTADO CRÍTICO. CONFIRA AGORA NA DASHBOARD!
-                    `;
+                    mensagem = `O SILO ${alertas[i].num_silo} DA FAZENDA ${alertas[i].fazenda} ALCANÇOU MAIS QUE 85% DE PREENCHIMENTO, ENTRANDO EM ESTADO CRÍTICO. CONFIRA AGORA NA DASHBOARD!`;
                 } else {
-                    mensagem = `
-                    O SILO ${alertas[i].num_silo} DA FAZENDA ${alertas[i].fazenda} ALCANÇOU MENOS QUE 15% DE PREENCHIMENTO, ENTRANDO EM ESTADO CRÍTICO. CONFIRA AGORA NA DASHBOARD!
-                    `;
+                    mensagem = `O SILO ${alertas[i].num_silo} DA FAZENDA ${alertas[i].fazenda} ALCANÇOU MENOS QUE 15% DE PREENCHIMENTO, ENTRANDO EM ESTADO CRÍTICO. CONFIRA AGORA NA DASHBOARD!`;
                 }
 
                 id_exibir_alertas.innerHTML += `
-                
                     <div class="linha_alerta_fazenda">
-
                         <div class="card_alerta cor_fundo_alerta_critico">
                             <div class="div_info_card_alerta">
                                 <div class="div_qtd_exclamacoes">
@@ -175,7 +183,6 @@
                             </div>
                         </div>
 
-
                         <div class="card_fazenda cor_border_critico">
                             <p class="titulo_nome_fazenda cor_font_critico">${alertas[i].fazenda}</p>
                             <div class="info_respons_fazenda">
@@ -187,40 +194,27 @@
                                     <p class="p_bold">Contato</p>
                                     <p class="p_comum">${alertas[i].contato}</p>
                                 </div>
-
                             </div>
                         </div>
-
                     </div>
-                
                 `;
 
-
             } else if (alertas[i].situacao == 'Moderado') {
-                qtd_moderados++
-                console.log('ADICIONEI MODERADO: ', qtd_moderados);
+                qtd_moderados++;
 
                 if (alertas[i].prioridade == 3) {
-                    mensagem = `
-                    O SILO ${alertas[i].num_silo} DA FAZENDA ${alertas[i].fazenda} ALCANÇOU MAIS QUE 76% DE PREENCHIMENTO, ENTRANDO EM ESTADO MODERADO. CONFIRA AGORA NA DASHBOARD!
-                    `;
+                    mensagem = `O SILO ${alertas[i].num_silo} DA FAZENDA ${alertas[i].fazenda} ALCANÇOU MAIS QUE 76% DE PREENCHIMENTO, ENTRANDO EM ESTADO MODERADO. CONFIRA AGORA NA DASHBOARD!`;
                 } else {
-                    mensagem = `
-                    O SILO ${alertas[i].num_silo} DA FAZENDA ${alertas[i].fazenda} ALCANÇOU MENOS QUE 26% DE PREENCHIMENTO, ENTRANDO EM ESTADO MODERADO. CONFIRA AGORA NA DASHBOARD!
-                    `;
+                    mensagem = `O SILO ${alertas[i].num_silo} DA FAZENDA ${alertas[i].fazenda} ALCANÇOU MENOS QUE 26% DE PREENCHIMENTO, ENTRANDO EM ESTADO MODERADO. CONFIRA AGORA NA DASHBOARD!`;
                 }
-                
 
                 id_exibir_alertas.innerHTML += `
-                
                     <div class="linha_alerta_fazenda">
-
                         <div class="card_alerta cor_fundo_alerta_moderado">
                             <div class="div_info_card_alerta">
                                 <div class="div_qtd_exclamacoes">
                                     <span class="exclamacao_pequena">!</span>
                                     <span class="exclamacao_media">!</span>
-
                                 </div>
                                 <div class="desc_card_alerta">
                                     <h4>ALERTA MODERADO</h4>
@@ -231,7 +225,6 @@
                                 <a onclick="inserirConfirmacaoLeitura(${alertas[i].id_alerta}, '${alertas[i].fazenda}', ${alertas[i].id_bateria}, ${alertas[i].id_silo_individual})"> VER </a>
                             </div>
                         </div>
-
 
                         <div class="card_fazenda cor_border_moderado">
                             <p class="titulo_nome_fazenda cor_font_moderado">${alertas[i].fazenda}</p>
@@ -244,19 +237,11 @@
                                     <p class="p_bold">Contato</p>
                                     <p class="p_comum">${alertas[i].contato}</p>
                                 </div>
-
                             </div>
                         </div>
                     </div>
-                
                 `;
-
-            } else {
-
-                console.log('#ERRO \nReinicie a Página');
-                
             }
-
         }
 
         id_criticos.innerHTML = `${qtd_criticos}`;
