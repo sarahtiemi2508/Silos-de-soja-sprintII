@@ -123,7 +123,7 @@ REFERENCES gp_sensores (id_gp_sensores)
 
 CREATE TABLE historico_sensor (
 id_historico_sensor INT PRIMARY KEY AUTO_INCREMENT,
-distancia_captada INT,
+distancia_captada DECIMAL (6,2),
 dt_hora_leitura DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
 fk_sensor INT,

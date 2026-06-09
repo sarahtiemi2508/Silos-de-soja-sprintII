@@ -4,7 +4,6 @@ function buscarDadosSilo(req, res) {
     let idSilo = req.params.idSilo;
 
     siloModel.buscarDadosSilo(idSilo).then(function (resultado) {
-        console.log("Dados do silo" + resultado)
         if (resultado.length > 0) {
             res.status(200).json(resultado);
         } else {
