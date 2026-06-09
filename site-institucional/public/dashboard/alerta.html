@@ -166,8 +166,7 @@
                                 </div>
                                 <div class="desc_card_alerta">
                                     <h4>ALERTA CRÍTICO</h4>
-                                    <p>O SILO ${alertas[i].num_silo} DA FAZENDA ${alertas[i].fazenda} ALCANÇOU O ESTADO CRÍTICO DE
-                                        ARMAZENAMENTO. CONFIRA AGORA NA DASHBOARD!</p>
+                                    <p>${mensagem}</p>
                                 </div>
                             </div>
                             <div class="div_btn_VER_card_alerta">
@@ -224,12 +223,11 @@
                                 </div>
                                 <div class="desc_card_alerta">
                                     <h4>ALERTA MODERADO</h4>
-                                    <p>O SILO ${alertas[i].num_silo} DA FAZENDA ${alertas[i].fazenda} ALCANÇOU O ESTADO MODERADO DE
-                                        ARMAZENAMENTO. CONFIRA AGORA NA DASHBOARD!</p>
+                                    <p>${mensagem}</p>
                                 </div>
                             </div>
                             <div class="div_btn_VER_card_alerta">
-                                <a href="dashboard-individual.html?id_fazenda=${alertas[i].id_fazenda}&id_bateria=${alertas[i].id_bateria}&id_silo_individual=${alertas[i].id_silo_individual}">VER</a>
+                                <a href="dashboard-individual.html?id_fazenda=${alertas[i].id_fazenda}&id_bateria=${alertas[i].id_bateria}&id_silo_individual=${alertas[i].id_silo_individual}" onclick="confirmarLeitura()">VER</a>
                             </div>
                         </div>
 
@@ -262,6 +260,12 @@
 
         id_criticos.innerHTML = `${qtd_criticos}`;
         id_moderados.innerHTML = `${qtd_moderados}`;
+
+    }
+
+    async function confirmarLeitura() {
+
+        
 
     }
 
