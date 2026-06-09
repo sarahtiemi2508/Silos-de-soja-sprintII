@@ -16,20 +16,29 @@ router.get("/selectVolumeTotal/:id_bateria", function (req, res) {
 });
 
 
-router.get("/selectMaiorNivel", function (req, res) {
+router.get("/selectMaiorNivel/:id_bateria", function (req, res) {
     dashBateriaController.selectMaiorNivel(req, res);
 });
 
-router.get("/selectMenorNivel", function (req, res) {
+router.get("/selectMenorNivel/:id_bateria", function (req, res) {
     dashBateriaController.selectMenorNivel(req, res);
 });
 
-router.get("/selectVolumeMensalBateria", function (req, res) {
+router.get("/selectVolumeMensalBateria/:id_bateria", function (req, res) {
     dashBateriaController.selectVolumeMensalBateria(req, res);
 });
 
-router.get("/selectInfoSiloIndividual", function (req, res) {
+router.get("/selectInfoSiloIndividual/:id_bateria", function (req, res) {
     dashBateriaController.selectInfoSiloIndividual(req, res);
+});
+
+router.get("/selectVolumeMedio/:id_bateria", function (req, res) {
+    dashBateriaController.selectVolumeMedio(req, res);
+});
+
+
+router.get("/selectVolumeIndividual/:id_bateria", function (req, res) {
+    dashBateriaController.selectVolumeIndividual(req, res);
 });
 
 module.exports = router;

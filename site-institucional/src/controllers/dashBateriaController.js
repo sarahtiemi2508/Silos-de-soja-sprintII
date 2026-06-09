@@ -1,7 +1,7 @@
 var dashBateriaModel = require("../models/dashBateriaModel");
 
 function selectInfoBateria(req, res) {
-    let id_bateria= req.params.id_bateria;
+    let id_bateria = req.params.id_bateria;
 
     dashBateriaModel.selectInfoBateria(id_bateria)
         .then(function (resultado) {
@@ -14,7 +14,7 @@ function selectInfoBateria(req, res) {
 }
 
 function selectInfoFazenda(req, res) {
- let id_fazenda = req.params.id_fazenda;
+    let id_fazenda = req.params.id_fazenda;
 
 
     dashBateriaModel.selectInfoFazenda(id_fazenda)
@@ -29,8 +29,8 @@ function selectInfoFazenda(req, res) {
 
 function selectVolumeTotal(req, res) {
 
-      let id_bateria= req.params.id_bateria;
-console.log(id_bateria);
+    let id_bateria = req.params.id_bateria;
+    console.log(id_bateria);
 
     dashBateriaModel.selectVolumeTotal(id_bateria)
         .then(function (resultado) {
@@ -43,9 +43,9 @@ console.log(id_bateria);
 }
 
 function selectOcupacaoTotal(req, res) {
-    
+    let id_bateria = req.params.id_bateria;
 
-console.log(id_bateria);
+    console.log(id_bateria);
 
     dashBateriaModel.selectOcupacaoTotal(id_bateria)
         .then(function (resultado) {
@@ -58,9 +58,8 @@ console.log(id_bateria);
 }
 
 function selectMaiorNivel(req, res) {
-   
+    let id_bateria = req.params.id_bateria;
 
-console.log("idUsuario recebido:", id_bateria);
 
     dashBateriaModel.selectMaiorNivel(id_bateria)
         .then(function (resultado) {
@@ -73,9 +72,9 @@ console.log("idUsuario recebido:", id_bateria);
 }
 
 function selectMenorNivel(req, res) {
-    
+    let id_bateria = req.params.id_bateria;
 
-console.log(id_bateria);
+    console.log(id_bateria);
 
     dashBateriaModel.selectMenorNivel(id_bateria)
         .then(function (resultado) {
@@ -88,9 +87,9 @@ console.log(id_bateria);
 }
 
 function selectVolumeIndividual(req, res) {
-    
+    let id_bateria = req.params.id_bateria;
 
-console.log(id_bateria);
+    console.log(id_bateria);
 
     dashBateriaModel.selectVolumeIndividual(id_bateria)
         .then(function (resultado) {
@@ -103,9 +102,9 @@ console.log(id_bateria);
 }
 
 function selectVolumeMensalBateria(req, res) {
-    
+    let id_bateria = req.params.id_bateria;
 
-console.log(id_bateria);
+    console.log(id_bateria);
 
     dashBateriaModel.selectVolumeMensalBateria(id_bateria)
         .then(function (resultado) {
@@ -118,8 +117,9 @@ console.log(id_bateria);
 }
 
 function selectInfoSiloIndividual(req, res) {
+    let id_bateria = req.params.id_bateria;
 
-console.log(id_bateria);
+    console.log(id_bateria);
 
     dashBateriaModel.selectInfoSiloIndividual(id_bateria)
         .then(function (resultado) {
@@ -131,12 +131,30 @@ console.log(id_bateria);
         });
 }
 
+
+function selectVolumeMedio(req, res) {
+    let id_bateria = req.params.id_bateria;
+
+    console.log(id_bateria);
+
+    dashBateriaModel.selectVolumeMedio(id_bateria)
+        .then(function (resultado) {
+            res.json(resultado);
+        })
+        .catch(function (erro) {
+            console.log(erro);
+            res.status(500).json(erro.sqlMessage);
+        });
+}
+
 module.exports = {
-   selectInfoBateria,
-  selectInfoFazenda,
-   selectVolumeTotal,
-   selectMaiorNivel,
-   selectMenorNivel,
-   selectVolumeMensalBateria,
-   selectInfoSiloIndividual
+    selectInfoBateria,
+    selectInfoFazenda,
+    selectVolumeTotal,
+    selectMaiorNivel,
+    selectMenorNivel,
+    selectVolumeMensalBateria,
+    selectInfoSiloIndividual,
+    selectVolumeIndividual,
+    selectVolumeMedio
 }
