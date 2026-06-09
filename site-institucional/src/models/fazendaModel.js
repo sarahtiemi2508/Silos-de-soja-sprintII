@@ -4,89 +4,69 @@ var database = require("../database/config");
 
 function listarFazendas(id_usuario) {
     var instrucao = `
-        
-SELECT
-
-    id_empresa,
-    id_usuario,
-    id_fazenda,
-    responsavel,
-    contato,
-    endereco,
-    nome,
-    COUNT(DISTINCT id_silo) AS qtd_silos,
-    COUNT(DISTINCT id_bateria) AS qtd_bateria,
-    SUM(CASE WHEN situacao_silo = 'Estável' THEN 1 ELSE 0 END) AS estaveis,
-    SUM(CASE WHEN situacao_silo = 'Moderado' THEN 1 ELSE 0 END) AS moderados,
-    SUM(CASE WHEN situacao_silo = 'Crítico' THEN 1 ELSE 0 END) AS criticos
-FROM (
-    SELECT
-        f.fk_empresa AS id_empresa,
-        rf.id_usuario AS id_usuario,
-        rf.responsavel AS responsavel,
-        rf.contato AS contato,
-        rf.endereco AS endereco,
-        
-        f.id_fazenda AS id_fazenda,
-        f.nome_fazenda AS nome,
-
-        b.id_bateria_silo AS id_bateria,
-        b.bateria_grupo AS bateria,
-
-        s.id_silo_individual AS id_silo,
-        s.modelo_silo AS silo,
-
-        CASE
-            WHEN AVG(ultima_leitura.distancia_captada) >= s.altura_silo * 0.85
-                THEN 'Crítico'
-            WHEN AVG(ultima_leitura.distancia_captada) >= s.altura_silo * 0.60
-                THEN 'Moderado'
-            ELSE 'Estável'
-        END AS situacao_silo
-
-    FROM fazenda f
-    JOIN bateria_silo b ON b.fk_fazenda = f.id_fazenda
-    JOIN silo_individual s ON s.fk_bateria_silo = b.id_bateria_silo
-    JOIN gp_sensores gs ON gs.fk_silo = s.id_silo_individual
-    JOIN sensor sr ON sr.fk_gp_sensores = gs.id_gp_sensores
-    JOIN responsavel_fazenda rf ON rf.id_fazenda = f.id_fazenda
-    JOIN (
         SELECT
-            hs1.fk_sensor,
-            hs1.distancia_captada
-        FROM historico_sensor hs1
-        WHERE hs1.id_historico_sensor = (
-            SELECT MAX(hs2.id_historico_sensor)
-            FROM historico_sensor hs2
-            WHERE hs2.fk_sensor = hs1.fk_sensor
-        )
-    ) ultima_leitura
-        ON ultima_leitura.fk_sensor = sr.id_sensor
-WHERE id_usuario = ${id_usuario}
-    GROUP BY
-        f.fk_empresa,
-        rf.id_usuario,
-        rf.responsavel,
-        rf.contato,
-        rf.endereco,
-        f.id_fazenda,
-        f.nome_fazenda,
-        b.id_bateria_silo,
-        b.bateria_grupo,
-        s.id_silo_individual,
-        s.modelo_silo
+            id_empresa,
+            id_usuario,
+            id_fazenda,
+            responsavel,
+            contato,
+            endereco,
+            nome,
+            COUNT(DISTINCT id_silo) AS qtd_silos,
+            COUNT(DISTINCT id_bateria) AS qtd_bateria,
+            SUM(CASE WHEN situacao_silo = 'Estável' THEN 1 ELSE 0 END) AS estaveis,
+            SUM(CASE WHEN situacao_silo = 'Moderado' THEN 1 ELSE 0 END) AS moderados,
+            SUM(CASE WHEN situacao_silo = 'Crítico' THEN 1 ELSE 0 END) AS criticos
+        FROM (
+            SELECT
+                f.fk_empresa AS id_empresa,
+                rf.id_usuario AS id_usuario,
+                rf.responsavel AS responsavel,
+                rf.contato AS contato,
+                rf.endereco AS endereco,
+                
+                f.id_fazenda AS id_fazenda,
+                f.nome_fazenda AS nome,
 
-) AS qtd_situacoes
-GROUP BY
-    id_empresa,
-    id_usuario,
-    id_fazenda,
-    responsavel,
-    contato,
-    endereco,
-    nome;
+                b.id_bateria_silo AS id_bateria,
+                
+                s.id_silo_individual AS id_silo,
+
+                CASE
+                    WHEN AVG(ultima_leitura.distancia_captada) >= s.altura_silo * 0.85
+                        THEN 'Crítico'
+                    WHEN AVG(ultima_leitura.distancia_captada) >= s.altura_silo * 0.60
+                        THEN 'Moderado'
+                    ELSE 'Estável'
+                END AS situacao_silo
+
+            FROM fazenda f
+            JOIN bateria_silo b ON b.fk_fazenda = f.id_fazenda
+            JOIN silo_individual s ON s.fk_bateria_silo = b.id_bateria_silo
+            JOIN gp_sensores gs ON gs.fk_silo = s.id_silo_individual
+            JOIN sensor sr ON sr.fk_gp_sensores = gs.id_gp_sensores
+            JOIN responsavel_fazenda rf ON rf.id_fazenda = f.id_fazenda
+            JOIN (
+                SELECT hs_dados.fk_sensor, hs_dados.distancia_captada
+                FROM historico_sensor hs_dados
+                JOIN (
+                    SELECT fk_sensor, MAX(id_historico_sensor) AS max_id
+                    FROM historico_sensor
+                    GROUP BY fk_sensor
+                ) hs_max ON hs_dados.id_historico_sensor = hs_max.max_id
+            ) ultima_leitura ON ultima_leitura.fk_sensor = sr.id_sensor
+            
+            WHERE rf.id_usuario = ${id_usuario}
+            
+            GROUP BY
+                f.fk_empresa, rf.id_usuario, rf.responsavel, rf.contato, rf.endereco,
+                f.id_fazenda, f.nome_fazenda, b.id_bateria_silo, s.id_silo_individual, s.altura_silo
+                
+        ) AS qtd_situacoes
+        GROUP BY
+            id_empresa, id_usuario, id_fazenda, responsavel, contato, endereco, nome;
     `;
-    console.log("Executando a instrução SQL: \n" + instrucao);
+    console.log("Executando a instrução SQL da Fazenda: \n" + instrucao);
     return database.executar(instrucao);
 }
 

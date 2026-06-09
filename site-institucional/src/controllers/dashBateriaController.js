@@ -54,7 +54,7 @@ function selectInfoFazenda(req, res) {
 function selectVolumeTotal(req, res) {
 
     let id_bateria = req.params.id_bateria;
-    console.log(id_bateria);
+    // console.log(id_bateria);
 
     dashBateriaModel.selectVolumeTotal(id_bateria)
         .then(function (resultado) {
@@ -69,7 +69,7 @@ function selectVolumeTotal(req, res) {
 function selectOcupacaoTotal(req, res) {
     let id_bateria = req.params.id_bateria;
 
-    console.log(id_bateria);
+    // console.log(id_bateria);
 
     dashBateriaModel.selectOcupacaoTotal(id_bateria)
         .then(function (resultado) {
@@ -98,7 +98,7 @@ function selectMaiorNivel(req, res) {
 function selectMenorNivel(req, res) {
     let id_bateria = req.params.id_bateria;
 
-    console.log(id_bateria);
+    // console.log(id_bateria);
 
     dashBateriaModel.selectMenorNivel(id_bateria)
         .then(function (resultado) {
@@ -113,7 +113,7 @@ function selectMenorNivel(req, res) {
 function selectVolumeIndividual(req, res) {
     let id_bateria = req.params.id_bateria;
 
-    console.log(id_bateria);
+    // console.log(id_bateria);
 
     dashBateriaModel.selectVolumeIndividual(id_bateria)
         .then(function (resultado) {
@@ -128,7 +128,7 @@ function selectVolumeIndividual(req, res) {
 function selectVolumeMensalBateria(req, res) {
     let id_bateria = req.params.id_bateria;
 
-    console.log(id_bateria);
+    // console.log(id_bateria);
 
     dashBateriaModel.selectVolumeMensalBateria(id_bateria)
         .then(function (resultado) {
@@ -143,7 +143,7 @@ function selectVolumeMensalBateria(req, res) {
 function selectInfoSiloIndividual(req, res) {
     let id_bateria = req.params.id_bateria;
 
-    console.log(id_bateria);
+    // console.log(id_bateria);
 
     dashBateriaModel.selectInfoSiloIndividual(id_bateria)
         .then(function (resultado) {
@@ -159,7 +159,7 @@ function selectInfoSiloIndividual(req, res) {
 function selectVolumeMedio(req, res) {
     let id_bateria = req.params.id_bateria;
 
-    console.log(id_bateria);
+    // console.log(id_bateria);
 
     dashBateriaModel.selectVolumeMedio(id_bateria)
         .then(function (resultado) {

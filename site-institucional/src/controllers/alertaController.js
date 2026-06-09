@@ -6,7 +6,7 @@ function listarAlertas(req, res) {
 
     alertaModel.listarAlertas(id_usuario).then(function(resultado){
 
-        console.log("Puxei os alertas" + resultado)
+        // console.log("Puxei os alertas" + resultado)
         res.status(200).json(resultado);
     }).catch(function(erro){
         console.error("Erro ao listarAlertas: ", erro)
@@ -20,7 +20,7 @@ function listarAlertasEmpresa(req, res) {
 
     alertaModel.listarAlertasEmpresa(id_empresa).then(function(resultado){
 
-        console.log("Puxei os alertas da empresa" + resultado)
+        // console.log("Puxei os alertas da empresa" + resultado)
         res.status(200).json(resultado);
     }).catch(function(erro){
         console.error("Erro ao listarAlertasEmpresa: ", erro)
