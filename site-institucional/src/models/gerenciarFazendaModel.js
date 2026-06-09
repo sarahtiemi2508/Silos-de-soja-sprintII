@@ -100,13 +100,13 @@ function pegarBaterias(idFazenda) {
                     ELSE 'Estável'
                 END AS situacao
             FROM bateria_silo b
-            JOIN silo_individual s 
+            LEFT JOIN silo_individual s 
                 ON s.fk_bateria_silo = b.id_bateria_silo
-            JOIN gp_sensores gs 
+            LEFT JOIN gp_sensores gs 
                 ON gs.fk_silo = s.id_silo_individual
-            JOIN sensor sr 
+            LEFT JOIN sensor sr 
                 ON sr.fk_gp_sensores = gs.id_gp_sensores
-            JOIN historico_sensor hs 
+            LEFT JOIN historico_sensor hs 
                 ON hs.fk_sensor = sr.id_sensor
             WHERE b.fk_fazenda = ${idFazenda}
             GROUP BY 

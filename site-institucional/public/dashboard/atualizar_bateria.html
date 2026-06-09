@@ -96,54 +96,45 @@
 
     let idBateria = buscarIdBateria;
     let nomeInserido = iptNome.value;
-    // let qtdSilosInserido = iptQtdSilos.value;
-    let alturaInserida = iptAltura.value;
-    let diametroInserido = iptDiametro.value;
 
     function atualizarBateria() {
 
-        for (let i = 0; i < resposta.length; i++) {
-            if (resposta[i].nomeBateria == iptNome.value) {
+        if (resposta[i].nomeBateria == iptNome.value) {
 
-                fetch("/configBateria/atualizarDadosBateria", {
-                    method: "PUT",
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify({
-                        idBateriaserver: idBateria,
-                        nomeBateriaServer: nomeInserido,
-                        // qtdSilosServer: qtdSilosInserido,
-                        alturaSiloServer: alturaInserida,
-                        diametroSiloServer: diametroInserido
-                    }),
+            fetch("/configBateria/atualizarDadosBateria", {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    idBateriaserver: idBateria,
+                    nomeBateriaServer: nomeInserido,
+                }),
+            })
+                .then(function (resposta) {
+                    console.log("resposta: ", resposta);
+
+                    if (resposta.ok) {
+                        cardErro.style.display = "block";
+
+                        mensagem.innerHTML =
+                            "Atualização realizada com sucesso! Redirecionando para tela de bateria...";
+
+
+                        setTimeout(function () {
+                            window.location.href = "visualizar_bateria_mocado.html";
+                        }, 1000);
+
+                        limparFormulario();
+                        finalizarAguardar();
+                    } else {
+                        throw "Houve um erro ao tentar realizar o cadastro!";
+                    }
                 })
-                    .then(function (resposta) {
-                        console.log("resposta: ", resposta);
+                .catch(function (resposta) {
+                    console.log(`#ERRO: ${resposta}`);
+                });
 
-                        if (resposta.ok) {
-                            cardErro.style.display = "block";
-
-                            mensagem.innerHTML =
-                                "Atualização realizada com sucesso! Redirecionando para tela de bateria...";
-
-
-                            setTimeout(function () {
-                                window.location.href = "visualizar_bateria_mocado.html";
-                            }, 1000);
-
-                            limparFormulario();
-                            finalizarAguardar();
-                        } else {
-                            throw "Houve um erro ao tentar realizar o cadastro!";
-                        }
-                    })
-                    .catch(function (resposta) {
-                        console.log(`#ERRO: ${resposta}`);
-                        // finalizarAguardar();
-                    });
-
-            }
         }
     }
 
