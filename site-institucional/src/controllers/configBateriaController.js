@@ -31,12 +31,13 @@ function inserirDadosBateria(req, res) {
 function atualizarDadosBateria(req, res) {
 
     var idBateria = req.body.idBateriaserver;
+    var nomeBateria = req.body.nomeBateriaServer;
 
     if (nomeBateria == undefined) {
         res.status(400).send("O nome da bateria está undefined!");
     } else {
 
-        configBateriaModel.atualizarDadosBateria(idBateria)
+        configBateriaModel.atualizarDadosBateria(nomeBateria, idBateria)
             .then(
                 function (resultado) {
                     res.json(resultado);

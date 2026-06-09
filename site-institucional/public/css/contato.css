@@ -49,6 +49,15 @@
   height: 7vh;
   font-size: 1.2vw;
   font-weight: bold;
+  transition: all ease-in-out 0.3s;
+}
+
+#botaoZap:hover {
+  transform: scale(0.95);
+  border: 2px solid white;
+  color: white;
+  background-color: black;
+  cursor: pointer;
 }
 
 #imgZap_botao {
@@ -56,7 +65,7 @@
   flex-direction: row;
   align-items: center;
   height: 5vh;
-  gap: 1vw;
+  gap: 1.5vw;
 }
 
 #botaoEmail {
@@ -152,8 +161,8 @@
 }
 
 #imgZap {
-  width: 2vw;
-  height: 2vw;
+  width: 2.5vw;
+  height: 2.5vw;
 }
 
 #imgEmail, #imgTelefone {
