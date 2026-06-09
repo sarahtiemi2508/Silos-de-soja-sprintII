@@ -107,16 +107,19 @@ button {
     background-color: #FFBA00;
     color: #FFFFFF;
     border: none;
-    border-radius: 15px;
+    border-radius: 20px;
     color: black;
     font-weight: bold;
     padding: 8px 35px;
     font-size: 14px;
-
+    transition: all ease-in-out 0.3s;
+    border: 2px solid #FFBA00;
 }
 
 button:hover {
-    background-color: #EFB661;
+    transform: scale(1.05);
+    border: 2px solid black;
+    background-color: white;
 }
 
 #resposta {
