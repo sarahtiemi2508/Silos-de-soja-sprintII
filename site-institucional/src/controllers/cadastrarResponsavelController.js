@@ -29,3 +29,7 @@ function cadastrar_responsavel(req, res) {
     });
 
 }
+
+module.exports = {
+    cadastrar_responsavel
+};

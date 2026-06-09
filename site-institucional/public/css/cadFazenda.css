@@ -541,3 +541,112 @@ main {
     font-size: 12px;
     margin-top: -15px;
 }
+
+/* divisao */
+
+.sobre-fazenda {
+    text-align: center;
+    max-width: 700px;
+    margin-bottom: 40px;
+}
+
+.sobre-fazenda h1 {
+    font-size: 28px;
+    font-weight: 700;
+    color: #000000;
+    margin-bottom: 15px;
+    letter-spacing: 1px;
+}
+
+.sobre-fazenda p {
+    font-size: 15px;
+    color: #666666;
+    line-height: 1.5;
+}
+
+.confirmar_dados {
+    border: 2px solid #ffbc00; 
+    border-radius: 20px;
+    width: 100%;
+    max-width: 800px;
+    padding: 40px;
+    box-sizing: border-box;
+    position: relative;
+    background-color: #ffffff;
+}
+
+.confirmacao_dados {
+    background-color: #000000;
+    color: #ffbc00;
+    font-weight: 700;
+    font-size: 18px;
+    padding: 12px 25px;
+    display: inline-block;
+    position: absolute;
+    top: 40px;
+    left: 40px;
+    letter-spacing: 0.5px;
+}
+
+.conteudo_dados {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 60px; 
+}
+
+.responsavel_dados, .endereco_dados {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.responsavel_dados {
+    padding-right: 20px;
+}
+
+.endereco_dados {
+    padding-left: 40px;
+}
+
+.divisao_dados {
+    width: 1px;
+    background-color: #333333;
+    align-self: stretch;
+    margin: 10px 0;
+}
+
+.titulo_dados {
+    font-weight: 700;
+    font-size: 18px;
+    color: #000000;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+}
+
+.responsavel_dados .titulo_dados:nth-of-type(2) {
+    margin-top: 25px;
+}
+
+.dados_dados {
+    font-size: 15px;
+    color: #777777;
+    margin-bottom: 4px;
+}
+
+.btn-concluir {
+    background-color: #ffbc00;
+    color: #000000;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    font-size: 14px;
+    border: none;
+    border-radius: 25px;
+    padding: 12px 60px;
+    margin-top: 30px;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.btn-concluir:hover {
+    background-color: #e0a500;
+}
