@@ -7,6 +7,8 @@
     <title>Atualizar Bateria</title>
     <link rel="stylesheet" href="../css/cadBateria.css">
     <link rel="stylesheet" href="../css/menu.css">
+    <link rel="shortcut icon" href="../assets/icon/favicon-dark.ico" media="(prefers-color-scheme: dark)">
+    <link rel="shortcut icon" href="../assets/icon/favicon-light.ico" media="(prefers-color-scheme: light)">
     <script src="../js/menu.js"></script>
 
     <!--Importar validação de sessão-->
@@ -19,13 +21,13 @@
             <div class="header"></div>
 
             <div id="menu_hamburger"></div>
-    <script>
-        fetch("../includes/menu.html")
-            .then(resposta => resposta.text())
-            .then(dados => {
-                document.getElementById("menu_hamburger").innerHTML = dados;
-            });
-    </script>
+            <script>
+                fetch("../includes/menu.html")
+                    .then(resposta => resposta.text())
+                    .then(dados => {
+                        document.getElementById("menu_hamburger").innerHTML = dados;
+                    });
+            </script>
 
             <div class="divTitulo">
                 <img class="imgTitulo" src="../assets/imgs/fazenda.png" width="38px">
@@ -40,116 +42,58 @@
                         <label class="labelInput">NOME:</label>
                         <input class="inputGrande" id="iptNome" type="text" placeholder="Ex:XPTO">
                     </div>
-                    <div class="parte2">
-                        <div class="divInput" id="divIptQtdSilos">
-                            <label class="labelInput">QTD DE SILOS:</label>
-                            <input class="inputPequeno" id="iptQtdSilos" type="text" placeholder="Ex:8">
-                        </div>
-                        <div class="divInput" id="divIptAltura">
-                            <label class="labelInput">ALTURA:</label>
-                            <input class="inputPequeno" id="iptAltura" type="text" placeholder="Ex:12m">
-                        </div>
-                        <div class="divInput" id="divIptDiametro">
-                            <label class="labelInput">DIÂMETRO:</label>
-                            <input class="inputPequeno" id="iptDiametro" type="text" placeholder="Ex:5m">
-                        </div>
-                    </div>
                     <button class="botao" onclick="atualizarBateria()">ATUALIZAR</button>
                 </div>
             </div>
             <div class="cardErro" id="cardErro">
-                    <div class="boxErro">
-                        <div id="mensagem_erro"></div>
-                    </div>
+                <div class="boxErro">
+                    <div id="mensagem_erro"></div>
                 </div>
+            </div>
         </div>
     </div>
 </body>
 
 <script>
 
-let buscarIdBateria="";
-    
-    function obterDadosBateria(){
-let id = sessionStorage.ID_USUARIO
+    function atualizarBateria() {
 
-fetch(`/configBateria/buscarDadosBateria`, { cache: 'no-store' })
-    .then(function (response){
-        if(response.ok){
-            response.json().then(function(resposta){
-                
-                for(let i=0; i<resposta.length; i++){
-                    if(resposta[i].nomeBateria== iptNome.value){
+        let idBateria = sessionStorage.ID_BATERIA_ATUAL;
+        let nomeInserido = iptNome.value;
 
-                        buscarIdBateria= resposta[i].idBateria
-                       atualizarBateria() 
-
-                    } else{
-                        cardErro.style.display="block"
-                        mensagem_erro.innerHTML=`Bateria não identificada.<br> Verifique se o nome está correto.`
-                    }
-                    
-                }
-                
-             })   
-             
-            } else{
-                console.log("Nenhum dado encontrado")
-            }
-            
-        }) 
-        .catch( function (error){
-            console.error("Erro na obtenção de dados")
+        fetch("/configBateria/atualizarDadosBateria", {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                idBateriaserver: idBateria,
+                nomeBateriaServer: nomeInserido,
+            }),
         })
-}
+        .then(function (resposta) {
+            console.log("resposta: ", resposta);
+
+            if (resposta.ok) {
+                cardErro.style.display = "block";
+
+                mensagem.innerHTML =
+                    "Atualização realizada com sucesso! Redirecionando para tela de bateria...";
 
 
-function atualizarBateria(){
-    let idBateria= buscarIdBateria;
-    let nomeInserido = iptNome.value;
-    let qtdSilosInserido = iptQtdSilos.value;
-    let alturaInserida = iptAltura.value;
-    let diametroInserido = iptDiametro.value;
-
-
-fetch("/configBateria/atualizarDadosBateria", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        idBateriaserver: idBateria,
-        nomeBateriaServer: nomeInserido,
-        qtdSilosServer: qtdSilosInserido,
-        alturaSiloServer: alturaInserida,
-        diametroSiloServer: diametroInserido
-      }),
-    })
-      .then(function (resposta) {
-        console.log("resposta: ", resposta);
-
-        if (resposta.ok) {
-          cardErro.style.display = "block";
-
-          mensagem.innerHTML =
-            "Atualização realizada com sucesso! Redirecionando para tela de bateria...";
-           
-
-            setTimeout(function () {
-                        window.location.href = "visualizar_bateria_mocado.html";
+                setTimeout(function () {
+                    window.location.href = "visualizar_bateria_mocado.html";
                 }, 1000);
 
-          limparFormulario();
-          finalizarAguardar();
-        } else {
-          throw "Houve um erro ao tentar realizar o cadastro!";
-        }
-      })
-      .catch(function (resposta) {
-        console.log(`#ERRO: ${resposta}`);
-        // finalizarAguardar();
-      });
-
+                limparFormulario();
+                finalizarAguardar();
+            } else {
+                throw "Houve um erro ao tentar realizar o cadastro!";
+            }
+        })
+        .catch(function (resposta) {
+            console.log(`#ERRO: ${resposta}`);
+        });
 
     }
 

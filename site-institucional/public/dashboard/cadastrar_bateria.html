@@ -7,6 +7,8 @@
     <title>Cadastro de Bateria</title>
     <link rel="stylesheet" href="../css/cadBateria.css">
     <link rel="stylesheet" href="../css/menu.css">
+    <link rel="shortcut icon" href="../assets/icon/favicon-dark.ico" media="(prefers-color-scheme: dark)">
+    <link rel="shortcut icon" href="../assets/icon/favicon-light.ico" media="(prefers-color-scheme: light)">
     <script src="../js/menu.js"></script>
 
     <!--Importar validação de sessão-->
@@ -15,103 +17,104 @@
 
 <body onload="validarSessao()">
     <div class="imgFundo">
+
         <div class="blur">
             <div class="header"></div>
       
             <div id="menu_hamburger"></div>
-    <script>
-        fetch("../includes/menu.html")
-            .then(resposta => resposta.text())
-            .then(dados => {
-                document.getElementById("menu_hamburger").innerHTML = dados;
-            });
-    </script>
+
+            <script>
+                fetch("../includes/menu.html")
+                    .then(resposta => resposta.text())
+                    .then(dados => {
+                        document.getElementById("menu_hamburger").innerHTML = dados;
+                    });
+            </script>
       
             <div class="divTitulo">
+
                 <img class="imgTitulo" src="../assets/imgs/fazenda.png" width="38px">
-                <h1 class="titulo">
-                    ADICIONAR BATERIA
-                </h1>
+                <h1 class="titulo">ADICIONAR BATERIA</h1>
+
             </div>
+
             <div class="divInfoBateria">
+
                 <div class="boxInfoBateria">
+
                     <h3 class="tituloInfoBateria">INFORMAÇÕES DA BATERIA</h3>
                     <div class="divInput" id="divIptNome">
                         <label class="labelInput">NOME:</label>
                         <input class="inputGrande" id="iptNome" type="text" placeholder="Ex:XPTO">
                     </div>
-                    <div class="parte2">
+
+                    <!-- <div class="parte2">
+
                         <div class="divInput" id="divIptQtdSilos">
                             <label class="labelInput">QTD DE SILOS:</label>
                             <input class="inputPequeno" id="iptQtdSilos" type="text" placeholder="Ex:8">
                         </div>
+
                         <div class="divInput" id="divIptAltura">
                             <label class="labelInput">ALTURA:</label>
                             <input class="inputPequeno" id="iptAltura" type="text" placeholder="Ex:12m">
                         </div>
+
                         <div class="divInput" id="divIptDiametro">
                             <label class="labelInput">DIÂMETRO:</label>
                             <input class="inputPequeno" id="iptDiametro" type="text" placeholder="Ex:5m">
                         </div>
-                    </div>
+
+                    </div> -->
+
                     <button class="botao" onclick="cadastrarBateria()">ADICIONAR</button>
+
                 </div>
+
                 <div class="cardErro" id="cardErro">
                     <div class="boxErro">
                         <div id="mensagem_erro"></div>
                     </div>
                 </div>
+
             </div>
+
         </div>
+
     </div>
 </body>
 
 <script>
 
+    var id_fazenda = sessionStorage.ID_FAZENDA_ATUAL;
+
     function cadastrarBateria() {
+    
+        var nomeInserido = iptNome.value;
 
-        let nomeInserido = iptNome.value;
-        let qtdSilosInserido = iptQtdSilos.value;
-        let alturaInserida = iptAltura.value;
-        let diametroInserido = iptDiametro.value;
-
-        fetch("../configBateria/inserirDadosBateria", {
+        fetch(`/configBateria/inserirDadosBateria/${id_fazenda}`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
             },
             body: JSON.stringify({
-                nomeBateriaServer: nomeInserido,
-                qtdSilosServer: qtdSilosInserido,
-                alturaSiloServer: alturaInserida,
-                diametroSiloServer: diametroInserido
+                nomeBateriaServer: nomeInserido
             }),
         })
-            .then(function (resposta) {
-                console.log("resposta: ", resposta);
+        .then(function (resposta) {
+            console.log("resposta: ", resposta);
 
-                if (resposta.ok) {
-                    cardErro.style.display = "block";
-
-                    mensagem_erro.innerHTML =
-                        "Cadastro realizado com sucesso! Redirecionando para tela de baterias...";
-
-                    setTimeout(() => {
-                        window.location.href = "visualizar_bateria.html";
-                        console.log("Passei detro do redirecionamento");
-
-                    }, "2000");
-
-                    limparFormulario();
-                    finalizarAguardar();
-                } else {
-                    throw "Houve um erro ao tentar realizar o cadastro!";
-                }
-            })
-            .catch(function (resposta) {
-                console.log(`#ERRO: ${resposta}`);
-                finalizarAguardar();
-            });
+            if (resposta.ok) {
+                alert(`Bateria ${nomeInserido} adicionada com sucesso!`);
+                cardErro.style.display = "block";
+                history.back();
+            } else {
+                throw "Houve um erro ao tentar realizar o cadastro!";
+            }
+        })
+        .catch(function (resposta) {
+            console.log(`#ERRO: ${resposta}`);
+        });
 
     }
 

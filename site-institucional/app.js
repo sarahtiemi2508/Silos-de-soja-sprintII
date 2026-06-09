@@ -29,7 +29,7 @@ var siloRouter = require("./src/routes/silos");
 var dashBateriaRouter = require("./src/routes/dashBateria");
 var configBateriaRouter = require("./src/routes/configBateria");
 var gerenciarFazendaRouter = require("./src/routes/gerenciarFazenda");
-
+var configUserRouter = require("./src/routes/configUser");
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -51,6 +51,7 @@ app.use("/dashBateria", dashBateriaRouter);
 app.use("/configBateria", configBateriaRouter);
 app.use("/gerenciarFazenda", gerenciarFazendaRouter);
 app.use("/silos", siloRouter);
+app.use("/configUser", configUserRouter);
 
 app.listen(PORTA_APP, function () {
     console.log(`

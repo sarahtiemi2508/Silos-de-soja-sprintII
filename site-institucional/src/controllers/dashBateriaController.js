@@ -1,9 +1,9 @@
 var dashBateriaModel = require("../models/dashBateriaModel");
 
 function selectInfoBateria(req, res) {
+    let id_bateria = req.params.id_bateria;
 
-
-    dashBateriaModel.selectVolumeTotal()
+    dashBateriaModel.selectInfoBateria(id_bateria)
         .then(function (resultado) {
             res.json(resultado);
         })
@@ -14,10 +14,10 @@ function selectInfoBateria(req, res) {
 }
 
 function selectInfoFazenda(req, res) {
+    let id_fazenda = req.params.id_fazenda;
 
 
-
-    dashBateriaModel.selectInfoFazenda()
+    dashBateriaModel.selectInfoFazenda(id_fazenda)
         .then(function (resultado) {
             res.json(resultado);
         })
@@ -29,9 +29,10 @@ function selectInfoFazenda(req, res) {
 
 function selectVolumeTotal(req, res) {
 
-console.log(idBateria);
+    let id_bateria = req.params.id_bateria;
+    console.log(id_bateria);
 
-    dashBateriaModel.selectVolumeTotal(idBateria)
+    dashBateriaModel.selectVolumeTotal(id_bateria)
         .then(function (resultado) {
             res.json(resultado);
         })
@@ -42,11 +43,11 @@ console.log(idBateria);
 }
 
 function selectOcupacaoTotal(req, res) {
-    
+    let id_bateria = req.params.id_bateria;
 
-console.log(idBateria);
+    console.log(id_bateria);
 
-    dashBateriaModel.selectOcupacaoTotal(idBateria)
+    dashBateriaModel.selectOcupacaoTotal(id_bateria)
         .then(function (resultado) {
             res.json(resultado);
         })
@@ -57,11 +58,10 @@ console.log(idBateria);
 }
 
 function selectMaiorNivel(req, res) {
-   
+    let id_bateria = req.params.id_bateria;
 
-console.log("idUsuario recebido:", idBateria);
 
-    dashBateriaModel.selectMaiorNivel(idBateria)
+    dashBateriaModel.selectMaiorNivel(id_bateria)
         .then(function (resultado) {
             res.json(resultado);
         })
@@ -72,11 +72,11 @@ console.log("idUsuario recebido:", idBateria);
 }
 
 function selectMenorNivel(req, res) {
-    
+    let id_bateria = req.params.id_bateria;
 
-console.log(idBateria);
+    console.log(id_bateria);
 
-    dashBateriaModel.selectMenorNivel(idBateria)
+    dashBateriaModel.selectMenorNivel(id_bateria)
         .then(function (resultado) {
             res.json(resultado);
         })
@@ -87,11 +87,11 @@ console.log(idBateria);
 }
 
 function selectVolumeIndividual(req, res) {
-    
+    let id_bateria = req.params.id_bateria;
 
-console.log(idBateria);
+    console.log(id_bateria);
 
-    dashBateriaModel.selectVolumeIndividual(idBateria)
+    dashBateriaModel.selectVolumeIndividual(id_bateria)
         .then(function (resultado) {
             res.json(resultado);
         })
@@ -102,11 +102,11 @@ console.log(idBateria);
 }
 
 function selectVolumeMensalBateria(req, res) {
-    
+    let id_bateria = req.params.id_bateria;
 
-console.log(idBateria);
+    console.log(id_bateria);
 
-    dashBateriaModel.selectVolumeMensalBateria(idBateria)
+    dashBateriaModel.selectVolumeMensalBateria(id_bateria)
         .then(function (resultado) {
             res.json(resultado);
         })
@@ -117,10 +117,27 @@ console.log(idBateria);
 }
 
 function selectInfoSiloIndividual(req, res) {
+    let id_bateria = req.params.id_bateria;
 
-console.log(idBateria);
+    console.log(id_bateria);
 
-    dashBateriaModel.selectInfoSiloIndividual(idBateria)
+    dashBateriaModel.selectInfoSiloIndividual(id_bateria)
+        .then(function (resultado) {
+            res.json(resultado);
+        })
+        .catch(function (erro) {
+            console.log(erro);
+            res.status(500).json(erro.sqlMessage);
+        });
+}
+
+
+function selectVolumeMedio(req, res) {
+    let id_bateria = req.params.id_bateria;
+
+    console.log(id_bateria);
+
+    dashBateriaModel.selectVolumeMedio(id_bateria)
         .then(function (resultado) {
             res.json(resultado);
         })
@@ -131,11 +148,13 @@ console.log(idBateria);
 }
 
 module.exports = {
-   selectInfoBateria,
-  selectInfoFazenda,
-   selectVolumeTotal,
-   selectMaiorNivel,
-   selectMenorNivel,
-   selectVolumeMensalBateria,
-   selectInfoSiloIndividual
+    selectInfoBateria,
+    selectInfoFazenda,
+    selectVolumeTotal,
+    selectMaiorNivel,
+    selectMenorNivel,
+    selectVolumeMensalBateria,
+    selectInfoSiloIndividual,
+    selectVolumeIndividual,
+    selectVolumeMedio
 }

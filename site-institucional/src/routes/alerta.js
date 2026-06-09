@@ -15,4 +15,9 @@ router.get("/listarAlertasEmpresa/:id_empresa", function (req, res) {
     alertaController.listarAlertasEmpresa(req, res);
 });
 
+router.post("/confirmarLeitura/:id_usuario", function (req, res) {
+    // função a ser chamada quando acessar /fazenda/confirmarLeitura/:id_empresa
+    alertaController.confirmarLeitura(req, res);
+});
+
 module.exports = router;

@@ -1,27 +1,29 @@
 var database = require("../database/config")
 
-function selectInfoBateria() {
+function selectInfoBateria(id_bateria) {
   var instrucaoSql = `
     SELECT 
-      id_bateria_silo AS id,
+      id_bateria_silo,
       bateria_grupo AS nome
-    FROM bateria_silo;
+    FROM bateria_silo
+    WHERE id_bateria_silo = ${id_bateria};
 `;
 
   return database.executar(instrucaoSql);
 }
-function selectInfoFazenda() {
+function selectInfoFazenda(id_fazenda) {
   var instrucaoSql = `
     SELECT 
-      id_fazenda AS id,
+      id_fazenda,
       nome_fazenda AS nome
-    FROM fazenda;
+    FROM fazenda
+    WHERE id_fazenda = ${id_fazenda};
 `;
 
   return database.executar(instrucaoSql);
 }
 
-function selectVolumeTotal(idBateria) {
+function selectVolumeTotal(id_bateria) {
   var instrucaoSql = `
     SELECT 
       id,
@@ -29,7 +31,7 @@ function selectVolumeTotal(idBateria) {
       SUM(preenchimento) AS nivelTotal,
       count(*) AS quantidade
     FROM volume_preenchido_bateria
-    WHERE id = ${idBateria}
+    WHERE id = ${id_bateria}
     GROUP BY bateria;
 `;
 
@@ -38,7 +40,7 @@ function selectVolumeTotal(idBateria) {
 
 
 
-function selectMaiorNivel() {
+function selectMaiorNivel(id_bateria) {
   var instrucaoSql = `
     SELECT 
       id_silo_individual as id_silo,
@@ -46,7 +48,7 @@ function selectMaiorNivel() {
       preenchimento,
       total
     FROM volume_preenchido_bateria
-    WHERE id = ${idBateria}
+    WHERE id = ${id_bateria}
     ORDER BY preenchimento DESC
     LIMIT 1;
 `;
@@ -54,7 +56,7 @@ function selectMaiorNivel() {
   return database.executar(instrucaoSql);
 }
 
-function selectMenorNivel(idBateria) {
+function selectMenorNivel(id_bateria) {
   var instrucaoSql = `
     SELECT 
       id_silo_individual as id_silo,
@@ -62,7 +64,7 @@ function selectMenorNivel(idBateria) {
       preenchimento,
       total
     FROM volume_preenchido_bateria
-    WHERE id=${idBateria}
+    WHERE id=${id_bateria}
     ORDER BY preenchimento
     LIMIT 1;
 `;
@@ -70,7 +72,7 @@ function selectMenorNivel(idBateria) {
   return database.executar(instrucaoSql);
 }
 
-function selectVolumeIndividual(idBateria) {
+function selectVolumeIndividual(id_bateria) {
   var instrucaoSql = `
     SELECT
       id_silo_individual as id_silo,
@@ -78,19 +80,19 @@ function selectVolumeIndividual(idBateria) {
       preenchimento,
       total
     FROM volume_preenchido_bateria
-    WHERE id = ${idBateria}
+    WHERE id = ${id_bateria}
     LIMIT 6;
 `;
 
   return database.executar(instrucaoSql);
 }
 
-function selectVolumeMensalBateria(idBateria) {
+function selectVolumeMensalBateria(id_bateria) {
   var instrucaoSql = `
     SELECT 
       *
     FROM media_preenchimento_mensal_por_bateria 
-    WHERE bateria = ${idBateria};
+    WHERE bateria = ${id_bateria}
     ORDER BY mes
     LIMIT 12;
   `;
@@ -98,8 +100,8 @@ function selectVolumeMensalBateria(idBateria) {
   return database.executar(instrucaoSql);
 }
 
-function selectInfoSiloIndividual(){
-var instrucaoSql = `
+function selectInfoSiloIndividual(id_bateria) {
+  var instrucaoSql = `
     select 
 si.id_silo_individual AS idSilo,
 si.modelo_silo AS nome,
@@ -114,7 +116,24 @@ JOIN historico_sensor hs
 ON hs.fk_sensor = s.id_sensor
 JOIN alerta a
 ON a.fk_historico_sensor = hs.id_historico_sensor
-WHERE si.fk_bateria_silo=${idBateria};
+WHERE si.fk_bateria_silo=${id_bateria}
+GROUP BY si.id_silo_individual, a.situacao;
+  `;
+
+  return database.executar(instrucaoSql);
+}
+
+
+function selectVolumeMedio(id_bateria) {
+  var instrucaoSql = `
+   SELECT
+    id,
+    bateria,
+    ROUND(AVG(preenchimento), 2) AS media_nivel
+FROM volume_preenchido_bateria
+WHERE id = ${id_bateria}
+GROUP BY id,
+ bateria;
   `;
 
   return database.executar(instrucaoSql);
@@ -123,9 +142,11 @@ WHERE si.fk_bateria_silo=${idBateria};
 module.exports = {
   selectInfoBateria,
   selectInfoFazenda,
-   selectVolumeTotal,
-   selectMaiorNivel,
-   selectMenorNivel,
-   selectVolumeMensalBateria,
-   selectInfoSiloIndividual
+  selectVolumeTotal,
+  selectMaiorNivel,
+  selectMenorNivel,
+  selectVolumeMensalBateria,
+  selectInfoSiloIndividual,
+  selectVolumeIndividual,
+  selectVolumeMedio
 };

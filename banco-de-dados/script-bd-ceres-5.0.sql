@@ -30,7 +30,7 @@ email VARCHAR(200) UNIQUE NOT NULL,
 telefone VARCHAR(15),
 
 tipo_usuario VARCHAR(30) NOT NULL,
-CONSTRAINT chk_tipo_usuario CHECK (tipo_usuario IN ('AdmEmpresa', 'AdmFazenda', 'Colaborador')),
+CONSTRAINT chk_tipo_usuario CHECK (tipo_usuario IN ('AdmEmpresa', 'AdmFazenda', 'Colaborador', 'N3')),
 
 fk_empresa INT,
 CONSTRAINT ctfk_empresa
@@ -123,7 +123,7 @@ REFERENCES gp_sensores (id_gp_sensores)
 
 CREATE TABLE historico_sensor (
 id_historico_sensor INT PRIMARY KEY AUTO_INCREMENT,
-distancia_captada INT,
+distancia_captada DECIMAL (6,2),
 dt_hora_leitura DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
 fk_sensor INT,
@@ -776,7 +776,6 @@ LEFT JOIN usuario AS u
 GROUP BY e.id_empresa, f.id_fazenda
 ORDER BY e.nome_fantasia, f.nome_fazenda;
 
-
 --------------------------	
 -- DASHBOARD DA BATERIA --
 --------------------------
@@ -944,7 +943,6 @@ WHERE p.tipo_permissao = 'Responsável';
 
 SELECT * FROM responsavel_fazenda;
 
-SELECT * FROM fazendas_do_usuario;
 -- Para saber as informações de cada fazenda
 CREATE VIEW fazendas_do_usuario AS
 SELECT
@@ -1036,7 +1034,7 @@ WHERE u.id_usuario = 2;
 --------------------------
 
 -- View que indica as informações necessárias para a página de alerta de todas as fazendas
-CREATE VIEW infos_situacao_silo AS 
+CREATE VIEW infos_situacao_silo AS
 SELECT
 	rf.id_usuario AS id_responsavel,
     rf.responsavel AS responsavel,
@@ -1045,10 +1043,14 @@ SELECT
     f.id_fazenda AS id_fazenda,
 	f.nome_fazenda AS fazenda,
     b.bateria_grupo AS bateria,
+    b.id_bateria_silo AS id_bateria,
+    s.id_silo_individual AS id_silo_individual,
     ROW_NUMBER() OVER(PARTITION BY b.id_bateria_silo ORDER BY s.id_silo_individual) AS num_silo,
+    MAX(a.id_alerta) AS id_alerta,
     a.prioridade AS prioridade,
     a.situacao AS situacao,
-    a.dt_registro AS dt_registro
+    a.dt_registro AS dt_registro,
+    cl.confirmacao AS confirmacao
 FROM fazenda AS f
 JOIN responsavel_fazenda AS rf ON rf.id_fazenda = f.id_fazenda
 JOIN bateria_silo AS b ON b.fk_fazenda = f.id_fazenda
@@ -1057,14 +1059,27 @@ JOIN gp_sensores AS gs ON gs.fk_silo = s.id_silo_individual
 JOIN sensor AS sr ON sr.fk_gp_sensores = gs.id_gp_sensores
 JOIN historico_sensor AS hs ON hs.fk_sensor = sr.id_sensor
 JOIN alerta AS a ON a.fk_historico_sensor = hs.id_historico_sensor
-GROUP BY gs.id_gp_sensores, a.dt_registro, a.situacao, rf.id_usuario, rf.contato, a.prioridade
+LEFT JOIN confirmacao_leitura AS cl ON cl.fk_alerta = a.id_alerta
+WHERE cl.fk_alerta IS NULL
+GROUP BY
+	gs.id_gp_sensores, 
+    a.dt_registro, 
+    a.situacao, 
+    rf.id_usuario, 
+    rf.contato, 
+    a.prioridade, 
+    cl.confirmacao
 HAVING a.situacao <> 'Estável';
+
+INSERT INTO confirmacao_leitura (confirmacao, fk_usuario, fk_alerta) VALUES
+(1, 2, 3);
 
 SELECT * FROM infos_situacao_silo;
 
 -- Select que delimita os alertas de acordo com a permissao do usuário
 -- Para ADMFazenda e Colaboradores
 SELECT
+	iss.id_alerta,
 	iss.situacao,
     iss.num_silo,
     iss.fazenda,
@@ -1088,7 +1103,7 @@ FROM infos_situacao_silo AS iss
 JOIN empresa AS e ON e.id_empresa = iss.id_empresa
 WHERE e.id_empresa = 1;
 
-
+INSERT INTO 
 -- ------------------------ --
 -- CONFIGURAÇÕES DO USUÁRIO --
 -- ------------------------ --
@@ -1214,5 +1229,9 @@ JOIN gp_sensores AS gs ON gs.fk_silo = s.id_silo_individual
     WHERE id_fazenda = 1
 GROUP BY id_bateria_silo, bateria_grupo;
 
+INSERT INTO usuario (nome_usuario, cpf, dt_nascimento, senha, email, telefone, tipo_usuario, fk_empresa) VALUES
+-- 3 Usuários da empresa Scheffer fk empresa 1
+('Maria Fernanda', '79620121025', '2008-09-18', 'maria@123', 'maria@email.com', '(11) 99999-0000', 'N3', NULL);
 
 -- FIM DOS SELECTS
+

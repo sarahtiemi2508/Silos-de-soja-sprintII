@@ -47,41 +47,15 @@
 
         <div class="cards_info_geral">
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
             <div class="card_info_baterias">
 
                 <p class="titulo_bateria">SUAS BATERIAS</p>
-                <div class="baterias_gerais" id="baterias_gerais">
-
-                </div>
-            </div>
-
-
-
-
-
-
-
-
-            <div class="card_info_fazenda" id="card_info_fazenda">
+                <div class="baterias_gerais" id="baterias_gerais"></div>
 
             </div>
+
+            <div class="card_info_fazenda" id="card_info_fazenda"></div>
+
         </div>
 
     </div>
@@ -95,6 +69,7 @@
 
 
 <script>
+
     const parametros = new URLSearchParams(window.location.search);
 
     const id_fazenda = parametros.get("id_fazenda");
@@ -104,8 +79,6 @@
     visualizarBaterias();
 
     function visualizarBaterias() {
-
-
 
         fetch(`/visuBateria/visualizarBateria/${id_fazenda}`)
             .then(resposta => resposta.json())
@@ -153,49 +126,42 @@
 
         baterias_gerais.innerHTML = ``;
 
-
-
-
         fetch(`/visuBateria/detalhesBateria/${id_fazenda}`)
-            .then(resposta => resposta.json())
-            .then(dados => {
-                console.log(dados);
+        .then(resposta => resposta.json())
+        .then(dados => {
+            console.log(dados);
 
-                let fazenda = dados[0];
+            let fazenda = dados[0];
 
 
-                for (let i = 0; i < dados.length; i++) {
+            for (let i = 0; i < dados.length; i++) {
 
-                    baterias_gerais.innerHTML += `
+                baterias_gerais.innerHTML += `
                 
                 <div class="bateria_unica">
-                        <p id="nome_bateria">${dados[i].nome_bateria}</p>
+                    <p id="nome_bateria">${dados[i].nome_bateria}</p>
 
-                        <div class="div_qtd_silos">
-                            <p class="sub_titulo_bateria">QTD SILOS</p>
-                            <p id="qtd_silos">${dados[i].qtd_silos}</p>
-                        </div>
-
-                        <div class="situacoes_silos_geral">
-                            <p class="sub_titulo_bateria">SITUAÇÕES</p>
-                            <div class="situacoes_silos">
-                                <p id="situacao_padrao">${dados[i].estaveis}</p>
-                                <p id="situacao_moderada">${dados[i].moderados}</p>
-                                <p id="situacao_critica">${dados[i].criticos}</p>
-                            </div>
-                        </div>
-
-                        <a class="btn_visu_silo" href="dashboard-bateria.html?id_fazenda=${id_fazenda}&id_bateria_silo=${dados[i].id_bateria_silo}"> > </a>
+                    <div class="div_qtd_silos">
+                        <p class="sub_titulo_bateria">QTD SILOS</p>
+                        <p id="qtd_silos">${dados[i].qtd_silos}</p>
                     </div>
+
+                    <div class="situacoes_silos_geral">
+                        <p class="sub_titulo_bateria">SITUAÇÕES</p>
+                        <div class="situacoes_silos">
+                            <p id="situacao_padrao">${dados[i].estaveis}</p>
+                            <p id="situacao_moderada">${dados[i].moderados}</p>
+                            <p id="situacao_critica">${dados[i].criticos}</p>
+                        </div>
+                    </div>
+
+                    <a class="btn_visu_silo" href="dashboard-bateria.html?id_fazenda=${id_fazenda}&id_bateria_silo=${dados[i].id_bateria_silo}"> > </a>
+                </div>
                 `
-                }
 
+            }
 
-            })
-
-
-
-
+        })
 
     }
 </script>

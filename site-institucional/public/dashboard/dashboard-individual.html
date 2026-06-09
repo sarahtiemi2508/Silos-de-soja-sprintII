@@ -67,7 +67,7 @@
                 <div class="controle-silo-bateria">
                     <div class="fazenda">Fazenda XPTO</div>
                     <span>SILOS DA BATERIA</span>
-                    <p>Bateria atual: 67</p>
+                    <p>Bateria atual: <span id="label-bateria-atual">...</span></p>
 
                     <div class="bateria-grid">
                         <button class="btn-silo active">1</button>
@@ -120,18 +120,16 @@
 </body>
 <script>
 
-     //const id_fazenda = parametros_silo.get("id_fazenda")
-    //const id_bateria = parametros_silo.get("id_bateria");
+    //  const id_fazenda = parametros_silo.get("id_fazenda")
+    // const id_bateria = parametros_silo.get("id_bateria");
     // const id_silo_individual = parametros_silo.get("id_silo_individual")
 
 
     //console.log(`ID DA FAZENDA: `, id_fazenda)
     //console.log(`ID DA BATERIA: `, id_bateria);
-     // console.log(`ID DO SILO: `,  id_silo_individual);
+    // console.log(`ID DO SILO: `,  id_silo_individual);
 
-
-
-     
+    // Id fixo p testar. Depois vai vir do session storage quando o usuario tiver logado
     // Id fixo p testar. Depois vai vir do session storage quando o usuario tiver logado
     let idSiloAtual = 1;
     let idBateriaAtual = 1;
@@ -143,7 +141,7 @@
         data: {
             labels: [],
             datasets: [{
-                label: 'Distância capturada pelo sensor',
+                label: 'Nível de preenchimento (m)',
                 borderColor: '#FFBA00',
                 backgroundColor: 'rgba(255, 186, 0, 0.2)',
                 borderWidth: 3,
@@ -154,195 +152,170 @@
         options: {
             responsive: true,
             maintainAspectRatio: false,
-            scales: {
-                y: { beginAtZero: true }
-            }
+            plugins: {
+                title: {
+                    display: true,
+                    text: 'Nível de preenchimento ao longo do tempo',
+                    font: { size: 16 }
+                }
+            },
+            scales: { y: { beginAtZero: true } }
         }
     });
 
     function attDadosBateria() {
         fetch(`/silos/bateria/${idBateriaAtual}`)
-            .then(function (resposta) {
-                if (resposta.ok) {
-                    resposta.json().then(function (silosDaBateria) {
+            .then(resposta => resposta.json())
+            .then(silosDaBateria => {
+                if (silosDaBateria.length == 0) return;
 
+                document.getElementById('label-bateria-atual').innerHTML = idBateriaAtual;
+                let divBotoes = document.querySelector('.bateria-grid');
+                divBotoes.innerHTML = '';
 
-                        if (silosDaBateria.length == 0) {
-                            console.log("Nenhum silo encontrado para esta bateria");
-                            return;
-                        }
+                let siloMaisVazio = silosDaBateria[0];
+                let siloMaisCheio = silosDaBateria[0];
 
-                        let divBotoes = document.querySelector('.bateria-grid');
-                        divBotoes.innerHTML = '';
+                for (let i = 0; i < silosDaBateria.length; i++) {
+                    let silo = silosDaBateria[i];
 
-                        let siloMaisVazio = silosDaBateria[0];
-                        let siloMaisCheio = silosDaBateria[0];
+                    if (parseFloat(silo.preenchimento) < parseFloat(siloMaisVazio.preenchimento)) siloMaisVazio = silo;
+                    if (parseFloat(silo.preenchimento) > parseFloat(siloMaisCheio.preenchimento)) siloMaisCheio = silo;
 
-                        for (let i = 0; i < silosDaBateria.length; i++) {
-                            let silo = silosDaBateria[i];
+                    let porcentagem = parseFloat(silo.preenchimento);
+                    let corFundo = "";
+                    let corTexto = "white";
 
-                            if (silo.preenchimento < siloMaisVazio.preenchimento) siloMaisVazio = silo;
-                            if (silo.preenchimento > siloMaisCheio.preenchimento) siloMaisCheio = silo;
+                    // BOTAAAAOOOOO
+                    if (porcentagem > 85 || porcentagem < 15) {
+                        corFundo = "#cf041f";
+                    } else if ((porcentagem >= 76 && porcentagem <= 85) || (porcentagem >= 15 && porcentagem <= 25)) {
+                        corFundo = "#FFBA00";
+                        corTexto = "black";
+                    } else {
+                        corFundo = "#008000";
+                    }
 
-                            let porcentagemLivre = 100 - parseFloat(silo.preenchimento);
-                            let corFundo = "";
-                            let corTexto = "white";
+                    let classeAtiva = silo.idSilo == idSiloAtual ? 'active' : '';
+                    divBotoes.innerHTML += `<button class="btn-silo ${classeAtiva}" style="background-color: ${corFundo}; color: ${corTexto}; border: 1px solid #333;" onclick="mudarSilo(${silo.idSilo})">${silo.modelo}</button>`;
+                }
 
-                            if (porcentagemLivre >= 30 && porcentagemLivre <= 70) {
-                                corFundo = "#008000";
-                            } else if (porcentagemLivre < 15 || porcentagemLivre > 85) {
-                                corFundo = "#cf041f";
-                            } else {
-                                corFundo = "#FFBA00";
-                                corTexto = "black";
-                            }
+                let siloExibidoNaTela = silosDaBateria.find(s => s.idSilo == idSiloAtual);
+                let textoAcao = document.getElementById('id_silo_mais');
 
-                            let classeAtiva = silo.idSilo == idSiloAtual ? 'active' : '';
+                if (siloExibidoNaTela) {
+                    let preenchimentoAtual = parseFloat(siloExibidoNaTela.preenchimento);
 
-                            divBotoes.innerHTML += `<button class="btn-silo ${classeAtiva}" style="background-color: ${corFundo}; color: ${corTexto}; border: 1px solid #333;" onclick="mudarSilo(${silo.idSilo})">${silo.modelo}</button>`;
-                        }
-
-                        // Pra nao ecoar pra si mesmo
-                        let textoAcao = document.getElementById('id_silo_mais');
-                        let siloExibidoNaTela = silosDaBateria.find(s => s.idSilo == idSiloAtual);
-
-                        if (siloExibidoNaTela) {
-                            if (siloExibidoNaTela.preenchimento > 70 && siloMaisVazio.idSilo != idSiloAtual) {
-                                textoAcao.innerHTML = `Escoar para ${siloMaisVazio.modelo}`;
-                            } else if (siloExibidoNaTela.preenchimento < 25 && siloMaisCheio.idSilo != idSiloAtual) {
-                                textoAcao.innerHTML = `Preencher a partir de ${siloMaisCheio.modelo}`;
-                            } else {
-                                textoAcao.innerHTML = `Manter nível`;
-                            }
-                        }
-
-                    });
-                } else {
-                    console.log("Houve um erro buscando a bateria");
+                    if (preenchimentoAtual > 85) {
+                        textoAcao.innerHTML = `Esvaziar silo urgentemente`;
+                    } else if (preenchimentoAtual < 15) {
+                        textoAcao.innerHTML = `Abastecer silo urgentemente`;
+                    } else if (preenchimentoAtual > 75) {
+                        textoAcao.innerHTML = `Transferir excesso para o ${siloMaisVazio.modelo}`;
+                    } else if (preenchimentoAtual < 26) {
+                        textoAcao.innerHTML = `Abastecer usando o ${siloMaisCheio.modelo}`;
+                    } else {
+                        textoAcao.innerHTML = `nenhuma ação necessaria`;
+                    }
                 }
             })
-            .catch(function (erro) {
-                console.log(`#ERRO: ${erro}`);
-            });
+            .catch(erro => console.log(`#ERRO BATERIA: ${erro}`));
     }
 
     function attGraficoseKpis() {
         fetch(`/silos/dados/${idSiloAtual}`)
-            .then(function (resposta) {
-                if (resposta.ok) {
-                    resposta.json().then(function (dadosSensor) {
+            .then(resposta => resposta.json())
+            .then(dadosSensor => {
+                if (dadosSensor.length == 0) return;
+                dadosSensor.reverse();
 
-                        if (dadosSensor.length == 0) {
-                            console.log("Nenhum dado encontrado para este silo");
-                            return;
-                        }
+                let labelsNovo = [];
+                let dadosGraficoNovo = [];
 
-                        dadosSensor.reverse();
-
-                        let labelsNovo = [];
-                        let dadosGraficoNovo = [];
-
-                        for (let i = 0; i < dadosSensor.length; i++) {
-                            let registro = dadosSensor[i];
-                            labelsNovo.push(registro.momento_grafico);
-
-                            let valorLimpo = parseFloat(registro.distancia);
-                            if (valorLimpo < 0) {
-                                valorLimpo = 0;
-                            }
-                            dadosGraficoNovo.push(valorLimpo);
-                        }
-
-                        graficoLinha.data.labels = labelsNovo;
-                        graficoLinha.data.datasets[0].data = dadosGraficoNovo;
-                        graficoLinha.update();
-
-                        let ultimaLeitura = dadosSensor[dadosSensor.length - 1];
-                        let alturaSilo = parseFloat(ultimaLeitura.altura_silo);
-                        let distanciaLida = parseFloat(ultimaLeitura.distancia);
-
-                        if (distanciaLida < 0) {
-                            distanciaLida = 0;
-                        }
-                        if (distanciaLida > alturaSilo) {
-                            distanciaLida = alturaSilo;
-                        }
-
-                        let porcentagemLivre = (distanciaLida / alturaSilo) * 100;
-                        let porcentagemCheia = 100 - porcentagemLivre;
-
-                        // Att kpi
-                        document.getElementById('silo-preenchimento').style.height = `${porcentagemCheia}%`;
-                        document.querySelector('.kpi-live h3').innerHTML = `${distanciaLida.toFixed(1)} cm`;
-                        document.querySelector('.kpi-live h4').innerHTML = `${Math.round(porcentagemLivre)}% livre`;
-
-                        // Att ultima leitura
-                        let dataAtual = new Date();
-                        document.querySelector('.kpi-ultima-leitura h4').innerHTML = dataAtual.toLocaleDateString('pt-BR');
-                        document.querySelector('.kpi-ultima-leitura p').innerHTML = ultimaLeitura.momento_grafico;
-                        let isoData = new Date().toISOString().slice(0, 10);
-                        let momentoLeitura = new Date(isoData + 'T' + ultimaLeitura.momento_grafico + 'Z');
-                        let segundosAtras = Math.floor((new Date() - momentoLeitura) / 1000);
-                        document.querySelector('.kpi-ultima-leitura h3').innerHTML = `${segundosAtras} seg`;
-
-                        attStatuseCronometro(porcentagemLivre);
-                    });
-                } else {
-                    console.log("Houve um erro buscando os dados do silo");
+                for (let i = 0; i < dadosSensor.length; i++) {
+                    labelsNovo.push(dadosSensor[i].momento_grafico);
+                    let nivel = parseFloat(dadosSensor[i].altura_silo) - parseFloat(dadosSensor[i].distancia);
+                    dadosGraficoNovo.push(nivel < 0 ? 0 : nivel);
                 }
+
+                graficoLinha.data.labels = labelsNovo;
+                graficoLinha.data.datasets[0].data = dadosGraficoNovo;
+                graficoLinha.update();
+
+                let ultima = dadosSensor[dadosSensor.length - 1];
+                let altura = parseFloat(ultima.altura_silo);
+                let distancia = parseFloat(ultima.distancia);
+
+                if (distancia < 0) distancia = 0;
+                if (distancia > altura) distancia = altura;
+
+                let pctLivre = (distancia / altura) * 100;
+                let pctCheia = 100 - pctLivre;
+
+                attStatuseCronometro(pctCheia);
+
+                document.getElementById('silo-preenchimento').style.height = `${pctCheia}%`;
+                document.querySelector('.kpi-live h3').innerHTML = `${distancia.toFixed(1)} m`;
+                document.querySelector('.kpi-live h4').innerHTML = `${Math.round(pctLivre)}% livre`;
+
+                let dataAtualFormatada = new Date().toLocaleDateString('pt-BR');
+                let momentoLeitura = new Date(new Date().toISOString().slice(0, 10) + 'T' + ultima.momento_grafico + 'Z');
+                let seg = Math.floor((new Date() - momentoLeitura) / 1000);
+
+                document.querySelector('.kpi-ultima-leitura h4').innerHTML = dataAtualFormatada;
+                document.querySelector('.kpi-ultima-leitura p').innerHTML = ultima.momento_grafico;
+                document.querySelector('.kpi-ultima-leitura h3').innerHTML = `${seg} seg`;
             })
-            .catch(function (erro) {
-                console.log(`#ERRO: ${erro}`);
-            });
+            .catch(erro => console.log(`#ERRO KPI: ${erro}`));
     }
 
-
-    function attStatuseCronometro(porcentagemLivre) {
+    function attStatuseCronometro(porcentagemCheia) {
         const statusTitulo = document.querySelector('.kpi-status h3');
         const tempoAlertaHtml = document.querySelector('.kpi-tempo-alerta h3');
         const barraSilo = document.getElementById('silo-preenchimento');
 
-        if (porcentagemLivre >= 30 && porcentagemLivre <= 70) {
-            statusTitulo.innerHTML = "IDEAL";
-            statusTitulo.style.color = "#008000";
+        //Estável entre 26 e 75
+        if (porcentagemCheia >= 26 && porcentagemCheia <= 75) {
+            statusTitulo.innerHTML = "ESTÁVEL";
+            statusTitulo.style.color = "#008000"; // Verde
             barraSilo.style.backgroundColor = "#008000";
             tempoInicioAlerta = null;
             tempoAlertaHtml.innerHTML = "0D 0h 0m 0s";
         } else {
+            // é crítico ou moderado)
             if (tempoInicioAlerta == null) tempoInicioAlerta = new Date();
 
             let diferencaTempo = new Date() - tempoInicioAlerta;
-            let dias = Math.floor(diferencaTempo / (1000 * 60 * 60 * 24));
-            let horas = Math.floor((diferencaTempo % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            let minutos = Math.floor((diferencaTempo % (1000 * 60 * 60)) / 60000);
-            let segundos = Math.floor((diferencaTempo % 60000) / 1000);
+            let d = Math.floor(diferencaTempo / (1000 * 60 * 60 * 24));
+            let h = Math.floor((diferencaTempo % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            let m = Math.floor((diferencaTempo % (1000 * 60 * 60)) / 60000);
+            let s = Math.floor((diferencaTempo % 60000) / 1000);
+            tempoAlertaHtml.innerHTML = `${d}D ${h}h ${m}m ${s}s`;
 
-            tempoAlertaHtml.innerHTML = `${dias}D ${horas}h ${minutos}m ${segundos}s`;
-
-            if (porcentagemLivre < 15 || porcentagemLivre > 85) {
+            // crítico se for > 85 ou < 15
+            if (porcentagemCheia > 85 || porcentagemCheia < 15) {
                 statusTitulo.innerHTML = "CRÍTICO";
                 statusTitulo.style.color = "#cf041f";
                 barraSilo.style.backgroundColor = "#cf041f";
             } else {
-                statusTitulo.innerHTML = "ATENÇÃO";
+                // Moderado
+                statusTitulo.innerHTML = "MODERADO";
                 statusTitulo.style.color = "#FFBA00";
                 barraSilo.style.backgroundColor = "#FFBA00";
             }
         }
     }
 
-    function mudarSilo(idSiloClicado) {
-        idSiloAtual = idSiloClicado;
+    function mudarSilo(id) {
+        idSiloAtual = id;
         attDadosBateria();
         attGraficoseKpis();
     }
 
     function carregarTodosDadosDashboard() {
-        // validarSessao();
         attDadosBateria();
         attGraficoseKpis();
-
-        setInterval(function () {
+        setInterval(() => {
             attGraficoseKpis();
             attDadosBateria();
         }, 2000);
