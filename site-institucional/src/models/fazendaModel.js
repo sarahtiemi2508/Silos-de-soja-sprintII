@@ -12,6 +12,7 @@ SELECT
     id_fazenda,
     responsavel,
     contato,
+    email,
     endereco,
     nome,
     COUNT(DISTINCT id_silo) AS qtd_silos,
@@ -25,6 +26,7 @@ FROM (
         rf.id_usuario AS id_usuario,
         rf.responsavel AS responsavel,
         rf.contato AS contato,
+        rf.email AS email,
         rf.endereco AS endereco,
         
         f.id_fazenda AS id_fazenda,
